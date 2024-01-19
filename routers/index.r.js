@@ -1,4 +1,6 @@
-
 module.exports = function (app) {
-  // implement here
+  // Purpose: Test
+  app.get('/', (req, res) => {
+    res.render('home');
+  })
 }
