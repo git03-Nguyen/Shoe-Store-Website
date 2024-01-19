@@ -7,8 +7,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const fs = require('fs');
+// Middlewares
+require('./middlewares/favicon.mw')(app);
+require('./middlewares/hbs/hbs.mw')(app);
+require('./middlewares/passport.mw')(app);
+require('./routers/index.r')(app);
+
 // read the ssl certificates from certificates/demo.crt and certificates/demo.key
+const fs = require('fs');
 const privateKey = fs.readFileSync('certificates/demo.key', 'utf8');
 const certificate = fs.readFileSync('certificates/demo.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
