@@ -20,8 +20,19 @@
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
 
-  <title>{{title}}</title>
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/collection/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/collection/style.css" type="text/css">
 
+  {{_sections.style}}
+
+  <title>{{title}}</title>
 </head>
 
 <body>
@@ -45,9 +56,22 @@
 
   <!-- MDB -->
   <script type="text/javascript" src="/js/mdb.umd.min.js"></script>
-  
+
   {{!-- Script src --}}
   <script src="/js/main.js"></script>
+  {{_sections.script}}
+
+    <!-- Js Plugins -->
+  <script src="/js/collection/jquery-3.3.1.min.js"></script>
+  <script src="/js/collection/bootstrap.min.js"></script>
+  <script src="/js/collection/jquery.nice-select.min.js"></script>
+  <script src="/js/collection/jquery.nicescroll.min.js"></script>
+  <script src="/js/collection/jquery.magnific-popup.min.js"></script>
+  <script src="/js/collection/jquery.countdown.min.js"></script>
+  <script src="/js/collection/jquery.slicknav.js"></script>
+  <script src="/js/collection/mixitup.min.js"></script>
+  <script src="/js/collection/owl.carousel.min.js"></script>
+  <script src="/js/collection/main.js"></script>
 </body>
 
 </html>
