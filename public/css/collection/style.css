@@ -3849,3 +3849,13 @@ ol {
 		height: 250px;
 	}
 }
+
+/* Custom here */
+
+.custom_hover_bg_light_gray:hover{
+	background-color: lightgray;
+}
+
+.custom_hover_bg_light_black:hover {
+	background-color: #454545;
+}
