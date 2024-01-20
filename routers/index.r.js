@@ -1,6 +1,6 @@
 module.exports = function (app) {
   // Purpose: Test
   app.get('/', (req, res) => {
-    res.render('shop/shop-cart');
+    res.render('contact');
   })
 }
