@@ -3853,9 +3853,9 @@ ol {
 /* Custom here */
 
 .custom_hover_bg_light_gray:hover{
-	background-color: lightgray;
+	background: lightgray !important;
 }
 
 .custom_hover_bg_light_black:hover {
-	background-color: #454545;
+	background: #454545 !important;
 }
