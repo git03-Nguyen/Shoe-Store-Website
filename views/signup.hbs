@@ -1,0 +1,66 @@
+<form id="signup-form" method="POST" action="/user/signup">
+    <h2 class="form-title">Signup</h2>
+
+    <label for="username" class="form-label">
+        Username:
+        <span class="hidden-error">Error: The username is already existed</span>
+    </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-circle-user"></i>
+        </span>
+        <input type="text" required class="form-control" name="username" id="username">
+    </div>
+
+    <label for="password" class="form-label">Password: </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-key"></i>
+        </span>
+        <input type="password" required class="form-control" name="password" id="password">
+    </div>
+
+    <label for="fullName" class="form-label">Full name: </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-circle-user"></i>
+        </span>
+        <input type="text" required class="form-control" name="fullName" id="fullName">
+    </div>
+
+    <label for="email" class="form-label">Email: </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-envelope"></i>
+        </span>
+        <input type="email" required class="form-control" name="email" id="email">
+    </div>
+
+    <label for="phone" class="form-label">Phone: </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-square-phone-flip"></i>
+        </span>
+        <input type="text" required class="form-control" name="phone" id="phone">
+    </div>
+
+    <label for="address" class="form-label">Address: </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-location-dot"></i>
+        </span>
+        <input type="text" required class="form-control" name="address" id="address">
+    </div>
+
+    <div class="button-row">
+        <button type="button" class="btn btn-primary">
+            <a href="/user/login" style="color: white !important; text-decoration: none !important;">Login</a>
+        </button>
+
+        <button id="signup-submit-btn" type="submit" class="btn btn-primary">Signup</button>
+    </div>
+</form>
+
+<script>
+
+</script>
