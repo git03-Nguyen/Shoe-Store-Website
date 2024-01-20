@@ -10,6 +10,16 @@ router.get('/signup', (req, res, next) => {
     res.render('signup');
 })
 
+router.get('/logout', (req, res, next) => {
+    req.logOut((err) => {
+        if(err) {
+            console.log(err);
+        }
+    });
+
+    res.redirect('/user/login');
+})
+
 //POST
 router.post('/login', UserController.executeLogin);
 

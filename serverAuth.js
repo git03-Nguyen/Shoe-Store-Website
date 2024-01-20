@@ -27,7 +27,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 
 require('dotenv').config();
-const passport = require('./middlewares/passport');
+const passport = require('./AuthServer/middlewares/passport');
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -49,16 +49,16 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());    
 
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'AuthServer/views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs.engine({
     extname: 'hbs',
     defaultLayout: 'main.hbs'
 }))
 
-app.use('/user', require('./routers/user.r'));
-app.use('/home', require('./routers/home.r'));
-app.use('/auth', require('./routers/auth.r'));
+app.use('/user', require('./AuthServer/routers/user.r'));
+app.use('/home', require('./AuthServer/routers/home.r'));
+app.use('/auth', require('./AuthServer/routers/auth.r'));
 app.get('/', (req, res, next) => {
     if(req.user) {
         res.redirect('/home')
@@ -69,8 +69,8 @@ app.get('/', (req, res, next) => {
 
 
 const server = https.createServer({
-    key: fs.readFileSync('./certs/infinity_shop.key'),
-    cert: fs.readFileSync('./certs/infinity_shop.cert')
+    key: fs.readFileSync('./AuthServer/certs/infinity_shop.key'),
+    cert: fs.readFileSync('./AuthServer/certs/infinity_shop.cert')
 }, app);
 
 
