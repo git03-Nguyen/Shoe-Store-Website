@@ -49,5 +49,5 @@ const server = https.createServer({
 }, app);
 
 server.listen(PORT, ()=>{
-    console.log('Server Auth is listening on port '+PORT);
+    console.log('Server is listening on port '+PORT);
 });

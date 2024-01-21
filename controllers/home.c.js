@@ -6,7 +6,7 @@ exports.home = async (req, res) => {
 
         //  let resultTopRating=await getTop05RatingMovies();
         let results = await Product.getTop08Products();
-        console.log(results.length);
+        // console.log(results.length);
         let topArrival = [];
         let top_hot_sales = [];
         results.forEach((item, index) => {
@@ -17,7 +17,7 @@ exports.home = async (req, res) => {
                 top_hot_sales.push(item);
             }
         });
-        let productOfWeekForSale=results[0];
+        let productOfWeekForSale=results[1];
         res.render('home',
             { listproducts: results,
                 toparrival: topArrival,
