@@ -1,19 +1,5 @@
 const db=require('../utils/dbProvider');
 
-// module.exports={
-//     getTop10Products: async ()=>{
-//         try{
-//             let data=db.getTop10Products();
-//             return data;
-//         }
-//         catch(err){
-//             console.log(err);
-//            throw err;
-//         }
-//     },
-    
-// }
-
 module.exports=class Product{
     constructor(pd){
         this.id=pd.id;
@@ -28,9 +14,9 @@ module.exports=class Product{
         this.postingdate=pd.postingdate;
         this.updatedate=pd.updatedate;
     }
-    static async getTop08Products(){
+    static async getTop08BestSellerProducts(){
         try{
-            let data=await db.getTop08Products();
+            let data=await db.getTopBestSellerProducts();
             return data;
         }
         catch(err){
@@ -38,4 +24,25 @@ module.exports=class Product{
            throw err;
         }
     }
+    static async getTop08NewArrivalProducts(){
+        try{
+            let data=await db.getTopNewArrivalProducts();
+            return data;
+        }
+        catch(err){
+            console.log(err);
+           throw err;
+        }
+    }
+    static async getTop04HotSalesProducts(){
+        try{
+            let data=await db.getTopHotSalesProducts();
+            return data;
+        }
+        catch(err){
+            console.log(err);
+           throw err;
+        }
+    }
+
 }

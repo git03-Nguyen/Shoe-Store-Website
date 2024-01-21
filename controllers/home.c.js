@@ -3,31 +3,33 @@
 const Product = require('../models/product.m');
 exports.home = async (req, res) => {
     try {
+        let bestsellers = await Product.getTop08BestSellerProducts();
+        console.log(bestsellers.length);
+        let topArrival = await Product.getTop08NewArrivalProducts();
 
-        //  let resultTopRating=await getTop05RatingMovies();
-        let results = await Product.getTop08Products();
-        // console.log(results.length);
-        let topArrival = [];
-        console.log(results[0].productimages[0]);
-       
-        results.forEach((item, index) => {
+        let hotsales=await Product.getTop04HotSalesProducts();
+
+        //Add attribute for render by handlebars because productimages is array object
+        bestsellers.forEach((item, index) => {
             item.productimage=item.productimages[0];
         });
 
-        let top_hot_sales = [];
-        results.forEach((item, index) => {
-            if (index < 4) {
-                topArrival.push(item);
-            }
-            else {
-                top_hot_sales.push(item);
-            }
+        topArrival.forEach((item, index) => {
+            item.productimage=item.productimages[0];
         });
-        let productOfWeekForSale=results[1];
+
+        hotsales.forEach((item, index) => {
+            item.productimage=item.productimages[0];
+        });
+
+       //Product of week for sale
+        let productOfWeekForSale=hotsales[0];
+
         res.render('home',
-            { listproducts: results,
-                toparrival: topArrival,
-                top_hot_sales:top_hot_sales,
+            {   
+                bestsellers: bestsellers,
+                toparrivals: topArrival,
+                hotsales:hotsales,
                 product_sale:productOfWeekForSale}
         );
 
