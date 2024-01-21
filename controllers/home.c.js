@@ -17,11 +17,12 @@ exports.home = async (req, res) => {
                 top_hot_sales.push(item);
             }
         });
-
+        let productOfWeekForSale=results[0];
         res.render('home',
             { listproducts: results,
                 toparrival: topArrival,
-                top_hot_sales:top_hot_sales }
+                top_hot_sales:top_hot_sales,
+                product_sale:productOfWeekForSale}
         );
 
 
