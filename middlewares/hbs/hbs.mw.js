@@ -7,7 +7,6 @@ const hbs = exphbs.create({
   helpers: require('./hbs-helpers'),
   partialsDir: [path.join(__dirname, '../../views/partials')],
   layoutsDir: path.join(__dirname, '../../views/layouts'),
-  defaultLayout: 'main',
 });
 
 module.exports = function (app) {
