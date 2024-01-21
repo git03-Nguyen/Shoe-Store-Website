@@ -65,8 +65,10 @@ module.exports = {
         if(order.toLowerCase() === 'asc'){
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE productName ILIKE $1 AND c.categoryName = $2
-                AND p.productBranch = $3 AND p.price >= $4 AND p.price <= $5
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
+                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
+                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
                 ORDER BY p.productPrice ASC;
             `;
         }
@@ -74,8 +76,10 @@ module.exports = {
         if(order.toLowerCase() === 'desc'){
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE productName ILIKE $1 AND c.categoryName = $2
-                AND p.productBranch = $3 AND p.price >= $4 AND p.price <= $5
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
+                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
+                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
                 ORDER BY p.productPrice DESC;
             `;
         }
@@ -104,8 +108,10 @@ module.exports = {
         if(order.toLowerCase() === 'asc'){
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE productName ILIKE $1 AND c.categoryName = $2
-                AND p.productBranch = $3 AND p.price >= $4 AND p.price <= $5
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
+                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
+                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
                 ORDER BY p.productPrice ASC;
             `;
         }
@@ -113,8 +119,10 @@ module.exports = {
         if(order.toLowerCase() === 'desc'){
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE productName ILIKE $1 AND c.categoryName = $2
-                AND p.productBranch = $3 AND p.price >= $4 AND p.price <= $5
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
+                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
+                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
                 ORDER BY p.productPrice DESC;
             `;
         }
