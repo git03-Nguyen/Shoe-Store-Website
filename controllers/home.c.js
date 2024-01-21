@@ -8,6 +8,12 @@ exports.home = async (req, res) => {
         let results = await Product.getTop08Products();
         // console.log(results.length);
         let topArrival = [];
+        console.log(results[0].productimages[0]);
+       
+        results.forEach((item, index) => {
+            item.productimage=item.productimages[0];
+        });
+
         let top_hot_sales = [];
         results.forEach((item, index) => {
             if (index < 4) {
