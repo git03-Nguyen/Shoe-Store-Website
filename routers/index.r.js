@@ -1,4 +1,9 @@
 module.exports = function (app) {
+  // "/test"
+  app.get('/test', (req, res) =>{
+    res.render('shop/shop');
+  });
+
   // "/"
   app.use('/', require('./home.r'));
 
@@ -6,8 +11,8 @@ module.exports = function (app) {
   app.use('/shop', require('./shop.r'));
 
   // "/about"
-  app.use("/about". require("./about.r"));
+  app.use("/about", require("./about.r"));
 
   // "/contact"
-  app.use("/contact". require("./contact.r"));
+  app.use("/contact", require("./contact.r"));
 }

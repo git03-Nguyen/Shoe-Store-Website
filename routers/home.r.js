@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 // get home page
-router.get('/', null);
+router.get('/', (req, res) => { });
 
 module.exports = router;
