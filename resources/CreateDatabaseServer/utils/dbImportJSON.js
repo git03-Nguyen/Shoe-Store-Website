@@ -103,7 +103,6 @@ module.exports = {
         for(let index = 0; index < Object.keys(data).length; index++){
             try {
                 var categoryId = await db.one(`SELECT id FROM categories where categoryName = $1`, [data[index].category]);
-
                 const values = [
                     data[index].name,
                     data[index].brand,
