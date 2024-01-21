@@ -43,12 +43,43 @@ module.exports = class Product {
             list.push(new Product(data[i]));
         }
 
-        console.log("Product name: " + list[0].productName);
-
         return list;
     }
 
     static async filterNumberProductsAndPages(keyword, category, brand, startPrice, endPrice, order, pageSize){
         return await filterNumberProductsAndPages(keyword, category, brand, startPrice, endPrice, order, pageSize)
+    }
+
+    static async getTop08BestSellerProducts(){
+        try{
+            let data=await db.getTopBestSellerProducts();
+            return data;
+        }
+        catch(err){
+            console.log(err);
+           throw err;
+        }
+    }
+
+    static async getTop08NewArrivalProducts(){
+        try{
+            let data=await db.getTopNewArrivalProducts();
+            return data;
+        }
+        catch(err){
+            console.log(err);
+           throw err;
+        }
+    }
+    
+    static async getTop04HotSalesProducts(){
+        try{
+            let data=await db.getTopHotSalesProducts();
+            return data;
+        }
+        catch(err){
+            console.log(err);
+           throw err;
+        }
     }
 }
