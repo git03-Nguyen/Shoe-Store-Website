@@ -23,8 +23,9 @@
             <div class="col-lg-3">
                 <div class="shop__sidebar">
                     <div class="shop__sidebar__search">
-                        <form action="#">
-                            <input type="text" placeholder="Search...">
+                        <form action="/shop" method="get">
+                            <input type="text" placeholder="Search..." name="keyword">
+                            <input type="text" placeholder="Search..." name="page" value="1" style="display: none;">
                             <button type="submit"><img src="/img/icon/search.png"/></button>
                         </form>
                     </div>
@@ -151,12 +152,12 @@
                         <div class="product__pagination">
                             {{#each pages}}
                                 {{#ifEquals ../currentPage this}}
-                                    <a class="active">{{this}}</a>
+                                    <a href="#" class="active">{{this}}</a>
                                 {{else}}
                                     {{#ifEquals this '...'}}
                                         <span>{{this}}</span>
                                     {{else}}
-                                        <a>{{this}}</a>
+                                        <a href="#">{{this}}</a>
                                     {{/ifEquals}}
                                 {{/ifEquals}}                           
                             {{/each}}
@@ -318,6 +319,7 @@
             }
 
             let a = document.createElement('a');
+            a.href = "#";
             a.innerHTML = pages[i];
             $(a).click(function() {
                 addEventForPagination(parseInt(pages[i]));
