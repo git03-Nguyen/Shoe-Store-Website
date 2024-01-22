@@ -18,8 +18,6 @@ function handlePagination(page, pagesNumber){
         pages.push(pagesNumber);
     }
 
-    console.log("page: " + pages.length);
-
     return pages;
 }
 
@@ -29,14 +27,58 @@ module.exports = {
             let page = req.query.page;
             let keyword = req.query.keyword;
             let category = req.query.category;
-            let gender = req.query.category;
+            let brand = req.query.brand;
+            let gender = req.query.gender;
             let startPrice = req.query.startPrice;
             let endPrice = req.query.endPrice;
-            
-            let pageSize = process.env.PAGE_SIZE;
+            let order = req.query.order;
 
-            let [productsNumber, pagesNumber] = await Product.getNumberOfProductsAndPages(pageSize);
-            let products = await Product.getAllProductsAtPage(page, pageSize);
+            if(order === null || order === undefined) order = null;
+            
+            const MAX_INT =2147483647 // MAX INT IN POSTGRESQL
+
+            console.log("____endPrice: " + endPrice);
+            if(endPrice === "infinity") endPrice = MAX_INT;
+
+            let products = [];
+            let productsNumber = 0;
+            let pagesNumber = 1;
+
+            let pageSize = parseInt(process.env.PAGE_SIZE);
+
+            if(keyword !== null && keyword !== undefined){
+                [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(keyword, null, null, null, -1, -1, pageSize);
+                products = await Product.filterProductsAtPage(keyword, null, null, null, -1, -1, order, page, pageSize);
+            }
+            else if(category !== null && category !== undefined){
+                [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, category, null, null, -1, -1, pageSize);
+                products = await Product.filterProductsAtPage(null, category, null, null, -1, -1, order, page, pageSize);
+            }
+            else if(brand !== null && brand !== undefined){
+                [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, brand, null, -1, -1, pageSize);
+                products = await Product.filterProductsAtPage(null, null, brand, null, -1, -1, order, page, pageSize);
+            }
+            else if(gender !== null && gender !== undefined){
+                [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, gender, -1, -1, pageSize);
+                products = await Product.filterProductsAtPage(null, null, null,gender, -1, -1, order, page, pageSize);
+            }
+            else if(startPrice !== null && startPrice !== undefined
+                && endPrice !== null && endPrice !== undefined){
+                [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, null, parseInt(startPrice), parseInt(endPrice), pageSize);
+                products = await Product.filterProductsAtPage(null, null, null, null, parseInt(startPrice), parseInt(endPrice), order, page, pageSize);
+                console.log("in price compare");
+            }
+            else if(order !== null && order !== undefined){
+                [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, null, -1, -1, pageSize);
+                products = await Product.filterProductsAtPage(null, null, null, null, -1, -1, order, page, pageSize);
+            }
+            else{
+                [productsNumber, pagesNumber] = await Product.getNumberOfProductsAndPages(pageSize);
+                products = await Product.getAllProductsAtPage(page, pageSize);
+
+                console.log("final");
+            }
+        
             let categories = await Category.getAllCategories();
             let brands = await Product.getAllBrands();
             let genders = await Product.getAllGenders();

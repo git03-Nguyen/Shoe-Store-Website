@@ -35,8 +35,8 @@ module.exports = class Product {
         return await dbProduct.getNumberOfProductsAndPages(pageSize);
     }
 
-    static async filterProductsAtPage(keyword, category, brand, startPrice, endPrice, order, page, pageSize){
-        let data = await dbProduct.filterProductsAtPage(keyword, category, brand, startPrice, endPrice, order, page, pageSize);
+    static async filterProductsAtPage(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize){
+        let data = await dbProduct.filterProductsAtPage(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize);
 
         let list = [];
         for(let i = 0; i < data.length; i++){
@@ -46,8 +46,8 @@ module.exports = class Product {
         return list;
     }
 
-    static async filterNumberProductsAndPages(keyword, category, brand, startPrice, endPrice, order, pageSize){
-        return await filterNumberProductsAndPages(keyword, category, brand, startPrice, endPrice, order, pageSize)
+    static async filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize){
+        return await dbProduct.filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize)
     }
 
     static async getAllBrands(){

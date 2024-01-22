@@ -39,7 +39,7 @@
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
                                                 {{#each categories}}
-                                                    <li><a href="#" tag="{{this}}">{{this.categoryName}}</a></li>
+                                                    <li><a href="/shop?category={{this.categoryName}}&page=1" tag="{{this}}">{{this.categoryName}}</a></li>
                                                 {{/each}}
                                             </ul>
                                         </div>
@@ -55,7 +55,7 @@
                                         <div class="shop__sidebar__brand">
                                             <ul>
                                                 {{#each brands}}
-                                                    <li><a href="#" tag="{{this}}">{{this}}</a></li>
+                                                    <li><a href="/shop?brand={{this}}&page=1" tag="{{this}}">{{this}}</a></li>
                                                 {{/each}}
                                             </ul>
                                         </div>
@@ -64,14 +64,14 @@
                             </div>
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseTwo">Gender</a>
+                                    <a data-toggle="collapse" data-target="#collapseThree">Gender</a>
                                 </div>
-                                <div id="collapseTwo" class="collapse hide" data-parent="#accordionExample">
+                                <div id="collapseThree" class="collapse hide" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__gender">
                                             <ul>
                                                 {{#each genders}}
-                                                    <li><a href="#" tag="{{this}}">{{this}}</a></li>
+                                                    <li><a href="/shop?gender={{this}}&page=1" tag="{{this}}">{{this}}</a></li>
                                                 {{/each}}
                                             </ul>
                                         </div>
@@ -80,18 +80,18 @@
                             </div>
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                    <a data-toggle="collapse" data-target="#collapseFour">Filter Price</a>
                                 </div>
-                                <div id="collapseThree" class="collapse hide" data-parent="#accordionExample">
+                                <div id="collapseFour" class="collapse hide" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__price">
                                             <ul>
-                                                <li><a href="#" startPrice="0" endPrice="50">$0.00 - $50.00</a></li>
-                                                <li><a href="#" startPrice="50" endPrice="100">$50.00 - $100.00</a></li>
-                                                <li><a href="#" startPrice="100" endPrice="150">$100.00 - $150.00</a></li>
-                                                <li><a href="#" startPrice="150" endPrice="200"> $150.00 - $200.00</a></li>
-                                                <li><a href="#" startPrice="200" endPrice="250">$200.00 - $250.00</a></li>
-                                                <li><a href="#" startPrice="250" endPrice="+infinity">250.00+</a></li>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="0" endPrice="50">$0.00 - $50.00</a></li>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="50" endPrice="100">$50.00 - $100.00</a></li>
+                                                <li><a href="/shop?startPrice=100&endPrice=150&page=1" startPrice="100" endPrice="150">$100.00 - $150.00</a></li>
+                                                <li><a href="/shop?startPrice=150&endPrice=200&page=1" startPrice="150" endPrice="200"> $150.00 - $200.00</a></li>
+                                                <li><a href="/shop?startPrice=200&endPrice=250&page=1" startPrice="200" endPrice="250">$200.00 - $250.00</a></li>
+                                                <li><a href="/shop?startPrice=250&endPrice=infinity&page=1" startPrice="250" endPrice="+infinity">250.00+</a></li>
                                             </ul>
                                         </div>
                                     </div>

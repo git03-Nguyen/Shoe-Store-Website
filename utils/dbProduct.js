@@ -64,36 +64,61 @@ module.exports = {
         return res;
     },
 
-    filterProductsAtPage: async function(keyword, category, brand, startPrice, endPrice, order, page, pageSize){
+    filterProductsAtPage: async function(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize){
         let query = '';
-        if(order.toLowerCase() === 'asc'){
+        if(order === null || order === undefined){
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
-                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
-                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
-                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
-                ORDER BY p.productPrice ASC
-                OFFSET $6 LIMIT $7;
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
+                AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
+                AND ($5 IS NULL OR $5 = '' OR $5 = 'ALL' OR p.productGender = $5)
+                AND ($6 < 0 OR $7 < 0 OR (p.productPrice::numeric >= $6 AND p.productPrice::numeric <= $7))
+                OFFSET $8 LIMIT $9;
             `;
         }
-        
-        if(order.toLowerCase() === 'desc'){
+        else if(order.toLowerCase() === 'asc'){
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
-                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
-                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
-                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
+                AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
+                AND ($5 IS NULL OR $5 = '' OR $5 = 'ALL' OR p.productGender = $5)
+                AND ($6 < 0 OR $7 < 0 OR (p.productPrice::numeric >= $6 AND p.productPrice::numeric <= $7))
+                ORDER BY p.productPrice ASC
+                OFFSET $8 LIMIT $9;
+            `;
+        }
+        else if(order.toLowerCase() === 'desc'){
+            query = `
+                SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id 
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
+                AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
+                AND ($5 IS NULL OR $5 = '' OR $5 = 'ALL' OR p.productGender = $5)
+                AND ($6 < 0 OR $7 < 0 OR (p.productPrice::numeric >= $6 AND p.productPrice::numeric <= $7))
                 ORDER BY p.productPrice DESC
-                OFFSET $6 LIMIT $7;
+                OFFSET $8 LIMIT $9;
             `;
         }
 
+        console.log("keyword: " + keyword);
+        console.log("category: " + category);
+        console.log("brand: " + brand);
+        console.log("gender: " + gender);
+        console.log("startPrice: " + startPrice);
+        console.log("endPrice: " + endPrice);
+        console.log("page: " + page);
+        console.log("pageSize: " + pageSize);
+        console.log("order: " + order);
+        console.log(query);
+
         const values = [
-            keyword, 
+            keyword,
+            `%${keyword}%`,
             category, 
-            brand, 
+            brand,
+            gender, 
             startPrice, 
             endPrice,
             (page-1)*pageSize,
@@ -105,50 +130,40 @@ module.exports = {
             res = await db.any(query, values);
         }
         catch(error){
+            console.log("get all");
             console.error(error);
         }
 
         return res;
     },
 
-    filterNumberProductsAndPages: async function(keyword, category, brand, startPrice, endPrice, order, pageSize){
-        let query = '';
-        if(order.toLowerCase() === 'asc'){
-            query = `
-                SELECT COUNT(*) FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
-                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
-                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
-                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
-                ORDER BY p.productPrice ASC;
-            `;
-        }
-        
-        if(order.toLowerCase() === 'desc'){
-            query = `
-                SELECT COUNT(*) FROM products AS p join categories AS c ON p.categoryId = c.id
-                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $1) 
-                AND ($2 IS NULL OR $2 = '' OR $2 = 'ALL' OR c.categoryName = $2)
-                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR p.productBranch = $3)
-                AND ($4 < 0 OR $5 < 0 OR (p.price >= $4 AND p.price <= $5))
-                ORDER BY p.productPrice DESC;
-            `;
-        }
+    filterNumberProductsAndPages: async function(keyword, category, brand, gender, startPrice, endPrice, pageSize){
+        let query = `
+                SELECT COUNT(*) AS count FROM products AS p join categories AS c ON p.categoryId = c.id
+                WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
+                AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
+                AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
+                AND ($5 IS NULL OR $5 = '' OR $5 = 'ALL' OR p.productGender = $5)
+                AND ($6 < 0 OR $7 < 0 OR (p.productPrice::numeric >= $6 AND p.productPrice::numeric <= $7));
+           `;
 
         let res = null;
         const values = [
-            keyword, 
+            keyword,
+            `%${keyword}%`, 
             category, 
-            brand, 
+            brand,
+            gender,
             startPrice, 
             endPrice
         ];
         let flag = true;
         try{
-            res = await db.one(query);
+            res = await db.one(query, values);
         }
         catch(error)
         {
+            console.log("get page");
             console.error(error);
             flag = false;
         }
