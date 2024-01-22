@@ -102,17 +102,6 @@ module.exports = {
             `;
         }
 
-        console.log("keyword: " + keyword);
-        console.log("category: " + category);
-        console.log("brand: " + brand);
-        console.log("gender: " + gender);
-        console.log("startPrice: " + startPrice);
-        console.log("endPrice: " + endPrice);
-        console.log("page: " + page);
-        console.log("pageSize: " + pageSize);
-        console.log("order: " + order);
-        console.log(query);
-
         const values = [
             keyword,
             `%${keyword}%`,

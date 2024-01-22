@@ -36,8 +36,6 @@ module.exports = {
             if(order === null || order === undefined) order = null;
             
             const MAX_INT =2147483647 // MAX INT IN POSTGRESQL
-
-            console.log("____endPrice: " + endPrice);
             if(endPrice === "infinity") endPrice = MAX_INT;
 
             let products = [];
@@ -75,8 +73,6 @@ module.exports = {
             else{
                 [productsNumber, pagesNumber] = await Product.getNumberOfProductsAndPages(pageSize);
                 products = await Product.getAllProductsAtPage(page, pageSize);
-
-                console.log("final");
             }
         
             let categories = await Category.getAllCategories();
@@ -84,11 +80,14 @@ module.exports = {
             let genders = await Product.getAllGenders();
 
             let pages = handlePagination(page, pagesNumber);
+            let startNumber = (page-1)*pageSize + 1;
+            let endNumber = min(page*pageSize, productsNumber);
             
             products.forEach(item =>{ item.productImage = item.productImages[0]});
 
-            res.render('shop/shop', {status: "Shop", currentPage: page, pages: pages,
-             allProducts: products,categories: categories, brands: brands, genders: genders});
+            res.render('shop/shop', {status: "Shop", startNumber: startNumber, endNumber: endNumber, 
+                productsNumber: productsNumber, currentPage: page, pages: pages,
+                allProducts: products,categories: categories, brands: brands, genders: genders});
         }
         catch(err){
             next(err);
