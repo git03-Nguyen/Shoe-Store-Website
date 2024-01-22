@@ -166,6 +166,32 @@ module.exports = {
         return [res.count, pagesNumber];
     },
 
+    getAllBrands: async function(){
+        const query = ` SELECT DISTINCT productBrand FROM products GROUP BY productBrand;`;
+
+        let res= [];
+        try {
+            res = await db.any(query);
+        } catch (error) {
+            console.error(error);
+        }
+
+        return res;
+    },
+
+    getAllGenders: async function(){
+        const query = ` SELECT DISTINCT productGender FROM products GROUP BY productGender;`;
+
+        let res= [];
+        try {
+            res = await db.any(query);
+        } catch (error) {
+            console.error(error);
+        }
+
+        return res;
+    },
+
     getTopBestSellerProducts: async ()=>{
         try{
             let sql=`SELECT * FROM products where productprice::numeric>=50 and productprice::numeric<=100 order by productprice::numeric desc limit 8`;

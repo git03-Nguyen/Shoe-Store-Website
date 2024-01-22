@@ -1237,19 +1237,22 @@ ol {
 
 .shop__sidebar__categories ul,
 .shop__sidebar__price ul,
-.shop__sidebar__brand ul {
-	height: 225px;
+.shop__sidebar__brand ul,
+.shop__sidebar__gender ul {
+	max-height: 225px;
 }
 
 .shop__sidebar__categories ul li,
 .shop__sidebar__price ul li,
-.shop__sidebar__brand ul li {
+.shop__sidebar__brand ul li,
+.shop__sidebar__gender ul li {
 	list-style: none;
 }
 
 .shop__sidebar__categories ul li a,
 .shop__sidebar__price ul li a,
-.shop__sidebar__brand ul li a {
+.shop__sidebar__brand ul li a,
+.shop__sidebar__gender ul li a {
 	color: #b7b7b7;
 	font-size: 15px;
 	line-height: 32px;
@@ -1260,11 +1263,13 @@ ol {
 
 .shop__sidebar__categories ul li a:hover,
 .shop__sidebar__price ul li a:hover,
-.shop__sidebar__brand ul li a:hover {
+.shop__sidebar__brand ul li a:hover,
+.shop__sidebar__gender ul li a:hover  {
 	color: #111111;
 }
 
-.shop__sidebar__brand ul {
+.shop__sidebar__brand ul,
+.shop__sidebar__gender ul {
 	height: auto;
 }
 
@@ -3858,4 +3863,12 @@ ol {
 
 .custom_hover_bg_light_black:hover {
 	background: #454545 !important;
+}
+
+.shop__sidebar__categories ul,
+.shop__sidebar__price ul,
+.shop__sidebar__brand ul,
+.shop__sidebar__gender ul {
+	padding-left: 10px;
+	padding-right: 10px;
 }

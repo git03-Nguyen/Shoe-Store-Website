@@ -50,6 +50,26 @@ module.exports = class Product {
         return await filterNumberProductsAndPages(keyword, category, brand, startPrice, endPrice, order, pageSize)
     }
 
+    static async getAllBrands(){
+        let brands = []
+        let data = await dbProduct.getAllBrands();
+        for(let i = 0; i < data.length; i++){
+            brands.push(data[i].productbrand);
+        }
+
+        return brands
+    }
+
+    static async getAllGenders(){
+        let genders = []
+        let data = await dbProduct.getAllGenders();
+        for(let i = 0; i < data.length; i++){
+            genders.push(data[i].productgender);
+        }
+
+        return genders
+    }
+
     static async getTop08BestSellerProducts(){
         let list = [];
 
