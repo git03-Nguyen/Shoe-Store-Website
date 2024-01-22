@@ -16,8 +16,13 @@
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         <div class="header__top__links">
-                            <a href="#">Login</a>
-                            <a href="#">Sign up</a>
+                            {{#if user}}
+                                <a href="/user/logout">Log out</a>
+                            {{else}}
+                                <a href="/user/login">Login</a>
+                                <a href="/user/signup">Sign up</a>
+                            {{/if}}
+                            
                             <a href="#">FAQs</a>
                         </div>
                     </div>
@@ -36,9 +41,9 @@
                 <nav class="header__menu mobile-menu">
                     <ul>
                         {{#ifEquals 1 1}}
-                        <li class="active"><a href="./index.html">Home</a></li>
+                        <li class="active"><a href="/">Home</a></li>
                         {{else}}
-                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         {{/ifEquals}}
                         
                         <li><a href="./shop.html">Shop</a></li>
