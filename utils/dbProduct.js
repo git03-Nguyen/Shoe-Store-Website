@@ -85,7 +85,7 @@ module.exports = {
                 AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
                 AND ($5 IS NULL OR $5 = '' OR $5 = 'ALL' OR p.productGender = $5)
                 AND ($6 < 0 OR $7 < 0 OR (p.productPrice::numeric >= $6 AND p.productPrice::numeric <= $7))
-                ORDER BY p.productPrice ASC
+                ORDER BY p.productPrice::numeric ASC
                 OFFSET $8 LIMIT $9;
             `;
         }
@@ -97,7 +97,7 @@ module.exports = {
                 AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
                 AND ($5 IS NULL OR $5 = '' OR $5 = 'ALL' OR p.productGender = $5)
                 AND ($6 < 0 OR $7 < 0 OR (p.productPrice::numeric >= $6 AND p.productPrice::numeric <= $7))
-                ORDER BY p.productPrice DESC
+                ORDER BY p.productPrice::numeric DESC 
                 OFFSET $8 LIMIT $9;
             `;
         }

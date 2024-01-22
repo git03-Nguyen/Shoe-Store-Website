@@ -4,6 +4,9 @@ const router = express.Router();
 // get shop page
 router.get('/', require('../controllers/shop.c').shop);
 
+// api: get shop
+router.get('/api/get', require('../controllers/shop.c').shopAPIGet);
+
 // get shop-cart page
 router.get('/cart', (req, res) => { });
 
