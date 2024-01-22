@@ -18,12 +18,13 @@
 2.  Helper Css
 3.  Header Section
 4.  Hero Section
-5.  Banner Section
-6.  Product Section
-7.  Intagram Section
-8.  Latest Section
-9.  Contact
-10.  Footer Style
+5. 	Login / Signup 
+6.  Banner Section
+7.  Product Section
+8.  Intagram Section
+9.  Latest Section
+10.  Contact
+11.  Footer Style
 -------------------------------------------------------------------*/
 
 /*----------------------------------------*/
@@ -658,6 +659,59 @@ ol {
 
 .hero__social a:last-child {
 	margin-right: 0;
+}
+
+/*---------------------
+  Login / Signup
+-----------------------*/
+
+#login-form,
+#signup-form {
+    width: 500px;
+    margin: 20px auto;
+	background-color: #104070;
+    padding: 20px;
+    color: white;
+}
+
+.button-row {
+    margin: 20px 0;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button-row > button {
+    min-width: 100px;
+    margin: 10px 0;
+}
+
+.button-row > button:hover {
+    opacity: 0.7;
+}
+
+#google-login-btn {
+	background-color: red;
+}
+
+.form-title {
+    width: 100%;
+	color: white;
+    text-align: center;
+}
+
+.form-label {
+	color: white;
+    text-align: center;
+	margin: 10px 0 2px 0;
+
+}
+
+.hidden-error {
+	color: orangered;
+	text-align: center;
 }
 
 /*---------------------

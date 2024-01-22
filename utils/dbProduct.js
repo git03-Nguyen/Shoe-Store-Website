@@ -119,7 +119,6 @@ module.exports = {
             res = await db.any(query, values);
         }
         catch(error){
-            console.log("get all");
             console.error(error);
         }
 
@@ -152,7 +151,6 @@ module.exports = {
         }
         catch(error)
         {
-            console.log("get page");
             console.error(error);
             flag = false;
         }

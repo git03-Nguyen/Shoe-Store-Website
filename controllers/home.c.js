@@ -23,10 +23,12 @@ exports.home = async (req, res, next) => {
 
         res.render('home',
             {   status: "Home",
+                user: req.user,
                 bestsellers: bestsellers,
                 toparrivals: topArrival,
                 hotsales: hotsales,
-                product_sale:productOfWeekForSale}
+                product_sale:productOfWeekForSale
+            }
         );
     }
     catch (err) {
