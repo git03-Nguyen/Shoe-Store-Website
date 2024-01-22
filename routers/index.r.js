@@ -1,9 +1,4 @@
 module.exports = function (app) {
-  // "/test"
-  app.get('/test', (req, res) =>{
-    res.render('shop/shop');
-  });
-
   // "/"
   app.use('/', require('./home.r'));
 

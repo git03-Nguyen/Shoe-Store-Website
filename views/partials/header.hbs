@@ -35,8 +35,13 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
+                        {{#ifEquals 1 1}}
+                        <li class="active"><a href="./index.html">Home</a></li>
+                        {{else}}
                         <li><a href="./index.html">Home</a></li>
-                        <li class="active"><a href="./shop.html">Shop</a></li>
+                        {{/ifEquals}}
+                        
+                        <li><a href="./shop.html">Shop</a></li>
                         <li><a href="./shop.html">Contact</a></li>
                         <li><a href="./shop.html">About Us</a></li>
                     </ul>

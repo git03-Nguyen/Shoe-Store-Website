@@ -25,14 +25,16 @@ function handlePagination(page, pagesNumber){
 module.exports = {
     getAllProductAtPage: async function(req, res, next){
         try{
-        let page = req.query.page;
-        let pageSize = req.query.pageSize;
+            let page = req.query.page;
+            let pageSize = process.env.PAGE_SIZE;
 
-        let [productsNumber, pagesNumber] = await Product.getNumberOfProductsAndPages(pageSize);
-        let products = await Product.getAllProductsAtPage(page, pageSize);
-        let pages = handlePagination(page, pagesNumber);
+            let [productsNumber, pagesNumber] = await Product.getNumberOfProductsAndPages(pageSize);
+            let products = await Product.getAllProductsAtPage(page, pageSize);
+            let pages = handlePagination(page, pagesNumber);
+            
+            products.forEach(item =>{ item.productImage = item.productImages[0]});
 
-        res.render('shop/shop', {currentPage: page, pages: pages, allProducts: products});
+            res.render('shop/shop', {status: "Shop", currentPage: page, pages: pages, allProducts: products});
         }
         catch(err){
             next(err);

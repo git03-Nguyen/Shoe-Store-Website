@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 // get contact page
-router.get('/contact', (req, res) => { });
+router.get('/', require('../controllers/contact.c').contact);
 
 module.exports = router;

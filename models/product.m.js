@@ -51,35 +51,53 @@ module.exports = class Product {
     }
 
     static async getTop08BestSellerProducts(){
+        let list = [];
+
         try{
-            let data=await db.getTopBestSellerProducts();
-            return data;
+            let data= await dbProduct.getTopBestSellerProducts();
+            for(let i = 0; i < data.length; i++){
+                list.push(new Product(data[i]));
+            }
         }
         catch(err){
             console.log(err);
-           throw err;
+            throw err;
         }
+
+        return list;
     }
 
     static async getTop08NewArrivalProducts(){
+        let list = [];
+
         try{
-            let data=await db.getTopNewArrivalProducts();
-            return data;
+            let data=await dbProduct.getTopNewArrivalProducts();
+            for(let i = 0; i < data.length; i++){
+                list.push(new Product(data[i]));
+            }
         }
         catch(err){
             console.log(err);
            throw err;
         }
+
+        return list;
     }
     
     static async getTop04HotSalesProducts(){
+        let list = [];
+
         try{
-            let data=await db.getTopHotSalesProducts();
-            return data;
+            let data=await dbProduct.getTopHotSalesProducts();
+            for(let i = 0; i < data.length; i++){
+                list.push(new Product(data[i]));
+            }
         }
         catch(err){
             console.log(err);
            throw err;
         }
+
+        return list;
     }
 }
