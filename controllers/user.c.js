@@ -1,10 +1,11 @@
 const User = require('../models/user.m');
 const passport = require('passport');
+
 module.exports = {
-    getAllUsers: async (req,  res, next) => {
+    getAllUsers: async (req, res, next) => {
         try {
             let userList = await User.getAllUsers();
-            if(!userList) {
+            if (!userList) {
                 res.status(404).send("There is no user in database !");
             }
 
@@ -15,7 +16,7 @@ module.exports = {
     },
 
     addNewUser: async (req, res, next) => {
-        const {username, password, email, fullname, phonenumber, address} = req.body;
+        const { username, password, email, fullname, phonenumber, address } = req.body;
 
         let newUser = {
             username,
@@ -23,13 +24,13 @@ module.exports = {
             email,
             fullname,
             avatar: "",
-            phonenumber, 
+            phonenumber,
             address,
         };
 
         try {
             let insertedUser = await User.addNewUser(newUser);
-            if(!insertedUser) {
+            if (!insertedUser) {
                 res.status(404).send('Cannot add new user');
             } else {
                 res.redirect('/');
@@ -64,5 +65,12 @@ module.exports = {
             });
         })(req, res, next);
 
+    },
+
+    updateGeneralProfile: async (req, res, next) => {
+        const { data } = req.body;
+
+        let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address);
+        res.json(updatedUser);
     },
 }

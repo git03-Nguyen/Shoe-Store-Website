@@ -142,4 +142,31 @@ module.exports = {
             db_connection.done();
         }
     },
+
+    updateGeneralProfile: async (username, fullname, email, phonenumber, address) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET fullname = $1, email = $2, phonenumber = $3, address = $4
+                WHERE username = $5
+                RETURNING *;
+            `, 
+            [fullname, email, phonenumber, address, username]);
+
+            if(data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
 }

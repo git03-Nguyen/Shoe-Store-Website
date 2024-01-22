@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const UserController = require('../controllers/user.c');
 
 router.use((req, res, next) => {
     if(req.isAuthenticated()) {
@@ -20,6 +20,6 @@ router.get('/', (req, res, next) => {
 
 
 //POST
-
+router.post('/update/general', UserController.updateGeneralProfile);
 
 module.exports = router;

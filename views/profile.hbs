@@ -55,7 +55,7 @@
                                     <i class="fa-solid fa-circle-user"></i>
                                 </span>
                                 <input type="text" required class="form-control" name="username" id="username"
-                                    value="{{user.username}}">
+                                    value="{{user.username}}" readonly>
                             </div>
 
 
@@ -291,11 +291,46 @@
         return chosenSection;
     }
 
+    async function handlePostingGeneralChanges() {
+        let data = {
+            username: $("#username").val(),
+            fullname: $("#fullname").val(),
+            email: $("#email").val(),
+            address: $("#address").val()
+        }
+
+        //Cannot set phonenumber directly like above due to JQuery conflict
+        data.phonenumber = $("#phonenumber").val();
+
+        let updatedUser = await $.ajax({
+            url: "/profile/update/general",
+            method: "POST",
+            data: {
+                data: data
+            },
+        });
+
+        if(updatedUser) {
+            window.location.replace('https://localhost:3000/profile')
+        } else {
+            alert("Username is already existed !");
+        }
+    }
+
+    function handlePostingPasswordChange() {
+        
+    }
+
     $("#submit-profile-btn").on("click", (e) => {
         let chosenSection = getCurrentClickedSection();
 
         if(confirm(`Are you sure to save changes in the ${chosenSection} section ? You cannot redo that change.`)) {
             console.log("Post to the profile changes");
+            if(chosenSection == "General") {
+                handlePostingGeneralChanges();
+            } else if(chosenSection == "Change password") {
+                handlePostingPasswordChange();
+            }
         }
     });
 </script>
