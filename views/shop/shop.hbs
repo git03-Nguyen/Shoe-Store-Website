@@ -129,8 +129,10 @@
                                 <div class="product__item__pic set-bg rounded-3" data-setbg="{{this.productImage}}">
                                     <ul class="product__hover">
                                         <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                        <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/detail.png" alt=""></a></li>
                                     </ul>
-                                </div>
+                                </div>           
+                                
                                 <div class="product__item__text">
                                     <h6>{{this.productName}}</h6>
                                     <a href="#" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
@@ -186,7 +188,7 @@
             page = parseInt($(this).text());
 
             $(this).click(function(){
-               addEventForPagination(page);
+               handleEventForPagination(page);
             });
         });
 
@@ -246,7 +248,7 @@
         });
     });
 
-    function addEventForPagination(page){
+    function handleEventForPagination(page){
         // Get the current URL
         let currentURL = window.location.href;
 
@@ -285,7 +287,8 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg rounded-3" style="background-image: url(${products[i].productImage})">
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/heart.png" alt="Favorite"></a></li>
+                                <li><a href="/shop/detail?id=${products[i].id}"><img src="img/icon/detail.png" alt="Detail"></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">

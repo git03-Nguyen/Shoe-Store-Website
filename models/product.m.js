@@ -70,6 +70,11 @@ module.exports = class Product {
         return genders
     }
 
+    static async getProductById(id){
+        let data = await dbProduct.getProductById(id);
+        return new Product(data);
+    }
+
     static async getTop08BestSellerProducts(){
         let list = [];
 
