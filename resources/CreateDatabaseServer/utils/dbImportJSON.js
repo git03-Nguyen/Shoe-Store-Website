@@ -59,7 +59,9 @@ module.exports = {
                         ENCODING = 'UTF8'
                         LOCALE_PROVIDER = 'libc'
                         CONNECTION LIMIT = -1
-                        IS_TEMPLATE = False;`);
+                        IS_TEMPLATE = False;
+                        
+                        `);
 
             // Create tables and add constraints.
             let sqlScript = await fs.readFile(path.join(__dirname, '../data/script.sql'), {encoding: 'utf-8'});
@@ -122,7 +124,16 @@ module.exports = {
             } catch (error) {
                 console.log(error);
             }
-        }     
+        }   
+        
+        // Update posting date, random date
+        try {
+            await db.none(`UPDATE public.products
+                SET postingdate = '2023-01-01'::DATE + (random() * interval '365 days')
+                WHERE postingdate IS NULL;`);
+        } catch (error) {
+            console.log(error);
+        }
         
         console.log("Database has already created");
         return "Database has already created";
