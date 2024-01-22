@@ -3932,3 +3932,7 @@ ol {
 	background: black;
 	cursor: pointer;
 }
+
+.product__details__option__color label:has(input:checked):after{
+	border: 2px solid rgb(190, 190, 190);
+}
