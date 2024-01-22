@@ -40,15 +40,29 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        {{#ifEquals 1 1}}
-                        <li class="active"><a href="/">Home</a></li>
+                       {{#ifEquals status "Home"}}
+                            <li class="active"><a href="/">Home</a></li>
                         {{else}}
-                        <li><a href="/">Home</a></li>
+                            <li><a href="/">Home</a></li>
                         {{/ifEquals}}
-                        
-                        <li><a href="./shop?page=1">Shop</a></li>
-                        <li><a href="./contact">Contact</a></li>
-                        <li><a href="./about">About Us</a></li>
+
+                        {{#ifEquals status "Shop"}}
+                            <li class="active"><a href="./shop?page=1">Shop</a></li>
+                        {{else}}
+                            <li><a href="./shop?page=1">Shop</a></li>
+                        {{/ifEquals}}
+
+                        {{#ifEquals status "Contact"}}
+                            <li class="active"><a href="./contact">Contact</a></li>
+                        {{else}}
+                            <li><a href="./contact">Contact</a></li>
+                        {{/ifEquals}}
+
+                        {{#ifEquals status "About Us"}}
+                            <li class="active"><a href="./about">About Us</a></li>
+                        {{else}}
+                            <li><a href="./about">About Us</a></li>
+                        {{/ifEquals}}
                     </ul>
                 </nav>
             </div>
