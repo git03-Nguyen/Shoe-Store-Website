@@ -64,7 +64,6 @@ module.exports = {
                 && endPrice !== null && endPrice !== undefined){
                 [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, null, parseInt(startPrice), parseInt(endPrice), pageSize);
                 products = await Product.filterProductsAtPage(null, null, null, null, parseInt(startPrice), parseInt(endPrice), order, page, pageSize);
-                console.log("in price compare");
             }
             else if(order !== null && order !== undefined){
                 [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, null, -1, -1, pageSize);
@@ -136,7 +135,6 @@ module.exports = {
                 && endPrice !== null && endPrice !== undefined){
                 [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, null, parseInt(startPrice), parseInt(endPrice), pageSize);
                 products = await Product.filterProductsAtPage(null, null, null, null, parseInt(startPrice), parseInt(endPrice), order, page, pageSize);
-                console.log("in price compare");
             }
             else if(order !== null && order !== undefined){
                 [productsNumber, pagesNumber] = await Product.filterNumberProductsAndPages(null, null, null, null, -1, -1, pageSize);
