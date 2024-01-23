@@ -81,8 +81,6 @@ module.exports = {
             let pages = handlePagination(page, pagesNumber);
             let startNumber = (page-1)*pageSize + 1;
             let endNumber = min(page*pageSize, productsNumber);
-            
-            products.forEach(item =>{ item.productImage = item.productImages[0]});
 
             res.render('shop/shop', {status: "Shop", startNumber: startNumber, endNumber: endNumber, 
                 productsNumber: productsNumber, currentPage: page, pages: pages,
@@ -148,8 +146,6 @@ module.exports = {
             let pages = handlePagination(page, pagesNumber);
             let startNumber = (page-1)*pageSize + 1;
             let endNumber = min(page*pageSize, productsNumber);
-            
-            products.forEach(item =>{ item.productImage = item.productImages[0]});
 
             res.json({allProducts: products, currentPage: page, pages: pages,
                 startNumber: startNumber, endNumber: endNumber, productsNumber: productsNumber});

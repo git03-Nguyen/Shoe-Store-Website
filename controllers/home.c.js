@@ -5,19 +5,6 @@ exports.home = async (req, res, next) => {
         let topArrival = await Product.getTop08NewArrivalProducts();
         let hotsales=await Product.getTop04HotSalesProducts();
 
-        //Add attribute for render by handlebars because productimages is array object
-        bestsellers.forEach((item, index) => {
-            item.productImage=item.productImages[0];
-        });
-
-        topArrival.forEach((item, index) => {
-            item.productImage=item.productImages[0];
-        });
-
-        hotsales.forEach((item, index) => {
-            item.productImage=item.productImages[0];
-        });
-
        //Product of week for sale
         let productOfWeekForSale=hotsales[0];
 
