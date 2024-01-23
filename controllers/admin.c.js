@@ -3,8 +3,11 @@ module.exports = {
 
   // GET /admin
   getDashboard: (req, res, next) => {
-    // res.render('admin/dashboard', { status: "Dashboard" });
-    res.status(200).json({ status: "Dashboard" });
+    res.render('admin/dashboard', {
+      layout: 'admin',
+      title: 'Admin Dashboard',
+      user: req.user,
+    });
   },
 
   // GET /admin/products
