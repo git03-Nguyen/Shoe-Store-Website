@@ -112,11 +112,11 @@ module.exports = {
                     data[index].imageURL,
                     data[index].slug,
                     [39, 41, 42, 44],
-                    ['c-1', 'c-2', 'c-4', 'c-6', 'c-9'],
+                    ['c-1', 'c-2', 'c-3', 'c-4', 'c-5'],
                     ['https://down-vn.img.susercontent.com/file/e631b1a0f583a1420a38e61d92d3db2f_tn', 'https://down-vn.img.susercontent.com/file/5e0f25437df0e5c7daeff85c2e9019f6_tn', 'https://down-vn.img.susercontent.com/file/65b22d06d48c62c75d65761a1d65a52f_tn'],
                     ['https://down-vn.img.susercontent.com/file/e631b1a0f583a1420a38e61d92d3db2f', 'https://down-vn.img.susercontent.com/file/5e0f25437df0e5c7daeff85c2e9019f6', 'https://down-vn.img.susercontent.com/file/65b22d06d48c62c75d65761a1d65a52f'],
                     'https://down-vn.img.susercontent.com/file/8fac10e7fda31cd74366232a28064bd2_tn',
-                    'https://media.istockphoto.com/id/1212476803/video/play-icon-like-on-player.jpg?s=640x640&k=20&c=tKj6ZBiZ2oHSUi6sD5vasSOKt2T-ltLmy1ARwY6km5o=',
+                    'https://e1.pxfuel.com/desktop-wallpaper/930/288/desktop-wallpaper-full-dark-black-screen-black-screen.jpg',
                     'https://cvf.shopee.vn/file/25c6185ae3e7379b0c6f3e787370039b'
                 ];
 

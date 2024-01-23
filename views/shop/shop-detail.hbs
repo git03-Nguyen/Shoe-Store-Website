@@ -30,27 +30,41 @@
                                 </a>
                             </li>
                             {{/ifEquals}}
+                        {{/each}}
 
-                        {{#each}}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-{{video.tabId}}" role="tab">
+                                <div class="product__thumb__pic set-bg" data-setbg="{{video.productVideoThumbImage}}">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-lg-6 col-md-9">
                     <div class="tab-content">
                         {{#each bigImageList}}
                             {{#ifEquals this.tabId 1}}
-                            <div class="tab-pane active" id="tabs-{{thid.tabId}}" role="tabpanel">
+                            <div class="tab-pane active" id="tabs-{{this.tabId}}" role="tabpanel">
                                 <div class="product__details__pic__item">
                                     <img src="{{this.image}}" alt="">
                                 </div>
                             </div>
                             {{else}}
-                            <div class="tab-pane" id="tabs-{{thid.tabId}}" role="tabpanel">
+                            <div class="tab-pane" id="tabs-{{this.tabId}}" role="tabpanel">
                                 <div class="product__details__pic__item">
                                     <img src="{{this.image}}" alt="">
                                 </div>
                             </div>
                              {{/ifEquals}}
                         {{/each}}
+
+                        <div class="tab-pane" id="tabs-{{video.tabId}}" role="tabpanel">
+                            <div class="product__details__pic__item">
+                                <img src="{{video.productVideoBigImage}}" alt="">
+                                <a href="{{video.productVideo}}" class="video-popup"><i class="fa fa-play"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,20 +85,17 @@
                             <span> - 5 Reviews</span>
                         </div>
                         <h3>${{productPrice}} <span></span></h3>
-                        <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable
-                            cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
-                        with placket.</p>
                         <div class="product__details__option">
                             <div class="product__details__option__size">
                                 <span>Size:</span>
                                 {{#each sizes}}
                                     {{#ifEquals this.index 0}}
                                     <label class="active" for="size-{{this.size}}">{{this.size}}
-                                        <input type="radio" id="size-{{this}}" checked="true">
+                                        <input type="radio" id="size-{{this.size}}" checked="true">
                                     </label>
                                     {{else}}
                                     <label for="size-{{this.size}}">{{this.size}}
-                                        <input type="radio" id="size-{{this}}">
+                                        <input type="radio" id="size-{{this.size}}">
                                     </label>
                                     {{/ifEquals}}
                                 {{/each}}
@@ -93,12 +104,12 @@
                                 <span>Color:</span>
                                 {{#each colors}}
                                     {{#ifEquals this.index 0}}
-                                    <label class="{{this.color}}" for="sp-{{(this.index + 1)}}">
-                                        <input checked="true" type="radio" name="color-button" id="sp-{{this.index + 1}}"> 
+                                    <label class="{{this.color}}" for="sp-{{this.index}}">
+                                        <input checked="true" type="radio" name="color-button" id="sp-{{this.index}}"> 
                                     </label>
                                     {{else}}
-                                    <label class="{{this.color}}" for="sp-{{(this.index + 1)}}">
-                                        <input type="radio" name="color-button" id="sp-{{this.index + 1}}"> 
+                                    <label class="{{this.color}}" for="sp-{{this.index}}">
+                                        <input type="radio" name="color-button" id="sp-{{this.index}}"> 
                                     </label>
                                     {{/ifEquals}}
                                 {{/each}}
@@ -134,7 +145,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Customer
-                                Previews({{PreviewsCount}})</a>
+                                Previews</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Additional
@@ -388,18 +399,5 @@
         </div>
     </div>
 </section>
+
 <!-- Related Section End -->
-
-
-{{!-- Script here --}}
-<script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous">
-</script>
-
-<script>
-    $(document).ready(function(){
-     
-    });
-<script>
