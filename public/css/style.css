@@ -723,8 +723,14 @@ ol {
 }
 
 .hidden-error {
+	display: none;
+
 	color: orangered;
 	text-align: center;
+}
+
+.hidden-error.visible {
+	display: inline !important;
 }
 
 /*---------------------

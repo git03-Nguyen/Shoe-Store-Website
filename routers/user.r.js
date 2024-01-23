@@ -23,6 +23,9 @@ router.get('/logout', (req, res, next) => {
     res.redirect('/user/login');
 })
 
+router.get('/list', UserController.getAllUsers);
+
+
 //POST
 
 router.post('/login', UserController.executeLogin);
