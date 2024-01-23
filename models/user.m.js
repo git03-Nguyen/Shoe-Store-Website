@@ -83,8 +83,8 @@ class User {
         return data;
     }
 
-    static async updateGeneralProfile(username, fullname, email, phonenumber, address) {
-        let data = await DBProvider.updateGeneralProfile(username, fullname, email, phonenumber, address);
+    static async updateGeneralProfile(username, fullname, email, phonenumber, address, avatar) {
+        let data = await DBProvider.updateGeneralProfile(username, fullname, email, phonenumber, address, avatar);
         if(!data) {
             return data;
         }
@@ -94,7 +94,7 @@ class User {
     }
 
     static async updatePasswordProfile(userID, curPassword, newPassword) {
-        let data = await DBProvider.updateGeneralProfile(userID, curPassword, newPassword);
+        let data = await DBProvider.updatePasswordProfile(userID, curPassword, newPassword);
         if(!data) {
             return data;
         }

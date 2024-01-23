@@ -34,7 +34,7 @@
                             <div class="media-body ml-4">
                                 <label class="btn btn-primary">
                                     Upload new photo
-                                    <input type="file" class="account-settings-fileinput">
+                                    <input type="file" class="account-settings-fileinput" id="avatar" name="avatar">
                                 </label> &nbsp;
                                 <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800KB</div>
                             </div>
@@ -306,22 +306,21 @@
     }
 
     async function handlePostingGeneralChanges() {
-        let data = {
-            username: $("#username").val(),
-            fullname: $("#fullname").val(),
-            email: $("#email").val(),
-            address: $("#address").val()
-        }
+        let data = new FormData();
 
-        //Cannot set phonenumber directly like above due to JQuery conflict
-        data.phonenumber = $("#phonenumber").val();
+        data.append("username", $("#username").val());
+        data.append("fullname", $("#fullname").val());
+        data.append("email", $("#email").val());
+        data.append("address", $("#address").val());
+        data.append("phonenumber", $("#phonenumber").val());
+        data.append("avatar", $("#avatar")[0].files[0]);
 
         let updatedUser = await $.ajax({
             url: "/profile/update/general",
             method: "POST",
-            data: {
-                data: data
-            },
+            contentType: false,
+            processData: false,
+            data: data
         });
 
         if(updatedUser) {

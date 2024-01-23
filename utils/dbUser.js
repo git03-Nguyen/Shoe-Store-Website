@@ -143,7 +143,7 @@ module.exports = {
         }
     },
 
-    updateGeneralProfile: async (username, fullname, email, phonenumber, address) => {
+    updateGeneralProfile: async (username, fullname, email, phonenumber, address, avatar) => {
         let db_connection = null;
 
         try {
@@ -151,11 +151,11 @@ module.exports = {
 
             let data = await db_connection.query(`
                 UPDATE "users"
-                SET fullname = $1, email = $2, phonenumber = $3, address = $4
-                WHERE username = $5
+                SET fullname = $1, email = $2, phonenumber = $3, address = $4, avatar = $5
+                WHERE username = $6
                 RETURNING *;
             `, 
-            [fullname, email, phonenumber, address, username]);
+            [fullname, email, phonenumber, address, avatar, username]);
 
             if(data && data.length > 0) {
                 data = data[0];
@@ -170,7 +170,7 @@ module.exports = {
         }
     },
 
-    updateGeneralProfile: async (userID, curPassword, newPassword) => {
+    updatePasswordProfile: async (userID, curPassword, newPassword) => {
         let db_connection = null;
 
         try {
@@ -193,7 +193,7 @@ module.exports = {
                 console.log(`Incorrect password !`);
                 return null;
             }
-            
+
             console.log(`Correct password !`);
             console.log(`Update password from ${curPassword} to ${newPassword}`);
 

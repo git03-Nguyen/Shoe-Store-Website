@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const UserController = require('../controllers/user.c');
+const upload = require('../utils/multerUpload/avatarUser.upload');
 
 router.use((req, res, next) => {
     if(req.isAuthenticated()) {
@@ -20,7 +21,7 @@ router.get('/', (req, res, next) => {
 
 
 //POST
-router.post('/update/general', UserController.updateGeneralProfile);
+router.post('/update/general', upload.single('avatar'), UserController.updateGeneralProfile);
 router.post('/update/password', UserController.updatePasswordProfile);
 
 module.exports = router;

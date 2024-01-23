@@ -1,5 +1,6 @@
 const User = require('../models/user.m');
 const passport = require('passport');
+const path = require('path');
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -66,10 +67,22 @@ module.exports = {
     },
 
     updateGeneralProfile: async (req, res, next) => {
-        const { data } = req.body;
+        try {
+            const data = req.body;
+    
+            console.log("Data from general profile updating: ");
+            console.log(data);
 
-        let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address);
-        res.json(updatedUser);
+            const avatarExtension = req.file.originalname.split('.').pop();
+            const avatar = `/img/avatars/avatar_${req.user.id}.${avatarExtension}`;
+    
+            let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address, avatar);
+            console.log("Updated user's avatar: " + updatedUser.avatar);
+            
+            res.json(updatedUser);
+        } catch (error) {
+            next(error)
+        }
     },
 
     updatePasswordProfile: async (req, res, next) => {
