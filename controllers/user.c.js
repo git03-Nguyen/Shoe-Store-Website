@@ -45,23 +45,21 @@ module.exports = {
         passport.authenticate('local', (err, user, info) => {
             if (err) {
                 console.error("Error:", err);
-                return res.status(500).send("Internal server error");
+                return res.json(null);
             }
 
             if (!user) {
-                return res.render('login', {
-                    errorMessage: 'Invalid username or password !',
-                });
+                return res.json(null);
             }
 
             req.logIn(user, loginErr => {
                 if (loginErr) {
                     console.error("Login Error:", loginErr);
-                    return res.status(500).send("Error logging in");
+                    return res.json(null);
                 }
 
                 console.log("req.user.username: " + req.user?.username);
-                return res.redirect("/");
+                return res.json(req.user);
             });
         })(req, res, next);
 
