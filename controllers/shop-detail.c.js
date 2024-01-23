@@ -65,6 +65,8 @@ module.exports = {
             productName: product.productName,
             productPrice: product.productPrice,
             productDescription: product.productDescription,
+            productAdditionalInformation: product.productAdditionalInformation,
+            productId: product.id,
         });
     }
 }

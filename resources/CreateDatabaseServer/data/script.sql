@@ -101,6 +101,7 @@ create table products(
 	productPrice varchar(50),
 	productPriceBeforeDiscount varchar(50),
 	productDescription text,
+	productAdditionalInformation text,
 	productImage text,
 	productThumbImages text[],
 	productBigImages text[],
@@ -133,9 +134,12 @@ create table cartlist(
 	userId int not null,
 	productId int not null,
 	quantity int,
+	color varchar(100),
+	size real,
 	postingDate timestamp,
 	
-	primary key(id)
+	primary key(id),
+	unique(userId, productId)
 );
 
 create table favoritelist(

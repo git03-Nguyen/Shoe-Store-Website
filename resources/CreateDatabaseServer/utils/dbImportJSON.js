@@ -117,13 +117,36 @@ module.exports = {
                     ['https://down-vn.img.susercontent.com/file/e631b1a0f583a1420a38e61d92d3db2f', 'https://down-vn.img.susercontent.com/file/5e0f25437df0e5c7daeff85c2e9019f6', 'https://down-vn.img.susercontent.com/file/65b22d06d48c62c75d65761a1d65a52f'],
                     'https://down-vn.img.susercontent.com/file/8fac10e7fda31cd74366232a28064bd2_tn',
                     'https://e1.pxfuel.com/desktop-wallpaper/930/288/desktop-wallpaper-full-dark-black-screen-black-screen.jpg',
-                    'https://cvf.shopee.vn/file/25c6185ae3e7379b0c6f3e787370039b'
+                    'https://cvf.shopee.vn/file/25c6185ae3e7379b0c6f3e787370039b',
+                    `
+                    <p class="note">Skechers Men's Max Cushioning Slip-ins-Athletic Workout Running Walking Shoes with Memory Foam Sneaker</p>
+                    <div class="product__details__tab__content__item">
+                        <h5>Product details</h5>
+                        <p><b>Origin: </b>Made in the USA or Imported</p>                        
+                        <p><b>Sole material: </b>Rubber</p>                        
+                        <p><b>Outer material: </b>Polyester</p>                        
+                        <p><b>Closure type: </b>Lace-Up</p>                        
+                    </div>
+                    `,
+                    `
+                    <div class="product__details__tab__content__item">
+                        <h5>About this item</h5>
+                        <ul>
+                            <li>SKECHERS SLIP-INS (HANDS-FREE): keep up the pace in enhanced comfort and stability with the Skechers Max Cushioning Premier sneakers (tennis shoes); slip inside these trainers and go
+                            <li>SKECHERS MAX CUSHIONING MEN: these sneakers are designed for exceptional comfort and support; featuring an adjustable lace-up front (top of shoe) with an exclusive heel pillow that holds your foot securely in place
+                            <li>SKECHERS AIR-COOLED MEMORY FOAM: provides pressure relief, instant comfort, and breathability; the cushion contours to most foot shapes; helps wick moisture (sweat) away; gel-infused, high-rebound memory foam
+                            <li>ATHLETIC ACTIVITIES: running, hiking, jogging, walking, treadmill, workouts, training, gym, lifting, multi-sport exercise; these can be worn year-round (winter, summer, fall, spring); machine washable - easy to clean
+                            <li>MULTI-PURPOSE: add performance comfort to casual occasions; wear indoor, around the house, to and from work, for travel, or even while driving; the possibilities continue
+                        </ul>
+                    </div>
+                    `
                 ];
 
                 await db.none(`INSERT INTO products(productName, productBrand, productGender, categoryId,
                     productPrice, productAvailability, productImage, productSlug, productSizes, productColors,
-                    productThumbImages, productBigImages, productVideoThumbImage, productVideoBigImage, productVideo)
-                    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                    productThumbImages, productBigImages, productVideoThumbImage, productVideoBigImage, productVideo,
+                    productDescription, productAdditionalInformation)
+                    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
                     ON CONFLICT (productName) DO NOTHING;`,values);
             } catch (error) {
                 console.log(error);

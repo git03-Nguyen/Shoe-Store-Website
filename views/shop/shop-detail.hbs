@@ -7,7 +7,7 @@
                     <div class="product__details__breadcrumb">
                         <a href="/">Home</a>
                         <a href="/shop">Shop</a>
-                        <span>Product Details</span>
+                        <span tag="{{productId}}">Product Details</span>
                     </div>
                 </div>
             </div>
@@ -89,12 +89,12 @@
                                 <span>Size:</span>
                                 {{#each sizes}}
                                     {{#ifEquals this.index 0}}
-                                    <label class="active" for="size-{{this.size}}">{{this.size}}
-                                        <input type="radio" id="size-{{this.size}}" checked="true">
+                                    <label class="active" for="size-{{this.size}}" tag="{{this.size}}">{{this.size}}
+                                        <input type="radio" id="size-{{this.size}}" tag="{{this.size}}" checked="true">
                                     </label>
                                     {{else}}
-                                    <label for="size-{{this.size}}">{{this.size}}
-                                        <input type="radio" id="size-{{this.size}}">
+                                    <label for="size-{{this.size}}" tag="{{this.size}}">{{this.size}}
+                                        <input type="radio" id="size-{{this.size}}" tag="{{this.size}}">
                                     </label>
                                     {{/ifEquals}}
                                 {{/each}}
@@ -103,12 +103,12 @@
                                 <span>Color:</span>
                                 {{#each colors}}
                                     {{#ifEquals this.index 0}}
-                                    <label class="{{this.color}}" for="sp-{{this.index}}">
-                                        <input checked="true" type="radio" name="color-button" id="sp-{{this.index}}"> 
+                                    <label class="{{this.color}}" for="sp-{{this.index}}" tag="{{this.color}}" >
+                                        <input checked="true" type="radio" name="color-button" tag="{{this.color}}" id="sp-{{this.index}}"> 
                                     </label>
                                     {{else}}
-                                    <label class="{{this.color}}" for="sp-{{this.index}}">
-                                        <input type="radio" name="color-button" id="sp-{{this.index}}"> 
+                                    <label class="{{this.color}}" for="sp-{{this.index}}" tag="{{this.color}}" >
+                                        <input type="radio" name="color-button" id="sp-{{this.index}}" tag="{{this.color}}"> 
                                     </label>
                                     {{/ifEquals}}
                                 {{/each}}
@@ -120,7 +120,7 @@
                                     <input type="text" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="primary-btn custom_hover_bg_light_black">Add To Cart</a>
+                            <button id="btn-add-to-cart" class="primary-btn custom_hover_bg_light_black">Add To Cart</button>
                         </div>
                         <div class="product__details__btns__option">
                             <a class="custom_hover_bg_light_gray rounded-8 p-1" href="#"><i class="fa fa-heart"></i> Add To Favorite</a>
@@ -154,7 +154,7 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-5" role="tabpanel">
                                     <div class="product__details__tab__content">
-                                        {{productDescription}}
+                                        {{{productDescription}}}
                                         {{!-- <p class="note"></p>
                                         <div class="product__details__tab__content__item">
                                             <h5></h5>
@@ -183,7 +183,7 @@
                                                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60"
                                                                 height="60" />
                                                             <div>
-                                                                <h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
+                                                                <h6 class="fw-bold text-dark mb-1">Lily Coleman</h6>
                                                                 <p class="text-muted small mb-0">
                                                                 Shared publicly - Jan 2020
                                                                 </p>
@@ -202,7 +202,7 @@
                                                                 <p class="mb-0">Like</p>
                                                             </a>
                                                             <a href="#!" class="d-flex align-items-center me-3">
-                                                                <i class="far fa-comment-dots me-2"></i>
+                                                                <i class="far fa-comment-dots me-2" style=""></i>
                                                                 <p class="mb-0">Comment</p>
                                                             </a>
                                                             <a href="#!" class="d-flex align-items-center me-3">
@@ -223,8 +223,8 @@
                                                             </div>
                                                             </div>
                                                             <div class="float-end mt-2 pt-1">
-                                                            <button type="button" class="btn btn-primary btn-sm">Post comment</button>
-                                                            <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
+                                                            <button type="button" class="btn btn-dark btn-sm">Post comment</button>
+                                                            <button type="button" class="btn btn-outline-dark btn-sm">Cancel</button>
                                                             </div>
                                                         </div>
                                                         </div>
@@ -238,10 +238,7 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                     <div class="product__details__tab__content">
-                                        <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                                            solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                                            ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.</p>
+                                        {{{productAdditionalInformation}}}
                                     </div>
                                 </div>
                             </div>
@@ -330,5 +327,78 @@
         </div>
     </div>
 </section>
-
 <!-- Related Section End -->
+
+{{!-- Start shop-detail script --}}
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous">
+</script>
+
+{{!-- Toastify script --}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#btn-add-to-cart').click(function(){
+            // Get the current URL
+            let currentURL = window.location.href;
+
+            // Create a URL object
+            let url = new URL(currentURL);
+            let api = url.origin + '/shop/api/post/add-cart';
+            console.log("___api: " + api);
+
+            let size = parseFloat($('.product__details__option__size .active').attr('tag'));
+            console.log("___size:" + size);
+
+            let color = $('.product__details__option__color input:checked').attr('tag');
+            console.log("___color:" + color);
+
+            let quantity = parseInt($('.quantity input').val());
+            console.log("___quantity:" + quantity);
+
+            let productId = parseInt($('.product__details__breadcrumb span').attr('tag'));
+            console.log("___productId:" + productId);
+
+            let formData = {
+                size: size,
+                color: color,
+                quantity: quantity,
+                productId: productId,
+            };
+            $.ajax({
+                url: api,
+                method: "POST",
+                data: formData,
+                // Display data
+                success: function(response) {
+                    Toastify({
+                    text: response.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: false,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        width: "250px",
+                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    },
+                    onClick: function(){} // Callback after click
+                    }).showToast();
+                },
+                error: function(error) {
+                    console.log("Error:", error);
+                }
+            });
+
+           
+        });
+    });
+
+</script>
+
+{{!-- End shop-detail script--}}
+

@@ -11,6 +11,7 @@ module.exports = class Product {
         this.productPrice = product.productprice;
         this.productPriceBeforeDiscount = product.productpricebeforediscount;
         this.productDescription = product.productdescription;
+        this.productAdditionalInformation = product.productadditionalinformation;
         this.productImage = product.productimage;
         this.productThumbImages = product.productthumbimages;
         this.productBigImages = product.productbigimages;

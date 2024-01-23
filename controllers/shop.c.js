@@ -1,5 +1,6 @@
 const Product = require('../models/product.m');
 const Category = require('../models/category.m');
+const CartList = require('../models/cartlist.m');
 
 function min(a, b){
     return a <= b ? a : b;
@@ -154,4 +155,41 @@ module.exports = {
             next(err);
         }
     },
+
+    shopApiPostAddCart: async function(req, res, next){
+        try{
+            let size = parseFloat(req.body.size);
+            let color = req.body.color;
+            let quantity = parseInt(req.body.quantity);
+            let productId = parseInt(req.body.productId);
+            let postingDate = new Date();
+            let userId = 1; // default value to test
+
+            console.log('__color: '+ color);
+            let cartList = {
+                size: size,
+                color: color,
+                quantity: quantity,
+                userid: userId,
+                productid: productId,
+                postingdate: postingDate, 
+            };
+
+            let flag = await CartList.addCartList(new CartList(cartList));
+            let data = new Object();
+            
+            if(flag){
+                data.message = "SUCCESS"
+            }
+            else{
+                data.message = "FAILED"
+            }
+
+            res.json(data);
+        }
+        catch(err){
+            console.log(err);
+            next(err);
+        }
+    }
 }
