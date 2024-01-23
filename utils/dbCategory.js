@@ -1,4 +1,4 @@
-const db = require('./dbConfig');
+const {db, pgp} = require('./dbConfig');
 
 module.exports = {
     getAllCategories: async function(){
@@ -8,7 +8,13 @@ module.exports = {
         try {
             res = await db.any(query);
         } catch (error) {
-            console.log(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
         }
 
         return res;

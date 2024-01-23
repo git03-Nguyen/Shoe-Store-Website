@@ -13,4 +13,7 @@ const cn={
 
 let db= pgp(cn);
 
-module.exports = db
+module.exports = {
+  db, 
+  pgp,
+};

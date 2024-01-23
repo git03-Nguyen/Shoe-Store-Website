@@ -158,31 +158,48 @@ module.exports = {
 
     shopApiPostAddCart: async function(req, res, next){
         try{
-            let size = parseFloat(req.body.size);
+            let size = req.body.size !== null ? parseFloat(req.body.size) : null;
             let color = req.body.color;
-            let quantity = parseInt(req.body.quantity);
+            let quantity =  req.body.quantity !== null ? parseInt(req.body.quantity) : null;
             let productId = parseInt(req.body.productId);
             let postingDate = new Date();
             let userId = 1; // default value to test
 
-            console.log('__color: '+ color);
-            let cartList = {
-                size: size,
-                color: color,
-                quantity: quantity,
-                userid: userId,
-                productid: productId,
-                postingdate: postingDate, 
-            };
-
-            let flag = await CartList.addCartList(new CartList(cartList));
+            let item = await CartList.getCartListByUserIdAndProductId(userId, productId);
+            let flag = true;
             let data = new Object();
-            
-            if(flag){
-                data.message = "SUCCESS"
+
+            if(item === null || item === undefined){
+                let cartList = {
+                    size: size,
+                    color: color,
+                    quantity: quantity,
+                    userid: userId,
+                    productid: productId,
+                    postingdate: postingDate, 
+                };
+
+                flag = await CartList.addCartList(new CartList(cartList));
+                if(flag){
+                    data.message = "Add item successfully";
+                }
+                else{
+                    data.message = "Add item failed";
+                }
             }
             else{
-                data.message = "FAILED"
+                item.quantity = quantity;
+                item.size = size;
+                item.color = color;
+                item.postingDate = postingDate;
+
+                flag = await CartList.updateCartList(item);
+                if(flag){
+                    data.message = "Update item successfully";
+                }
+                else{
+                    data.message = "Update item failed";
+                }
             }
 
             res.json(data);

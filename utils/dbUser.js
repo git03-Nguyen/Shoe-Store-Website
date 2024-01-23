@@ -1,5 +1,5 @@
 require('dotenv').config();
-const db = require('./dbConfig');
+const {db, pgp} = require('./dbConfig');
 const bcrypt = require('bcrypt');
 const SALT_ROUND = parseInt(process.env.SALT_ROUND);
 

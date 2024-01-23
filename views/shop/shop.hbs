@@ -135,7 +135,7 @@
                                 
                                 <div class="product__item__text">
                                     <h6>{{this.productName}}</h6>
-                                    <a href="#" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                                    <a style="color: red !important; cursor: pointer;" class="add-cart" tag="{{this.id}}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
                                     <div class="rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -183,6 +183,11 @@
 <script>
     // window is ready
     $(document).ready(function(){
+        $('.add-cart').click(function(){
+            let productId = parseInt($(this).attr('tag'));
+            HandleEventForAddToCart(productId);
+        });
+
         $('.product__pagination a').each(function(index){
             let page = 1;
             page = parseInt($(this).text());
@@ -206,9 +211,6 @@
                 else if(value == "Low To High"){
                     order = "ASC";
                 }
-
-                console.log("sort is clicked");
-                console.log("order: " + order);
 
                 // Get the current URL
                 let currentURL = window.location.href;
@@ -247,6 +249,51 @@
             });
         });
     });
+
+    function HandleEventForAddToCart(productId){
+        // Get the current URL
+        let currentURL = window.location.href;
+
+        // Create a URL object
+        let url = new URL(currentURL);
+        let api = url.origin + '/shop/api/post/add-cart';
+
+        let formData = {
+            size: null,
+            color: null,
+            quantity: 1,
+            productId: productId,
+        };
+        $.ajax({
+            url: api,
+            method: "POST",
+            data: formData,
+            // Display data
+            success: function(response) {
+                if(response.message === 'Update item successfully' || response.message === 'Update item failed'){
+                    response.message = 'Item added to cart';
+                }
+                
+                Toastify({
+                text: response.message,
+                duration: 3000,
+                newWindow: true,
+                close: false,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    width: "250px",
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+                onClick: function(){} // Callback after click
+                }).showToast();
+            },
+            error: function(error) {
+                console.log("Error:", error);
+            }
+        });
+    }
 
     function handleEventForPagination(page){
         // Get the current URL
@@ -293,7 +340,7 @@
                         </div>
                         <div class="product__item__text">
                             <h6>${products[i].productName}</h6>
-                            <a href="#" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                            <a style="color: red !important; cursor: pointer;" class="add-cart" tag="${products[i].id}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
@@ -309,6 +356,10 @@
         }
 
         $("#display-product-cards").html(htmlText);
+        $('.add-cart').click(function(){
+            let productId = parseInt($(this).attr('tag'));
+            HandleEventForAddToCart(productId);
+        });
     }
 
     function createPagination(currentPage, pages){

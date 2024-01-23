@@ -1,5 +1,5 @@
 require('dotenv').config();
-const db = require('./dbConfig');
+const {db, pgp} = require('./dbConfig');
 
 module.exports = {
     getAllProductsAtPage: async function (page, pageSize){
@@ -12,7 +12,13 @@ module.exports = {
             res = await db.any(query, [(page - 1)* pageSize, pageSize]);
         }
         catch(error){
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
         }
 
         return res;
@@ -30,7 +36,13 @@ module.exports = {
         }
         catch(error)
         {
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+              }
+            else{
+                console.error(error);
+            }
             flag = false;
         }
 
@@ -58,7 +70,13 @@ module.exports = {
             res = await db.one(query, values); 
         }
         catch(error){
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+              }
+            else{
+                console.error(error);
+            }
         }
 
         return res;
@@ -119,7 +137,13 @@ module.exports = {
             res = await db.any(query, values);
         }
         catch(error){
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
         }
 
         return res;
@@ -151,7 +175,13 @@ module.exports = {
         }
         catch(error)
         {
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
             flag = false;
         }
 
@@ -175,7 +205,13 @@ module.exports = {
         try {
             res = await db.any(query);
         } catch (error) {
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
         }
 
         return res;
@@ -188,7 +224,13 @@ module.exports = {
         try {
             res = await db.any(query);
         } catch (error) {
-            console.error(error);
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
         }
 
         return res;
@@ -200,8 +242,14 @@ module.exports = {
             let result = await db.any(sql);
             return result;
         }
-        catch(err){
-            console.log(err);
+        catch(error){
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
             return [];
         }
     },
@@ -212,8 +260,14 @@ module.exports = {
             let result=await db.any(sql);
             return result;
         }
-        catch(err){
-            console.log(err);
+        catch(error){
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
             return [];
         }
     },
@@ -224,8 +278,14 @@ module.exports = {
             let result=await db.any(sql);
             return result;
         } 
-        catch(err){
-            console.log(err);
+        catch(error){
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
             return [];
         }
     }

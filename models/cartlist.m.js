@@ -7,6 +7,7 @@ const dbCart = require('../utils/dbCart');
 // color varchar(100),
 // size real,
 // postingDate timestamp,
+
 module.exports = class CartList{
     constructor(cartList){
         this.id = cartList.id;
@@ -18,14 +19,29 @@ module.exports = class CartList{
         this.postingDate = cartList.postingdate;
     }
 
-    static async getCartListByUserId(userId){
+    static async getCartListById(id){
+        let data = await dbCart.getCartListById(userId);
+        return data !== null ? new CartList(data) : null;
+    }
+
+    static async getCartListsByUserId(userId){
         let list = [];
-        let data = await dbCart.getCartListByUserId(userId);
+        let data = await dbCart.getCartListsByUserId(userId);
         data.forEach((value, index, array) => {list.push(new CartList(value));});
         return list;
     }
 
+    static async getCartListByUserIdAndProductId(userId, productId){
+        let data = await dbCart.getCartListByUserIdAndProductId(userId, productId);
+
+        return data !== null ? new CartList(data) : null;
+    }
+
     static async addCartList(cartList){
         return await dbCart.addCartList(cartList);
+    }
+
+    static async updateCartList(cartList){
+        return await dbCart.updateCartList(cartList);
     }
 }

@@ -348,20 +348,12 @@
             // Create a URL object
             let url = new URL(currentURL);
             let api = url.origin + '/shop/api/post/add-cart';
-            console.log("___api: " + api);
-
+            
             let size = parseFloat($('.product__details__option__size .active').attr('tag'));
-            console.log("___size:" + size);
-
             let color = $('.product__details__option__color input:checked').attr('tag');
-            console.log("___color:" + color);
-
             let quantity = parseInt($('.quantity input').val());
-            console.log("___quantity:" + quantity);
-
             let productId = parseInt($('.product__details__breadcrumb span').attr('tag'));
-            console.log("___productId:" + productId);
-
+            
             let formData = {
                 size: size,
                 color: color,
@@ -393,8 +385,6 @@
                     console.log("Error:", error);
                 }
             });
-
-           
         });
     });
 

@@ -52,7 +52,7 @@ module.exports = class Product {
     }
 
     static async filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize){
-        return await dbProduct.filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize)
+        return await dbProduct.filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize);
     }
 
     static async getAllBrands(){
@@ -62,7 +62,7 @@ module.exports = class Product {
             brands.push(data[i].productbrand);
         }
 
-        return brands
+        return brands;
     }
 
     static async getAllGenders(){
@@ -72,12 +72,12 @@ module.exports = class Product {
             genders.push(data[i].productgender);
         }
 
-        return genders
+        return genders;
     }
 
     static async getProductById(id){
         let data = await dbProduct.getProductById(id);
-        return new Product(data);
+        return data !== null ? new Product(data) : null;
     }
 
     static async getTop08BestSellerProducts(){
