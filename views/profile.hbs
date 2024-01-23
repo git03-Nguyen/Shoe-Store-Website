@@ -47,7 +47,6 @@
                             </div> --}}
                             <label for="username" class="form-label">
                                 Username:
-                                {{!-- <span class="hidden-error">Error: The username is already existed</span> --}}
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
@@ -97,18 +96,34 @@
                     </div>
                     <div class="tab-pane fade" id="account-change-password">
                         <div class="card-body pb-2">
-                            <div class="form-group">
-                                <label class="form-label">Current password</label>
-                                <input type="password" class="form-control">
+                            <div class="separator">
+                                <h4 class="hidden-error"></h4>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">New password</label>
-                                <input type="password" class="form-control">
+
+                            <label for="cur_password" class="form-label">Current password: </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-key"></i>
+                                </span>
+                                <input type="password" required class="form-control" name="cur_password" id="cur_password">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Repeat new password</label>
-                                <input type="password" class="form-control">
+
+                            <label for="new_password" class="form-label">New password: </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-key"></i>
+                                </span>
+                                <input type="password" required class="form-control" name="new_password" id="new_password">
                             </div>
+
+                            <label for="retype_password" class="form-label">Retype password: </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-key"></i>
+                                </span>
+                                <input type="password" required class="form-control" name="retype_password" id="retype_password">
+                            </div>
+                        
                         </div>
                     </div>
                     <div class="tab-pane fade" id="account-info">
@@ -316,15 +331,45 @@
         }
     }
 
-    function handlePostingPasswordChange() {
-        
+    async function handlePostingPasswordChange() {
+        let data = {
+            curPassword: $("#cur_password").val(),
+            newPassword: $("#new_password").val(),
+        }
+
+        let retypePassword = $("#retype_password").val();
+
+        if(data.curPassword == data.newPassword) {
+            $(".hidden-error").text("The new password cannot be the same as the old password !");
+            $(".hidden-error").addClass("visible");
+            return;
+        } else if (data.newPassword != retypePassword) {
+            $(".hidden-error").text("The retype password is not the same as the new password !");
+            $(".hidden-error").addClass("visible");
+            return;
+        }
+
+        $('.hidden-error').removeClass('visible');
+       
+        let updatedUser = await $.ajax({
+            url: "/profile/update/password",
+            method: "POST",
+            data: {
+                data: data
+            },
+        });
+
+        if(updatedUser) {
+            alert("The password is changed SUCCESSFULLY!");
+        } else {
+            alert("Password change FAILED, keep old password!");
+        }
     }
 
     $("#submit-profile-btn").on("click", (e) => {
         let chosenSection = getCurrentClickedSection();
 
         if(confirm(`Are you sure to save changes in the ${chosenSection} section ? You cannot redo that change.`)) {
-            console.log("Post to the profile changes");
             if(chosenSection == "General") {
                 handlePostingGeneralChanges();
             } else if(chosenSection == "Change password") {

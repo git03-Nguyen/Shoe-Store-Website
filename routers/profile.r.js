@@ -21,5 +21,6 @@ router.get('/', (req, res, next) => {
 
 //POST
 router.post('/update/general', UserController.updateGeneralProfile);
+router.post('/update/password', UserController.updatePasswordProfile);
 
 module.exports = router;

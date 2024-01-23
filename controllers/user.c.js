@@ -73,4 +73,11 @@ module.exports = {
         let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address);
         res.json(updatedUser);
     },
+
+    updatePasswordProfile: async (req, res, next) => {
+        const { data } = req.body;
+        
+        let updatedUser = await User.updatePasswordProfile(req.user.id, data.curPassword, data.newPassword);
+        res.json(updatedUser);
+    },
 }

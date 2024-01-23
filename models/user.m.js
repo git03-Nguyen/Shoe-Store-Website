@@ -92,6 +92,16 @@ class User {
         data = User.clone(data);
         return data;
     }
+
+    static async updatePasswordProfile(userID, curPassword, newPassword) {
+        let data = await DBProvider.updateGeneralProfile(userID, curPassword, newPassword);
+        if(!data) {
+            return data;
+        }
+        
+        data = User.clone(data);
+        return data;
+    }
 }
 
 module.exports = User;
