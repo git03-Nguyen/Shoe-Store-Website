@@ -18,9 +18,6 @@ const db = pgp(cn);
 const data = require('../data/data001.json');
 const { isNull } = require('util');
 
-console.log("data length: " + Object.keys(data).length);
-console.log("data name at 0: " + data[0].name);
-
 module.exports = {
     importJSON: async function (){
         // Check database existed ?
@@ -112,14 +109,21 @@ module.exports = {
                     categoryId.id,
                     data[index].price,
                     data[index].items_left,
-                    [data[index].imageURL],
+                    data[index].imageURL,
                     data[index].slug,
-                    [39, 41, 42, 44]
+                    [39, 41, 42, 44],
+                    ['c-1', 'c-2', 'c-4', 'c-6', 'c-9'],
+                    ['https://down-vn.img.susercontent.com/file/e631b1a0f583a1420a38e61d92d3db2f_tn', 'https://down-vn.img.susercontent.com/file/5e0f25437df0e5c7daeff85c2e9019f6_tn', 'https://down-vn.img.susercontent.com/file/65b22d06d48c62c75d65761a1d65a52f_tn'],
+                    ['https://down-vn.img.susercontent.com/file/e631b1a0f583a1420a38e61d92d3db2f', 'https://down-vn.img.susercontent.com/file/5e0f25437df0e5c7daeff85c2e9019f6', 'https://down-vn.img.susercontent.com/file/65b22d06d48c62c75d65761a1d65a52f'],
+                    'https://down-vn.img.susercontent.com/file/8fac10e7fda31cd74366232a28064bd2_tn',
+                    'https://media.istockphoto.com/id/1212476803/video/play-icon-like-on-player.jpg?s=640x640&k=20&c=tKj6ZBiZ2oHSUi6sD5vasSOKt2T-ltLmy1ARwY6km5o=',
+                    'https://cvf.shopee.vn/file/25c6185ae3e7379b0c6f3e787370039b'
                 ];
 
                 await db.none(`INSERT INTO products(productName, productBrand, productGender, categoryId,
-                    productPrice, productAvailability, productImages, productSlug, productSizes)
-                    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                    productPrice, productAvailability, productImage, productSlug, productSizes, productColors,
+                    productThumbImages, productBigImages, productVideoThumbImage, productVideoBigImage, productVideo)
+                    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
                     ON CONFLICT (productName) DO NOTHING;`,values);
             } catch (error) {
                 console.log(error);

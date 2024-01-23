@@ -13,57 +13,44 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-3">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-1.png">
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-2.png">
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
-                                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-3.png">
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
-                                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-4.png">
-                                    <i class="fa fa-play"></i>
-                                </div>
-                            </a>
-                        </li>
+                     <ul class="nav nav-tabs" role="tablist">
+                        {{#each thumbImageList}}
+                            {{#ifEquals this.tabId 1}}
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-{{this.tabId}}" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="{{this.image}}">
+                                    </div>
+                                </a>
+                            </li>
+                            {{else}}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-{{this.tabId}}" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="{{this.image}}">
+                                    </div>
+                                </a>
+                            </li>
+                            {{/ifEquals}}
+
+                        {{#each}}
                     </ul>
                 </div>
                 <div class="col-lg-6 col-md-9">
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="img/shop-details/product-big-2.png" alt="">
+                        {{#each bigImageList}}
+                            {{#ifEquals this.tabId 1}}
+                            <div class="tab-pane active" id="tabs-{{thid.tabId}}" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="{{this.image}}" alt="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="tab-pane" id="tabs-2" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="img/shop-details/product-big-3.png" alt="">
+                            {{else}}
+                            <div class="tab-pane" id="tabs-{{thid.tabId}}" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="{{this.image}}" alt="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="tab-pane" id="tabs-3" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="img/shop-details/product-big.png" alt="">
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tabs-4" role="tabpanel">
-                            <div class="product__details__pic__item">
-                                <img src="img/shop-details/product-big-4.png" alt="">
-                                <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1" class="video-popup"><i class="fa fa-play"></i></a>
-                            </div>
-                        </div>
+                             {{/ifEquals}}
+                        {{/each}}
                     </div>
                 </div>
             </div>
@@ -74,7 +61,7 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-8">
                     <div class="product__details__text">
-                        <h4>Hooded thermal anorak</h4>
+                        <h4>{{productName}}</h4>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -83,43 +70,38 @@
                             <i class="fa fa-star-o"></i>
                             <span> - 5 Reviews</span>
                         </div>
-                        <h3>$270.00 <span>70.00</span></h3>
+                        <h3>${{productPrice}} <span></span></h3>
                         <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable
                             cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
                         with placket.</p>
                         <div class="product__details__option">
                             <div class="product__details__option__size">
                                 <span>Size:</span>
-                                <label for="xxl">xxl
-                                    <input type="radio" id="xxl">
-                                </label>
-                                <label class="active" for="xl">xl
-                                    <input type="radio" id="xl">
-                                </label>
-                                <label for="l">l
-                                    <input type="radio" id="l">
-                                </label>
-                                <label for="sm">s
-                                    <input type="radio" id="sm">
-                                </label>
+                                {{#each sizes}}
+                                    {{#ifEquals this.index 0}}
+                                    <label class="active" for="size-{{this.size}}">{{this.size}}
+                                        <input type="radio" id="size-{{this}}" checked="true">
+                                    </label>
+                                    {{else}}
+                                    <label for="size-{{this.size}}">{{this.size}}
+                                        <input type="radio" id="size-{{this}}">
+                                    </label>
+                                    {{/ifEquals}}
+                                {{/each}}
                             </div>
                             <div class="product__details__option__color">
                                 <span>Color:</span>
-                                <label class="c-1" for="sp-1">
-                                    <input type="radio" name="color-button" id="sp-1"> 
-                                </label>
-                                <label class="c-2" for="sp-2">
-                                    <input type="radio" name="color-button" id="sp-2">
-                                </label>
-                                <label class="c-3" for="sp-3">
-                                    <input type="radio" name="color-button" id="sp-3">
-                                </label>
-                                <label class="c-4" for="sp-4">
-                                    <input type="radio" name="color-button" id="sp-4">
-                                </label>
-                                <label class="c-9" for="sp-9">
-                                    <input type="radio" name="color-button" id="sp-9">
-                                </label>
+                                {{#each colors}}
+                                    {{#ifEquals this.index 0}}
+                                    <label class="{{this.color}}" for="sp-{{(this.index + 1)}}">
+                                        <input checked="true" type="radio" name="color-button" id="sp-{{this.index + 1}}"> 
+                                    </label>
+                                    {{else}}
+                                    <label class="{{this.color}}" for="sp-{{(this.index + 1)}}">
+                                        <input type="radio" name="color-button" id="sp-{{this.index + 1}}"> 
+                                    </label>
+                                    {{/ifEquals}}
+                                {{/each}}
                             </div>
                         </div>
                         <div class="product__details__cart__option">
@@ -152,7 +134,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Customer
-                                Previews(5)</a>
+                                Previews({{PreviewsCount}})</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Additional
@@ -162,66 +144,129 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-5" role="tabpanel">
                                 <div class="product__details__tab__content">
-                                    <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                                        solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                                        ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                    pharetras loremos.</p>
+                                    {{productDescription}}
+                                    {{!-- <p class="note"></p>
                                     <div class="product__details__tab__content__item">
-                                        <h5>Products Infomation</h5>
-                                        <p>A Pocket PC is a handheld computer, which features many of the same
-                                            capabilities as a modern PC. These handy little devices allow
-                                            individuals to retrieve and store e-mail messages, create a contact
-                                            file, coordinate appointments, surf the internet, exchange text messages
-                                            and more. Every product that is labeled as a Pocket PC must be
-                                            accompanied with specific software to operate the unit and must feature
-                                        a touchscreen and touchpad.</p>
-                                        <p>As is the case with any new technology product, the cost of a Pocket PC
-                                            was substantial during it’s early release. For approximately $700.00,
-                                            consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                            These days, customers are finding that prices have become much more
-                                            reasonable now that the newness is wearing off. For approximately
-                                        $350.00, a new Pocket PC can now be purchased.</p>
+                                        <h5></h5>
+                                        <p></p>
+                                        <p></p>
                                     </div>
                                     <div class="product__details__tab__content__item">
                                         <h5>Material used</h5>
-                                        <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                                            from synthetic materials, not natural like wool. Polyester suits become
-                                            creased easily and are known for not being breathable. Polyester suits
-                                            tend to have a shine to them compared to wool and cotton suits, this can
-                                            make the suit look cheap. The texture of velvet is luxurious and
-                                            breathable. Velvet is a great choice for dinner party jacket and can be
-                                        worn all year round.</p>
-                                    </div>
-                                </div>
+                                        <p></p>
+                                    </div> --}}
                             </div>
-                            <div class="tab-pane" id="tabs-6" role="tabpanel">
+                            <div class="tab-pane tab-comments" id="tabs-6" role="tabpanel">
                                 <div class="product__details__tab__content">
                                     <div class="product__details__tab__content__item">
-                                        <h5>Products Infomation</h5>
-                                        <p>A Pocket PC is a handheld computer, which features many of the same
-                                            capabilities as a modern PC. These handy little devices allow
-                                            individuals to retrieve and store e-mail messages, create a contact
-                                            file, coordinate appointments, surf the internet, exchange text messages
-                                            and more. Every product that is labeled as a Pocket PC must be
-                                            accompanied with specific software to operate the unit and must feature
-                                        a touchscreen and touchpad.</p>
-                                        <p>As is the case with any new technology product, the cost of a Pocket PC
-                                            was substantial during it’s early release. For approximately $700.00,
-                                            consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                            These days, customers are finding that prices have become much more
-                                            reasonable now that the newness is wearing off. For approximately
-                                        $350.00, a new Pocket PC can now be purchased.</p>
-                                    </div>
-                                    <div class="product__details__tab__content__item">
-                                        <h5>Material used</h5>
-                                        <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                                            from synthetic materials, not natural like wool. Polyester suits become
-                                            creased easily and are known for not being breathable. Polyester suits
-                                            tend to have a shine to them compared to wool and cotton suits, this can
-                                            make the suit look cheap. The texture of velvet is luxurious and
-                                            breathable. Velvet is a great choice for dinner party jacket and can be
-                                        worn all year round.</p>
-                                    </div>
+                                        <section style="background-color: #ad655f;">
+                                            <div class="container my-5 py-5">
+                                                <div class="row d-flex justify-content-center">
+                                                <div class="col-md-12 col-lg-10">
+                                                    <div class="card text-dark">
+                                                    <div class="card-body p-4">
+                                                        <h4 class="mb-0">Recent comments</h4>
+                                                        <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
+
+                                                        <div class="d-flex flex-start">
+                                                        <img class="rounded-circle shadow-1-strong me-3"
+                                                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60"
+                                                            height="60" />
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1">Maggie Marsh</h6>
+                                                            <div class="d-flex align-items-center mb-3">
+                                                            <p class="mb-0">
+                                                                March 07, 2021
+                                                            </p>
+                                                            </div>
+                                                            <p class="mb-0">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                            industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                                            since the 1500s, when an unknown printer took a galley of type and
+                                                            scrambled it.
+                                                            </p>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="my-0" />
+
+                                                    <div class="card-body p-4">
+                                                        <div class="d-flex flex-start">
+                                                        <img class="rounded-circle shadow-1-strong me-3"
+                                                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp" alt="avatar" width="60"
+                                                            height="60" />
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1">Lara Stewart</h6>
+                                                            <div class="d-flex align-items-center mb-3">
+                                                            <p class="mb-0">
+                                                                March 15, 2021
+                                                            </p>
+                                                            </div>
+                                                            <p class="mb-0">
+                                                            Contrary to popular belief, Lorem Ipsum is not simply random text. It
+                                                            has roots in a piece of classical Latin literature from 45 BC, making it
+                                                            over 2000 years old. Richard McClintock, a Latin professor at
+                                                            Hampden-Sydney College in Virginia, looked up one of the more obscure
+                                                            Latin words, consectetur, from a Lorem Ipsum passage, and going through
+                                                            the cites.
+                                                            </p>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="my-0" style="height: 1px;" />
+
+                                                    <div class="card-body p-4">
+                                                        <div class="d-flex flex-start">
+                                                        <img class="rounded-circle shadow-1-strong me-3"
+                                                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(33).webp" alt="avatar" width="60"
+                                                            height="60" />
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1">Alexa Bennett</h6>
+                                                            <div class="d-flex align-items-center mb-3">
+                                                            <p class="mb-0">
+                                                                March 24, 2021
+                                                            </p>
+                                                            </div>
+                                                            <p class="mb-0">
+                                                            There are many variations of passages of Lorem Ipsum available, but the
+                                                            majority have suffered alteration in some form, by injected humour, or
+                                                            randomised words which don't look even slightly believable. If you are
+                                                            going to use a passage of Lorem Ipsum, you need to be sure.
+                                                            </p>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="my-0" />
+
+                                                    <div class="card-body p-4">
+                                                        <div class="d-flex flex-start">
+                                                        <img class="rounded-circle shadow-1-strong me-3"
+                                                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(24).webp" alt="avatar" width="60"
+                                                            height="60" />
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1">Betty Walker</h6>
+                                                            <div class="d-flex align-items-center mb-3">
+                                                            <p class="mb-0">
+                                                                March 30, 2021
+                                                            </p>
+                                                            </div>
+                                                            <p class="mb-0">
+                                                            It uses a dictionary of over 200 Latin words, combined with a handful of
+                                                            model sentence structures, to generate Lorem Ipsum which looks
+                                                            reasonable. The generated Lorem Ipsum is therefore always free from
+                                                            repetition, injected humour, or non-characteristic words etc.
+                                                            </p>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </section>
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-7" role="tabpanel">
