@@ -13,15 +13,16 @@ module.exports = {
             let data = await db_connection.query(`
                 SELECT *
                 FROM "users"
+                WHERE isadmin = false OR isadmin IS NULL
             `);
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 return data;
             }
 
             return null;
         } catch (error) {
-            throw error;            
+            throw error;
         } finally {
             db_connection.done();
         }
@@ -39,14 +40,14 @@ module.exports = {
                 INSERT INTO "users" (username, password, email, fullname, avatar, phonenumber, address)
                 VALUES ($1, $2, $3, $4, $5, $6, $7)
                 RETURNING *;
-            `, 
-            [newUser.username, newUser.password, newUser.email, newUser.fullname, 
+            `,
+                [newUser.username, newUser.password, newUser.email, newUser.fullname,
                 newUser.avatar, newUser.phonenumber, newUser.address]
             );
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 return data[0];
-            } 
+            }
 
             return null;
         } catch (error) {
@@ -66,20 +67,20 @@ module.exports = {
                 SELECT *
                 FROM "users"
                 WHERE username = $1
-            `, 
-            [username]);
+            `,
+                [username]);
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 data = data[0];
                 let state = await bcrypt.compare(password, data.password);
-                if(state) {
+                if (state) {
                     return data;
                 } else {
                     return null;
                 }
             }
 
-            
+
             return null;
 
 
@@ -100,10 +101,10 @@ module.exports = {
                 SELECT *
                 FROM "users"
                 WHERE id = $1
-            `, 
-            [userID]);
+            `,
+                [userID]);
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 data = data[0];
                 return data;
             }
@@ -127,10 +128,10 @@ module.exports = {
                 SELECT *
                 FROM "users"
                 WHERE username = $1
-            `, 
-            [username]);
+            `,
+                [username]);
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 data = data[0];
                 return data;
             }
