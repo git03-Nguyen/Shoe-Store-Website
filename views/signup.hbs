@@ -3,7 +3,7 @@
 
     <label for="username" class="form-label">
         Username:
-        {{!-- <span class="hidden-error">Error: The username is already existed</span> --}}
+        <span class="hidden-error">Error: The username is already existed</span>
     </label>
     <div class="input-group">
         <span class="input-group-text" id="basic-addon1">
@@ -57,6 +57,32 @@
             <a href="/user/login" style="color: white !important; text-decoration: none !important;">Login</a>
         </button>
 
-        <button id="signup-submit-btn" type="submit" class="btn btn-primary">Signup</button>
+        <button id="signup-submit-btn" type="button" class="btn btn-primary">Signup</button>
     </div>
 </form>
+
+
+<script>
+     $('#signup-submit-btn').on('click', async (e) => {
+        let userList = await $.ajax({
+            url: '/user/list',
+            method: "GET",
+            dataType: 'json',
+        });
+
+        let inputUsername = $('#username').val();
+
+        let hitFlag = false;
+        for(let i = 0; i < userList.length; i++) {
+            if(userList[i].username == inputUsername) {
+                hitFlag = true;
+            }
+        }
+        if (hitFlag) {
+            $('.hidden-error').addClass('visible');
+        } else {
+            $('.hidden-error').removeClass('visible');
+            $('#signup-form').submit();
+        }
+    });
+</script>

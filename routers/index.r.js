@@ -5,7 +5,12 @@ module.exports = function (app) {
   // "/user/login" "/user/signup" "/user/logout"
   app.use('/user', require('./user.r'));
 
+  // "/auth/google" "/auth/google/callback"
   app.use('/auth', require('./auth.r'));
+
+  // "/profile"
+  app.use('/profile', require('./profile.r'));
+
 
   // "/shop" "/shop-cart" "/shop-favorite" "shop-detail" "shop-checkout"
   app.use('/shop', require('./shop.r'));

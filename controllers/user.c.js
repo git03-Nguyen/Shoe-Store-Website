@@ -1,10 +1,12 @@
 const User = require('../models/user.m');
 const passport = require('passport');
+const path = require('path');
+
 module.exports = {
-    getAllUsers: async (req,  res, next) => {
+    getAllUsers: async (req, res, next) => {
         try {
             let userList = await User.getAllUsers();
-            if(!userList) {
+            if (!userList) {
                 res.status(404).send("There is no user in database !");
             }
 
@@ -15,7 +17,7 @@ module.exports = {
     },
 
     addNewUser: async (req, res, next) => {
-        const {username, password, email, fullname, phonenumber, address} = req.body;
+        const { username, password, email, fullname, phonenumber, address } = req.body;
 
         let newUser = {
             username,
@@ -23,13 +25,13 @@ module.exports = {
             email,
             fullname,
             avatar: "",
-            phonenumber, 
+            phonenumber,
             address,
         };
 
         try {
             let insertedUser = await User.addNewUser(newUser);
-            if(!insertedUser) {
+            if (!insertedUser) {
                 res.status(404).send('Cannot add new user');
             } else {
                 res.redirect('/');
@@ -44,25 +46,49 @@ module.exports = {
         passport.authenticate('local', (err, user, info) => {
             if (err) {
                 console.error("Error:", err);
-                return res.status(500).send("Internal server error");
+                return res.json(null);
             }
 
             if (!user) {
-                return res.render('login', {
-                    errorMessage: 'Invalid username or password !',
-                });
+                return res.json(null);
             }
 
             req.logIn(user, loginErr => {
                 if (loginErr) {
                     console.error("Login Error:", loginErr);
-                    return res.status(500).send("Error logging in");
+                    return res.json(null);
                 }
 
                 console.log("req.user.username: " + req.user?.username);
-                return res.redirect("/");
+                return res.json(req.user);
             });
         })(req, res, next);
 
+    },
+
+    updateGeneralProfile: async (req, res, next) => {
+        try {
+            const data = req.body;
+    
+            console.log("Data from general profile updating: ");
+            console.log(data);
+
+            const avatarExtension = req.file.originalname.split('.').pop();
+            const avatar = `/img/avatars/avatar_${req.user.id}.${avatarExtension}`;
+    
+            let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address, avatar);
+            console.log("Updated user's avatar: " + updatedUser.avatar);
+            
+            res.json(updatedUser);
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    updatePasswordProfile: async (req, res, next) => {
+        const { data } = req.body;
+        
+        let updatedUser = await User.updatePasswordProfile(req.user.id, data.curPassword, data.newPassword);
+        res.json(updatedUser);
     },
 }

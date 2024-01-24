@@ -15,16 +15,38 @@
                 </div>
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
-                        <div class="header__top__links">
-                            {{#if user}}
-                                <a href="/user/logout">Log out</a>
-                            {{else}}
+                        {{#if user}}
+                            <div class="dropdown" style="display: inline-block;">
+                                <a data-mdb-dropdown-init class="user-settings dropdown-toggle d-flex align-items-center hidden-arrow"
+                                    href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+
+                                    {{#if user.avatar}}
+                                        <img src="{{user.avatar}}" class="rounded-circle" height="25">
+                                    {{else}}
+                                        <img src="img/default_avatar.png" class="rounded-circle" height="25">
+                                    {{/if}}
+
+                                    <span style="color: white; margin-left: 10px;">{{user.fullname}}</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                    <li>
+                                        <a class="dropdown-item" href="/profile">My profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Settings</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/user/logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {{else}}
+                            <div class="header__top__links">
                                 <a href="/user/login">Login</a>
-                                <a href="/user/signup">Sign up</a>
-                            {{/if}}
-                            
-                            <a href="#">FAQs</a>
-                        </div>
+                                <a href="/user/signup">Sign up</a>                                
+                                <a href="#">FAQs</a>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -34,7 +56,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-3">
                 <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
-                    <a href="#"><img src="/img/header-logo.png" height="60" alt=""></a>
+                    <a href="/"><img src="/img/header-logo.png" height="60" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">

@@ -18,6 +18,8 @@
 
     {{!-- import toastify css --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    {{!-- JQuery --}}
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="../../css/bootstrap.min.css" type="text/css">
@@ -35,12 +37,7 @@
 </head>
 
 <body>
-
-    {{#if user}}
-        {{> header-trans}}
-    {{else}}
-        {{> header}}
-    {{/if}}
+    {{> header}}
 
     {{{body}}}
 

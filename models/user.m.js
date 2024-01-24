@@ -82,6 +82,26 @@ class User {
         data = User.clone(data);
         return data;
     }
+
+    static async updateGeneralProfile(username, fullname, email, phonenumber, address, avatar) {
+        let data = await DBProvider.updateGeneralProfile(username, fullname, email, phonenumber, address, avatar);
+        if(!data) {
+            return data;
+        }
+        
+        data = User.clone(data);
+        return data;
+    }
+
+    static async updatePasswordProfile(userID, curPassword, newPassword) {
+        let data = await DBProvider.updatePasswordProfile(userID, curPassword, newPassword);
+        if(!data) {
+            return data;
+        }
+        
+        data = User.clone(data);
+        return data;
+    }
 }
 
 module.exports = User;

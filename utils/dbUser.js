@@ -142,4 +142,81 @@ module.exports = {
             db_connection.done();
         }
     },
+
+    updateGeneralProfile: async (username, fullname, email, phonenumber, address, avatar) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET fullname = $1, email = $2, phonenumber = $3, address = $4, avatar = $5
+                WHERE username = $6
+                RETURNING *;
+            `, 
+            [fullname, email, phonenumber, address, avatar, username]);
+
+            if(data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    updatePasswordProfile: async (userID, curPassword, newPassword) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let checkedData = await db_connection.query(`
+                SELECT *
+                FROM "users"
+                WHERE id = $1
+            `, 
+            [userID]);
+
+            if(!checkedData || checkedData.length <= 0) {
+                return null;
+            }
+
+            checkedData = checkedData[0];
+            let state = await bcrypt.compare(curPassword, checkedData.password);
+            if(!state) {
+                console.log(`Incorrect password !`);
+                return null;
+            }
+
+            console.log(`Correct password !`);
+            console.log(`Update password from ${curPassword} to ${newPassword}`);
+
+            newPassword = await bcrypt.hash(newPassword, SALT_ROUND);
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET password = $1
+                WHERE id = $2
+                RETURNING *;
+            `, 
+            [newPassword, userID]);
+
+            if(data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    }
 }
