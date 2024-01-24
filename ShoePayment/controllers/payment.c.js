@@ -1,5 +1,6 @@
 const Account = require('../models/account.m');
 const Admin = require('../models/admin.m');
+const Transaction = require('../models/transaction.m');
 
 module.exports = {
     handlePayment: async (req, res, next) => {
@@ -27,8 +28,15 @@ module.exports = {
 
             isReceived = true;
             //TODO: add to payment transaction
+            let curDate = new Date();
+            let updatedTransaction = await Transaction.addNewTransaction(payment_account_id, curDate, payment_amount)
+            if (!updatedTransaction) {
+                let msg = `ERROR: Failed to add new transaction !`;
+                console.log(msg);
+                return res.send(msg);
+            }
 
-            res.redirect('/');
+            return res.redirect('/');
         } catch (error) {
             next(error);
         }
