@@ -6,8 +6,8 @@
                 <div class="breadcrumb__text">
                     <h4>Shopping Cart</h4>
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
-                        <a href="./shop.html">Shop</a>
+                        <a href="/">Home</a>
+                        <a href="/shop">Shop</a>
                         <span>Shopping Cart</span>
                     </div>
                 </div>
@@ -28,39 +28,21 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Quantity</th>
-                                <th>Total</th>
+                                <th>Size</th>
+                                <th>Color</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__pic">
-                                        <img src="/img/shopping-cart/cart-1.jpg" alt="">
-                                    </div>
-                                    <div class="product__cart__item__text">
-                                        <h6>T-shirt Contrast Pocket</h6>
-                                        <h5>$98.49</h5>
-                                    </div>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="quantity">
-                                        <div class="pro-qty-2">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart__price">$ 30.00</td>
-                                <td class="cart__close"><i class="fa fa-close"></i></td>
-                            </tr>
+                            {{#each cartLists}}
                             <tr>
                                 <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
                                         <img src="/img/shopping-cart/cart-2.jpg" alt="">
                                     </div>
                                     <div class="product__cart__item__text">
-                                        <h6>Diagonal Textured Cap</h6>
-                                        <h5>$98.49</h5>
+                                        <h6>{{this.productName}}</h6>
+                                        <h5>${{this.productPrice}}</h5>
                                     </div>
                                 </td>
                                 <td class="quantity__item">
@@ -70,49 +52,32 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="cart__price">$ 32.50</td>
+                                <td class="cart__size">
+                                    <select id="select-size">
+                                        {{#each sizes}}
+                                        {{#ifEquals this.selected this.index}}
+                                        <option selected value="{{this.size}}">{{this.size}}</option>
+                                        {{else}}
+                                        <option value="{{this.size}}">{{this.size}}</option>
+                                        {{#ifEquals}}
+                                        {{/each}}
+                                    </select>
+                                </td>
+
+                                <td class="cart__color">
+                                    <select id="select-color">
+                                        {{#each colors}}
+                                        {{#ifEquals this.selected this.index}}
+                                        <option selected value="{{this.colorId}}">{{this.colorText}}</option>
+                                        {{else}}
+                                        <option value="{{this.colorId}}">{{this.colorText}}</option>
+                                        {{#ifEquals}}
+                                        {{/each}}
+                                    </select>
+                                </td>
                                 <td class="cart__close"><i class="fa fa-close"></i></td>
                             </tr>
-                            <tr>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__pic">
-                                        <img src="/img/shopping-cart/cart-3.jpg" alt="">
-                                    </div>
-                                    <div class="product__cart__item__text">
-                                        <h6>Basic Flowing Scarf</h6>
-                                        <h5>$98.49</h5>
-                                    </div>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="quantity">
-                                        <div class="pro-qty-2">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart__price">$ 47.00</td>
-                                <td class="cart__close"><i class="fa fa-close"></i></td>
-                            </tr>
-                            <tr>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__pic">
-                                        <img src="/img/shopping-cart/cart-4.jpg" alt="">
-                                    </div>
-                                    <div class="product__cart__item__text">
-                                        <h6>Basic Flowing Scarf</h6>
-                                        <h5>$98.49</h5>
-                                    </div>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="quantity">
-                                        <div class="pro-qty-2">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart__price">$ 30.00</td>
-                                <td class="cart__close"><i class="fa fa-close"></i></td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </div>
@@ -124,7 +89,8 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn update__btn ">
-                            <a href="#" class="custom_hover_bg_light_black"><i class="fa fa-spinner"></i> Update cart</a>
+                            <a href="#" class="custom_hover_bg_light_black"><i class="fa fa-spinner"></i> Update
+                                cart</a>
                         </div>
                     </div>
                 </div>

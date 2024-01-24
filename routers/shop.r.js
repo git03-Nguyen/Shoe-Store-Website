@@ -15,7 +15,7 @@ router.post('/api/post/add-cart', auth.checkAuthenticatedForAddToCart, require('
 router.get('/detail', require('../controllers/shop-detail.c').detail);
 
 // get shop-cart page
-router.get('/cart', (req, res) => { });
+router.get('/cart', (req, res) => { res.render('shop/shop-cart'); });
 
 // get shop-favorite page
 router.get('favorite', (req, res) => { });

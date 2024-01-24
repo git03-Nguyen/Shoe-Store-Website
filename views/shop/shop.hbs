@@ -146,7 +146,9 @@
                             <div class="product__item__text">
                                 <h6>{{this.productName}}</h6>
                                 <a style="color: red !important; cursor: pointer;" class="add-cart"
-                                    tag="{{this.id}}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                                    productid="{{this.id}}" sizes="{{this.productSizes}}"
+                                    colors="{{this.productColors}}"><img src="img/icon/red-shopping-cart.png" alt="">
+                                    Add To Cart</a>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -188,8 +190,14 @@
     // window is ready
     $(document).ready(function () {
         $('.add-cart').click(function () {
-            let productId = parseInt($(this).attr('tag'));
-            handleEventForAddToCart(productId);
+            let colors = $(this).attr('colors');
+            let color = colors.split(',')[0];
+
+            let sizes = $(this).attr('sizes');
+            let size = parseFloat(sizes.split(',')[0]);
+
+            let productId = parseInt($(this).attr('productid'));
+            handleEventForAddToCart(productId, size, color);
         });
 
         $('.product__pagination a').each(function (index) {
@@ -253,7 +261,7 @@
         });
     });
 
-    function handleEventForAddToCart(productId) {
+    function handleEventForAddToCart(productId, size, color) {
         // Get the current URL
         let currentURL = window.location.href;
 
@@ -262,8 +270,8 @@
         let api = url.origin + '/shop/api/post/add-cart';
 
         let formData = {
-            size: null,
-            color: null,
+            size: size,
+            color: color,
             quantity: 1,
             productId: productId,
         };
@@ -343,7 +351,8 @@
                         </div>
                         <div class="product__item__text">
                             <h6>${products[i].productName}</h6>
-                            <a style="color: red !important; cursor: pointer;" class="add-cart" tag="${products[i].id}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                            <a style="color: red !important; cursor: pointer;" class="add-cart" productid="${products[i].id}" sizes="${products[i].productSizes}"
+                                    colors="${products[i].productColors}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
@@ -360,8 +369,14 @@
 
         $("#display-product-cards").html(htmlText);
         $('.add-cart').click(function () {
-            let productId = parseInt($(this).attr('tag'));
-            handleEventForAddToCart(productId);
+            let colors = $(this).attr('colors');
+            let color = colors.split(',')[0];
+
+            let sizes = $(this).attr('sizes');
+            let size = parseFloat(sizes.split(',')[0]);
+
+            let productId = parseInt($(this).attr('productId'));
+            handleEventForAddToCart(productId, size, color);
         });
     }
 
