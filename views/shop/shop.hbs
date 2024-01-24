@@ -172,20 +172,13 @@
 </section>
 <!-- Shop Section End -->
 
-
 {{!-- script here--}}
-<script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous">
-</script>
-
 <script>
     // window is ready
     $(document).ready(function(){
         $('.add-cart').click(function(){
             let productId = parseInt($(this).attr('tag'));
-            HandleEventForAddToCart(productId);
+            handleEventForAddToCart(productId);
         });
 
         $('.product__pagination a').each(function(index){
@@ -250,7 +243,7 @@
         });
     });
 
-    function HandleEventForAddToCart(productId){
+    function handleEventForAddToCart(productId){
         // Get the current URL
         let currentURL = window.location.href;
 
@@ -271,7 +264,7 @@
             // Display data
             success: function(response) {
                 if(response.message === 'Update item successfully' || response.message === 'Update item failed'){
-                    response.message = 'Item added to cart';
+                    response.message = 'Item added to cart!';
                 }
                 
                 Toastify({
