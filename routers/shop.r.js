@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middlewares/auth.mw');
 
 // get shop page
 router.get('/', require('../controllers/shop.c').shop);
@@ -8,7 +9,7 @@ router.get('/', require('../controllers/shop.c').shop);
 router.get('/api/get', require('../controllers/shop.c').shopAPIGet);
 
 // api: post add-cart
-router.post('/api/post/add-cart', require('../controllers/shop.c').shopApiPostAddCart);
+router.post('/api/post/add-cart', auth.checkAuthenticatedForAddToCart, require('../controllers/shop.c').shopApiPostAddCart);
 
 // get shop-detail page
 router.get('/detail', require('../controllers/shop-detail.c').detail);

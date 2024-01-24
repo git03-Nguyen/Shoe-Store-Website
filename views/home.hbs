@@ -113,12 +113,14 @@
                         <span class="label">Best sellers</span>
                         <ul class="product__hover">
                             <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt="Detail"></a></li>
+                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt="Detail"></a>
+                            </li>
                         </ul>
                     </div>
                     <div class="product__item__text">
                         <h6>{{this.productName}}</h6>
-                        <a style="color: red !important; cursor: pointer;" tag="{{this.id}}" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                        <a style="color: red !important; cursor: pointer;" tag="{{this.id}}" class="add-cart"><img
+                                src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -138,12 +140,14 @@
                         <span class="label">New</span>
                         <ul class="product__hover">
                             <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt="Detail"></a></li>
+                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt="Detail"></a>
+                            </li>
                         </ul>
                     </div>
                     <div class="product__item__text">
                         <h6>{{this.productName}}</h6>
-                        <a style="color: red !important; cursor: pointer;" tag="{{this.id}}" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                        <a style="color: red !important; cursor: pointer;" tag="{{this.id}}" class="add-cart"><img
+                                src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -163,12 +167,14 @@
                         <span class="label">Hot sales</span>
                         <ul class="product__hover">
                             <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt="Detail"></a></li>
+                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt="Detail"></a>
+                            </li>
                         </ul>
                     </div>
                     <div class="product__item__text">
                         <h6>{{this.productName}}</h6>
-                        <a style="color: red !important; cursor: pointer;" tag="{{this.tag}}" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                        <a style="color: red !important; cursor: pointer;" tag="{{this.tag}}" class="add-cart"><img
+                                src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -325,14 +331,14 @@
 {{!-- Start script --}}
 <script>
     // window is ready
-    $(document).ready(function(){
-        $('.add-cart').click(function(){
+    $(document).ready(function () {
+        $('.add-cart').click(function () {
             let productId = parseInt($(this).attr('tag'));
             handleEventForAddToCart(productId);
         });
     });
 
-     function handleEventForAddToCart(productId){
+    function handleEventForAddToCart(productId) {
         // Get the current URL
         let currentURL = window.location.href;
 
@@ -351,27 +357,29 @@
             method: "POST",
             data: formData,
             // Display data
-            success: function(response) {
-                if(response.message === 'Update item successfully' || response.message === 'Update item failed'){
+            success: function (response) {
+                console.log("response.message: " + response.message);
+
+                if (response.message === 'Update item successfully' || response.message === 'Update item failed') {
                     response.message = 'Item added to cart!';
                 }
-                
+
                 Toastify({
-                text: response.message,
-                duration: 3000,
-                newWindow: true,
-                close: false,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    width: "250px",
-                    background: "linear-gradient(to right, #00b09b, #96c93d)",
-                },
-                onClick: function(){} // Callback after click
+                    text: response.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: false,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        width: "250px",
+                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    },
+                    onClick: function () { } // Callback after click
                 }).showToast();
             },
-            error: function(error) {
+            error: function (error) {
                 console.log("Error:", error);
             }
         });

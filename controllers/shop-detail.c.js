@@ -4,14 +4,14 @@ module.exports = {
     detail: async (req, res, next) => {
         let id = req.query.id;
         let product = null;
-        
+
         try {
             let temp = parseInt(id);
-            if(temp === null || temp === undefined || isNaN(temp)) return null;
+            if (temp === null || temp === undefined || isNaN(temp)) return null;
             product = await Product.getProductById(temp);
         } catch (error) {
             console.log(error);
-            next(error);            
+            next(error);
         }
 
         // create thumbImageList & create bigImageList
@@ -19,7 +19,7 @@ module.exports = {
         let bigImageList = [];
         let index = 0;
 
-        for(index = 0; index < product.productThumbImages.length; index++){
+        for (index = 0; index < product.productThumbImages.length; index++) {
             let thumbImage = new Object();
             thumbImage.tabId = index + 1;
             thumbImage.image = product.productThumbImages[index];
@@ -40,7 +40,7 @@ module.exports = {
 
         // create sizes
         let sizes = []
-        for(let i = 0; i < product.productSizes.length; i++){
+        for (let i = 0; i < product.productSizes.length; i++) {
             let size = new Object();
             size.index = i;
             size.size = product.productSizes[i];
@@ -49,15 +49,16 @@ module.exports = {
 
         // create colors
         let colors = [];
-        for(let i = 0; i< product.productColors.length; i++){
+        for (let i = 0; i < product.productColors.length; i++) {
             let color = new Object();
             color.index = i;
             color.color = product.productColors[i];
-            colors.push(color);            
+            colors.push(color);
         }
 
         res.render('shop/shop-detail', {
-            status: 'Shop', 
+            user: req.user,
+            status: 'Shop',
             thumbImageList: thumbImageList,
             bigImageList: bigImageList,
             video: video,

@@ -3,18 +3,19 @@ exports.home = async (req, res, next) => {
     try {
         let bestsellers = await Product.getTop08BestSellerProducts();
         let topArrival = await Product.getTop08NewArrivalProducts();
-        let hotsales=await Product.getTop04HotSalesProducts();
+        let hotsales = await Product.getTop04HotSalesProducts();
 
-       //Product of week for sale
-        let productOfWeekForSale=hotsales[0];
+        //Product of week for sale
+        let productOfWeekForSale = hotsales[0];
 
         res.render('home',
-            {   status: "Home",
+            {
                 user: req.user,
+                status: "Home",
                 bestsellers: bestsellers,
                 toparrivals: topArrival,
                 hotsales: hotsales,
-                product_sale:productOfWeekForSale
+                product_sale: productOfWeekForSale
             }
         );
     }

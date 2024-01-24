@@ -1,5 +1,5 @@
 module.exports = {
     contact: (req, res, next) => {
-        res.render('contact', {status: "Contact"});
+        res.render('contact', { user: req.user, status: "Contact" });
     }
 }

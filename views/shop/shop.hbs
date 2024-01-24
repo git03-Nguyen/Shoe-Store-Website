@@ -1,4 +1,4 @@
- <!-- Breadcrumb Section Begin -->
+<!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
     <div class="container">
         <div class="row">
@@ -15,8 +15,8 @@
     </div>
 </section>
 <!-- Breadcrumb Section End -->
- 
- <!-- Shop Section Begin -->
+
+<!-- Shop Section Begin -->
 <section class="shop spad">
     <div class="container">
         <div class="row">
@@ -26,7 +26,7 @@
                         <form action="/shop" method="get">
                             <input type="text" placeholder="Search..." name="keyword">
                             <input type="text" placeholder="Search..." name="page" value="1" style="display: none;">
-                            <button type="submit"><img src="/img/icon/search.png"/></button>
+                            <button type="submit"><img src="/img/icon/search.png" /></button>
                         </form>
                     </div>
                     <div class="shop__sidebar__accordion">
@@ -40,7 +40,8 @@
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
                                                 {{#each categories}}
-                                                    <li><a href="/shop?category={{this.categoryName}}&page=1" tag="{{this}}">{{this.categoryName}}</a></li>
+                                                <li><a href="/shop?category={{this.categoryName}}&page=1"
+                                                        tag="{{this}}">{{this.categoryName}}</a></li>
                                                 {{/each}}
                                             </ul>
                                         </div>
@@ -56,7 +57,8 @@
                                         <div class="shop__sidebar__brand">
                                             <ul>
                                                 {{#each brands}}
-                                                    <li><a href="/shop?brand={{this}}&page=1" tag="{{this}}">{{this}}</a></li>
+                                                <li><a href="/shop?brand={{this}}&page=1" tag="{{this}}">{{this}}</a>
+                                                </li>
                                                 {{/each}}
                                             </ul>
                                         </div>
@@ -72,7 +74,8 @@
                                         <div class="shop__sidebar__gender">
                                             <ul>
                                                 {{#each genders}}
-                                                    <li><a href="/shop?gender={{this}}&page=1" tag="{{this}}">{{this}}</a></li>
+                                                <li><a href="/shop?gender={{this}}&page=1" tag="{{this}}">{{this}}</a>
+                                                </li>
                                                 {{/each}}
                                             </ul>
                                         </div>
@@ -87,12 +90,18 @@
                                     <div class="card-body">
                                         <div class="shop__sidebar__price">
                                             <ul>
-                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="0" endPrice="50">$0.00 - $50.00</a></li>
-                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="50" endPrice="100">$50.00 - $100.00</a></li>
-                                                <li><a href="/shop?startPrice=100&endPrice=150&page=1" startPrice="100" endPrice="150">$100.00 - $150.00</a></li>
-                                                <li><a href="/shop?startPrice=150&endPrice=200&page=1" startPrice="150" endPrice="200"> $150.00 - $200.00</a></li>
-                                                <li><a href="/shop?startPrice=200&endPrice=250&page=1" startPrice="200" endPrice="250">$200.00 - $250.00</a></li>
-                                                <li><a href="/shop?startPrice=250&endPrice=infinity&page=1" startPrice="250" endPrice="+infinity">250.00+</a></li>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="0"
+                                                        endPrice="50">$0.00 - $50.00</a></li>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="50"
+                                                        endPrice="100">$50.00 - $100.00</a></li>
+                                                <li><a href="/shop?startPrice=100&endPrice=150&page=1" startPrice="100"
+                                                        endPrice="150">$100.00 - $150.00</a></li>
+                                                <li><a href="/shop?startPrice=150&endPrice=200&page=1" startPrice="150"
+                                                        endPrice="200"> $150.00 - $200.00</a></li>
+                                                <li><a href="/shop?startPrice=200&endPrice=250&page=1" startPrice="200"
+                                                        endPrice="250">$200.00 - $250.00</a></li>
+                                                <li><a href="/shop?startPrice=250&endPrice=infinity&page=1"
+                                                        startPrice="250" endPrice="+infinity">250.00+</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -124,44 +133,46 @@
                 </div>
                 <div id="display-product-cards" class="row">
                     {{#each allProducts}}
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg rounded-3" data-setbg="{{this.productImage}}">
-                                    <ul class="product__hover">
-                                        <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                        <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt=""></a></li>
-                                    </ul>
-                                </div>           
-                                
-                                <div class="product__item__text">
-                                    <h6>{{this.productName}}</h6>
-                                    <a style="color: red !important; cursor: pointer;" class="add-cart" tag="{{this.id}}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </div>
-                                    <h5>${{this.productPrice}}</h5>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg rounded-3" data-setbg="{{this.productImage}}">
+                                <ul class="product__hover">
+                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                    <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt=""></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="product__item__text">
+                                <h6>{{this.productName}}</h6>
+                                <a style="color: red !important; cursor: pointer;" class="add-cart"
+                                    tag="{{this.id}}"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
                                 </div>
+                                <h5>${{this.productPrice}}</h5>
                             </div>
                         </div>
+                    </div>
                     {{/each}}
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__pagination">
                             {{#each pages}}
-                                {{#ifEquals ../currentPage this}}
-                                    <a href="#" class="active">{{this}}</a>
-                                {{else}}
-                                    {{#ifEquals this '...'}}
-                                        <span>{{this}}</span>
-                                    {{else}}
-                                        <a href="#">{{this}}</a>
-                                    {{/ifEquals}}
-                                {{/ifEquals}}                           
+                            {{#ifEquals ../currentPage this}}
+                            <a href="#" class="active">{{this}}</a>
+                            {{else}}
+                            {{#ifEquals this '...'}}
+                            <span>{{this}}</span>
+                            {{else}}
+                            <a href="#">{{this}}</a>
+                            {{/ifEquals}}
+                            {{/ifEquals}}
                             {{/each}}
                         </div>
                     </div>
@@ -175,33 +186,32 @@
 {{!-- script here--}}
 <script>
     // window is ready
-    $(document).ready(function(){
-        $('.add-cart').click(function(){
+    $(document).ready(function () {
+        $('.add-cart').click(function () {
             let productId = parseInt($(this).attr('tag'));
             handleEventForAddToCart(productId);
         });
 
-        $('.product__pagination a').each(function(index){
+        $('.product__pagination a').each(function (index) {
             let page = 1;
             page = parseInt($(this).text());
 
-            $(this).click(function(){
-               handleEventForPagination(page);
+            $(this).click(function () {
+                handleEventForPagination(page);
             });
         });
 
-        $(".nice-select .list").children().each(function(index){
+        $(".nice-select .list").children().each(function (index) {
             let value = $(this).html();
-            $(this).click(function(){
+            $(this).click(function () {
                 let order = null;
-                if(value == "None")
-                {
+                if (value == "None") {
                     order = null;
                 }
-                else if(value == "High To Low"){
+                else if (value == "High To Low") {
                     order = "DESC";
                 }
-                else if(value == "Low To High"){
+                else if (value == "Low To High") {
                     order = "ASC";
                 }
 
@@ -210,11 +220,11 @@
 
                 // Create a URL object
                 let url = new URL(currentURL);
-                
-                if(order !== null){
+
+                if (order !== null) {
                     url.searchParams.set('order', order);
                 }
-                else{
+                else {
                     url.searchParams.delete('order');
                 }
 
@@ -230,12 +240,12 @@
                     method: "GET",
                     dataType: "json",
                     // Display data
-                    success: function(data) {
+                    success: function (data) {
                         displayProductCards(data.allProducts);
                         createPagination(data.currentPage, data.pages);
                         updateShowingResult(data.startNumber, data.endNumber, data.productsNumber);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         console.log("Error:", error);
                     }
                 });
@@ -243,7 +253,7 @@
         });
     });
 
-    function handleEventForAddToCart(productId){
+    function handleEventForAddToCart(productId) {
         // Get the current URL
         let currentURL = window.location.href;
 
@@ -262,40 +272,40 @@
             method: "POST",
             data: formData,
             // Display data
-            success: function(response) {
-                if(response.message === 'Update item successfully' || response.message === 'Update item failed'){
+            success: function (response) {
+                if (response.message === 'Update item successfully' || response.message === 'Update item failed') {
                     response.message = 'Item added to cart!';
                 }
-                
+
                 Toastify({
-                text: response.message,
-                duration: 3000,
-                newWindow: true,
-                close: false,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    width: "250px",
-                    background: "linear-gradient(to right, #00b09b, #96c93d)",
-                },
-                onClick: function(){} // Callback after click
+                    text: response.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: false,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        width: "250px",
+                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    },
+                    onClick: function () { } // Callback after click
                 }).showToast();
             },
-            error: function(error) {
+            error: function (error) {
                 console.log("Error:", error);
             }
         });
     }
 
-    function handleEventForPagination(page){
+    function handleEventForPagination(page) {
         // Get the current URL
         let currentURL = window.location.href;
 
         // Create a URL object
         let url = new URL(currentURL);
         url.searchParams.set('page', page);
-        
+
         // API
         let api = url.origin + url.pathname + '/api/get' + url.search;
 
@@ -307,21 +317,21 @@
             method: "GET",
             dataType: "json",
             // Display data
-            success: function(data) {
+            success: function (data) {
                 displayProductCards(data.allProducts);
                 createPagination(data.currentPage, data.pages);
                 updateShowingResult(data.startNumber, data.endNumber, data.productsNumber);
             },
-            error: function(error) {
+            error: function (error) {
                 console.log("Error:", error);
             }
         });
     }
 
-    function displayProductCards(products){
+    function displayProductCards(products) {
         let htmlText = '';
-        
-        for(let i = 0; i < products.length; i++){
+
+        for (let i = 0; i < products.length; i++) {
             htmlText += `
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item">
@@ -349,16 +359,16 @@
         }
 
         $("#display-product-cards").html(htmlText);
-        $('.add-cart').click(function(){
+        $('.add-cart').click(function () {
             let productId = parseInt($(this).attr('tag'));
-            HandleEventForAddToCart(productId);
+            handleEventForAddToCart(productId);
         });
     }
 
-    function createPagination(currentPage, pages){
+    function createPagination(currentPage, pages) {
         $(".product__pagination").html('');
-        for(let i = 0; i < pages.length; i++){
-            if (pages[i] == '...'){
+        for (let i = 0; i < pages.length; i++) {
+            if (pages[i] == '...') {
                 let span = document.createElement('span');
                 span.innerHTML = pages[i];
                 $(".product__pagination").append($(span));
@@ -368,11 +378,11 @@
             let a = document.createElement('a');
             a.href = "#";
             a.innerHTML = pages[i];
-            $(a).click(function() {
-                addEventForPagination(parseInt(pages[i]));
+            $(a).click(function () {
+                handleEventForPagination(parseInt(pages[i]));
             });
 
-            if(pages[i] == currentPage){
+            if (pages[i] == currentPage) {
                 console.log()
                 $(a).addClass('active');
             }
@@ -381,7 +391,7 @@
         }
     }
 
-    function updateShowingResult(startNumber, endNumber, productsNumber){
+    function updateShowingResult(startNumber, endNumber, productsNumber) {
         $('#showing-result').html(`<p>Showing ${startNumber}–${endNumber} of ${productsNumber} results</p>`);
     }
 
