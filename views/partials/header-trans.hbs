@@ -21,8 +21,8 @@
                                 href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
 
                                 {{!-- <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
-                                    height="25" alt="Black and White Portrait of a Man" loading="lazy"/> --}}
-                                    <img src="../../img/default_avatar.png" alt="Default avatar" loading="lazy" 
+                                    height="25" alt="Black and White Portrait of a Man" loading="lazy" /> --}}
+                                <img src="../../img/default_avatar.png" alt="Default avatar" loading="lazy"
                                     class="rounded-circle" height="25">
 
                                 <span style="color: white; margin-left: 10px;">{{user.fullname}}</span>
@@ -55,27 +55,27 @@
                 <nav class="header__menu mobile-menu">
                     <ul>
                         {{#ifEquals status "Home"}}
-                            <li class="active"><a href="/">Home</a></li>
+                        <li class="active"><a href="/">Home</a></li>
                         {{else}}
-                            <li><a href="/">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         {{/ifEquals}}
 
                         {{#ifEquals status "Shop"}}
-                            <li class="active"><a href="/shop?page=1">Shop</a></li>
+                        <li class="active"><a href="/shop?page=1">Shop</a></li>
                         {{else}}
-                            <li><a href="/shop?page=1">Shop</a></li>
+                        <li><a href="/shop?page=1">Shop</a></li>
                         {{/ifEquals}}
 
                         {{#ifEquals status "Contact"}}
-                            <li class="active"><a href="/contact">Contact</a></li>
+                        <li class="active"><a href="/contact">Contact</a></li>
                         {{else}}
-                            <li><a href="/contact">Contact</a></li>
+                        <li><a href="/contact">Contact</a></li>
                         {{/ifEquals}}
 
                         {{#ifEquals status "About Us"}}
-                            <li class="active"><a href="/about">About Us</a></li>
+                        <li class="active"><a href="/about">About Us</a></li>
                         {{else}}
-                            <li><a href="/about">About Us</a></li>
+                        <li><a href="/about">About Us</a></li>
                         {{/ifEquals}}
                     </ul>
                 </nav>
@@ -83,7 +83,7 @@
             <div class="col-lg-3 col-md-3">
                 <div class="header__nav__option">
                     <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-                    <a href="#"><img src="/img/icon/shopping-cart.png" alt=""></a>
+                    <a href="/shop/cart"><img src="/img/icon/shopping-cart.png" alt=""></a>
                 </div>
             </div>
         </div>

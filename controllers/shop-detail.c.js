@@ -7,7 +7,7 @@ module.exports = {
 
         try {
             let temp = parseInt(id);
-            if (temp === null || temp === undefined || isNaN(temp)) return null;
+            if (temp === null || temp === undefined || isNaN(temp)) res.end();
             product = await Product.getProductById(temp);
         } catch (error) {
             console.log(error);

@@ -16,36 +16,37 @@
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         {{#if user}}
-                            <div class="dropdown" style="display: inline-block;">
-                                <a data-mdb-dropdown-init class="user-settings dropdown-toggle d-flex align-items-center hidden-arrow"
-                                    href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+                        <div class="dropdown" style="display: inline-block;">
+                            <a data-mdb-dropdown-init
+                                class="user-settings dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                                id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
 
-                                    {{#if user.avatar}}
-                                        <img src="{{user.avatar}}" class="rounded-circle" height="25">
-                                    {{else}}
-                                        <img src="img/default_avatar.png" class="rounded-circle" height="25">
-                                    {{/if}}
+                                {{#if user.avatar}}
+                                <img src="{{user.avatar}}" class="rounded-circle" height="25">
+                                {{else}}
+                                <img src="img/default_avatar.png" class="rounded-circle" height="25">
+                                {{/if}}
 
-                                    <span style="color: white; margin-left: 10px;">{{user.fullname}}</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                    <li>
-                                        <a class="dropdown-item" href="/profile">My profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="/user/logout">Logout</a>
-                                    </li>
-                                </ul>
-                            </div>
+                                <span style="color: white; margin-left: 10px;">{{user.fullname}}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                <li>
+                                    <a class="dropdown-item" href="/profile">My profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/user/logout">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
                         {{else}}
-                            <div class="header__top__links">
-                                <a href="/user/login">Login</a>
-                                <a href="/user/signup">Sign up</a>                                
-                                <a href="#">FAQs</a>
-                            </div>
+                        <div class="header__top__links">
+                            <a href="/user/login">Login</a>
+                            <a href="/user/signup">Sign up</a>
+                            <a href="#">FAQs</a>
+                        </div>
                         {{/if}}
                     </div>
                 </div>
@@ -62,28 +63,28 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                       {{#ifEquals status "Home"}}
-                            <li class="active"><a href="/">Home</a></li>
+                        {{#ifEquals status "Home"}}
+                        <li class="active"><a href="/">Home</a></li>
                         {{else}}
-                            <li><a href="/">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         {{/ifEquals}}
 
                         {{#ifEquals status "Shop"}}
-                            <li class="active"><a href="/shop?page=1">Shop</a></li>
+                        <li class="active"><a href="/shop?page=1">Shop</a></li>
                         {{else}}
-                            <li><a href="/shop?page=1">Shop</a></li>
+                        <li><a href="/shop?page=1">Shop</a></li>
                         {{/ifEquals}}
 
                         {{#ifEquals status "Contact"}}
-                            <li class="active"><a href="/contact">Contact</a></li>
+                        <li class="active"><a href="/contact">Contact</a></li>
                         {{else}}
-                            <li><a href="/contact">Contact</a></li>
+                        <li><a href="/contact">Contact</a></li>
                         {{/ifEquals}}
 
                         {{#ifEquals status "About Us"}}
-                            <li class="active"><a href="/about">About Us</a></li>
+                        <li class="active"><a href="/about">About Us</a></li>
                         {{else}}
-                            <li><a href="/about">About Us</a></li>
+                        <li><a href="/about">About Us</a></li>
                         {{/ifEquals}}
                     </ul>
                 </nav>
@@ -91,7 +92,7 @@
             <div class="col-lg-3 col-md-3">
                 <div class="header__nav__option">
                     <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-                    <a href="#"><img src="/img/icon/shopping-cart.png" alt=""></a>
+                    <a href="/shop/cart"><img src="/img/icon/shopping-cart.png" alt=""></a>
                 </div>
             </div>
         </div>

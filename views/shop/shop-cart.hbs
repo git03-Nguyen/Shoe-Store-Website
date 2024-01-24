@@ -38,7 +38,7 @@
                             <tr>
                                 <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
-                                        <img src="/img/shopping-cart/cart-2.jpg" alt="">
+                                        <img src="{{this.productImage}}" alt="">
                                     </div>
                                     <div class="product__cart__item__text">
                                         <h6>{{this.productName}}</h6>
@@ -48,30 +48,30 @@
                                 <td class="quantity__item">
                                     <div class="quantity">
                                         <div class="pro-qty-2">
-                                            <input type="text" value="1">
+                                            <input type="text" value="{{this.quantity}}">
                                         </div>
                                     </div>
                                 </td>
                                 <td class="cart__size">
                                     <select id="select-size">
-                                        {{#each sizes}}
-                                        {{#ifEquals this.selected this.index}}
+                                        {{#each this.sizes}}
+                                        {{#ifEquals ../selectedSizeIndex this.index}}
                                         <option selected value="{{this.size}}">{{this.size}}</option>
                                         {{else}}
                                         <option value="{{this.size}}">{{this.size}}</option>
-                                        {{#ifEquals}}
+                                        {{/ifEquals}}
                                         {{/each}}
                                     </select>
                                 </td>
 
                                 <td class="cart__color">
                                     <select id="select-color">
-                                        {{#each colors}}
-                                        {{#ifEquals this.selected this.index}}
+                                        {{#each this.colors}}
+                                        {{#ifEquals ../selectedColorIndex this.index}}
                                         <option selected value="{{this.colorId}}">{{this.colorText}}</option>
                                         {{else}}
                                         <option value="{{this.colorId}}">{{this.colorText}}</option>
-                                        {{#ifEquals}}
+                                        {{/ifEquals}}
                                         {{/each}}
                                     </select>
                                 </td>
