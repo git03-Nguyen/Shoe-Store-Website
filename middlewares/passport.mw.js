@@ -11,35 +11,38 @@ const User = require('../models/user.m');
 passport.use(new LocalStrategy(
     async (username, password, done) => {
         try {
-        const user = await User.getUserByLogin(username, password);
-        if (!user) {
-            return done(null, false, {message: 'Invalid username or password'});
-        }
+            const user = await User.getUserByLogin(username, password);
+            if (!user) {
+                return done(null, false, { message: 'Invalid username or password' });
+            }
 
-        return done(null, user);
+            return done(null, user);
         } catch (error) {
-        return done(error);
+            return done(error);
         }
     }
 ));
 
 // Google strategy
 passport.use(new GoogleStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: process.env.REDIRECT_URI,
-    },
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: process.env.REDIRECT_URI,
+},
     async (accessToken, refreshToken, profile, done) => {
         try {
-            let user = await User.getUserByLogin(profile.displayName, profile.id);
-            if(!user) {
+            let userEmail = profile.emails[0].value;
+            userEmail = userEmail.split('@')[0];
+
+            let user = await User.getUserByLogin(userEmail, profile.id);
+            if (!user) {
                 //add new user
 
                 let userInfo = {
-                    username: profile.displayName,
+                    username: userEmail,
                     password: profile.id,
                     email: profile.emails[0].value,
-                    fullname: profile.name.familyName + " " + profile.name.givenName,
+                    fullname: profile.displayName,
                     avatar: profile.photos[0].value,
                 }
 
