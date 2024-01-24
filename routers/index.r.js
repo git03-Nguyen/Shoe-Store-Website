@@ -1,3 +1,6 @@
+const { checkAdmin } = require('../utils/admin');
+
+
 module.exports = function (app) {
   // "/"
   app.use('/', require('./home.r'));
@@ -20,4 +23,8 @@ module.exports = function (app) {
 
   // "/contact"
   app.use("/contact", require("./contact.r"));
+
+  // "/admin"
+  app.use("/admin", checkAdmin, require("./admin.r"));
+
 }
