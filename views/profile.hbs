@@ -16,7 +16,7 @@
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-social-links">Social links</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-connections">Connections</a>
+                        href="#account-connections">Payment connections</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-notifications">Notifications</a>
                 </div>
@@ -105,7 +105,8 @@
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fa-solid fa-key"></i>
                                 </span>
-                                <input type="password" required class="form-control" name="cur_password" id="cur_password">
+                                <input type="password" required class="form-control" name="cur_password"
+                                    id="cur_password">
                             </div>
 
                             <label for="new_password" class="form-label">New password: </label>
@@ -113,7 +114,8 @@
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fa-solid fa-key"></i>
                                 </span>
-                                <input type="password" required class="form-control" name="new_password" id="new_password">
+                                <input type="password" required class="form-control" name="new_password"
+                                    id="new_password">
                             </div>
 
                             <label for="retype_password" class="form-label">Retype password: </label>
@@ -121,9 +123,10 @@
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fa-solid fa-key"></i>
                                 </span>
-                                <input type="password" required class="form-control" name="retype_password" id="retype_password">
+                                <input type="password" required class="form-control" name="retype_password"
+                                    id="retype_password">
                             </div>
-                        
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="account-info">
@@ -184,32 +187,37 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="tab-pane fade" id="account-connections">
                         <div class="card-body">
-                            <button type="button" class="btn btn-twitter">Connect to
-                                <strong>Twitter</strong></button>
+                            <a type="button" class="btn btn-twitter" href="https://localhost:4000">Connect to
+                                <strong>Payment system</strong>
+                            </a>
                         </div>
+                        {{#if userBalance}}
+                        <label for="balance" class="form-label">
+                            Balance:
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa-solid fa-credit-card"></i>
+                            </span>
+                            <input type="text" required class="form-control" name="balance" id="balance"
+                                value="{{userBalance}}" readonly>
+                        </div>
+                        {{else}}
+                        <h3>🧧🧧🧧Super gift !!! Ends on January 30th, 2024.</h3>
+                        <h4>🎁🎁🎁You don't have any account in our payment system.
+                            Make a new one to get 1000$ for free !
+                        </h4>
+                        <a type="button" class="btn btn-primary"
+                            href="https://localhost:4000/create?accountID={{user.id}}">Click here</a>
+                        {{/if}}
+
                         <hr class="border-light m-0">
-                        <div class="card-body">
-                            <h5 class="mb-2">
-                                <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i
-                                        class="ion ion-md-close"></i> Remove</a>
-                                <i class="ion ion-logo-google text-google"></i>
-                                You are connected to Google:
-                            </h5>
-                            <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                data-cfemail="f9979498818e9c9595b994989095d79a9694">[email&#160;protected]</a>
-                        </div>
-                        <hr class="border-light m-0">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-facebook">Connect to
-                                <strong>Facebook</strong></button>
-                        </div>
-                        <hr class="border-light m-0">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-instagram">Connect to
-                                <strong>Instagram</strong></button>
-                        </div>
+
+
                     </div>
                     <div class="tab-pane fade" id="account-notifications">
                         <div class="card-body pb-2">
@@ -285,7 +293,7 @@
             </div>
             <div class="text-right mt-3 mb-3">
                 <button type="button" class="btn btn-primary" id="submit-profile-btn">Save changes</button>&nbsp;
-                <button type="button" class="btn btn-default">Cancel</button>
+                <a type="button" class="btn btn-default" href="/">Cancel</a>
             </div>
         </div>
     </div>
@@ -323,7 +331,7 @@
             data: data
         });
 
-        if(updatedUser) {
+        if (updatedUser) {
             window.location.replace('https://localhost:3000/profile')
         } else {
             alert("Username is already existed !");
@@ -338,7 +346,7 @@
 
         let retypePassword = $("#retype_password").val();
 
-        if(data.curPassword == data.newPassword) {
+        if (data.curPassword == data.newPassword) {
             $(".hidden-error").text("The new password cannot be the same as the old password !");
             $(".hidden-error").addClass("visible");
             return;
@@ -349,7 +357,7 @@
         }
 
         $('.hidden-error').removeClass('visible');
-       
+
         let updatedUser = await $.ajax({
             url: "/profile/update/password",
             method: "POST",
@@ -358,7 +366,7 @@
             },
         });
 
-        if(updatedUser) {
+        if (updatedUser) {
             alert("The password is changed SUCCESSFULLY!");
         } else {
             alert("Password change FAILED, keep old password!");
@@ -368,10 +376,10 @@
     $("#submit-profile-btn").on("click", (e) => {
         let chosenSection = getCurrentClickedSection();
 
-        if(confirm(`Are you sure to save changes in the ${chosenSection} section ? You cannot redo that change.`)) {
-            if(chosenSection == "General") {
+        if (confirm(`Are you sure to save changes in the ${chosenSection} section ? You cannot redo that change.`)) {
+            if (chosenSection == "General") {
                 handlePostingGeneralChanges();
-            } else if(chosenSection == "Change password") {
+            } else if (chosenSection == "Change password") {
                 handlePostingPasswordChange();
             }
         }

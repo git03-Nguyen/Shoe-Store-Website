@@ -5,4 +5,6 @@ module.exports = (app) => {
     app.use('/payment', require('./payment.r'));
 
     app.use('/account', require('./account.r'));
+
+    app.use('/api', require('./api.r'));
 }

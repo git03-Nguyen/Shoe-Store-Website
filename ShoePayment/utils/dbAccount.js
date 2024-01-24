@@ -34,7 +34,7 @@ module.exports = {
             let data = await db_connection.query(`
                 SELECT * 
                 FROM accounts
-                WHEERE id = $1
+                WHERE id = $1
             `,
                 [accID]);
 
