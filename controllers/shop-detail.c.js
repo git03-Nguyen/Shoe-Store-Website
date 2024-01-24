@@ -57,6 +57,7 @@ module.exports = {
         }
 
         res.render('shop/shop-detail', {
+            status: 'Shop', 
             thumbImageList: thumbImageList,
             bigImageList: bigImageList,
             video: video,
