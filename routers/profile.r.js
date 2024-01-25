@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const UserController = require('../controllers/user.c');
+const ProfileController = require('../controllers/profile.c');
 const upload = require('../utils/multerUpload/avatarUser.upload');
 
 router.use((req, res, next) => {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         return next();
     }
 
@@ -13,11 +14,7 @@ router.use((req, res, next) => {
 
 
 //GET
-router.get('/', (req, res, next) => {
-    res.render('profile', {
-        user: req.user
-    });
-})
+router.get('/', ProfileController.handleGetProfile);
 
 
 //POST
