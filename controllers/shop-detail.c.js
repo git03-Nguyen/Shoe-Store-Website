@@ -1,14 +1,26 @@
 const Product = require('../models/product.m');
+const MAX_RELATVIE_PRODUCTS = 6;
+
+function min(a, b) {
+    return a < b ? a : b;
+}
 
 module.exports = {
     detail: async (req, res, next) => {
         let id = req.query.id;
         let product = null;
+        let relativeProducts = [];
 
         try {
             let temp = parseInt(id);
             if (temp === null || temp === undefined || isNaN(temp)) res.end();
             product = await Product.getProductById(temp);
+
+            // get relative products
+            let list = await Product.getRelativeProductsByCategoryId(product.categoryId);
+            for (let i = 0; i < min(list.length, MAX_RELATVIE_PRODUCTS); i++) {
+                relativeProducts.push(list[i]);
+            }
         } catch (error) {
             console.log(error);
             next(error);
@@ -56,6 +68,7 @@ module.exports = {
             colors.push(color);
         }
 
+
         res.render('shop/shop-detail', {
             user: req.user,
             status: 'Shop',
@@ -69,6 +82,7 @@ module.exports = {
             productDescription: product.productDescription,
             productAdditionalInformation: product.productAdditionalInformation,
             productId: product.id,
+            relativeProducts: relativeProducts,
         });
     }
 }

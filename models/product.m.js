@@ -1,7 +1,8 @@
 const dbProduct = require('../utils/dbProduct');
+const { getAllCategories } = require('./category.m');
 
 module.exports = class Product {
-    constructor(product){
+    constructor(product) {
         this.id = product.id;
         this.categoryId = product.categoryid;
         this.productName = product.productname;
@@ -25,71 +26,81 @@ module.exports = class Product {
         this.updateDate = product.updatedate;
     }
 
-    static async getAllProductsAtPage(page, pageSize){
+    static async getAllProductsAtPage(page, pageSize) {
         let data = await dbProduct.getAllProductsAtPage(page, pageSize);
 
         let list = [];
-        for(let i = 0; i < data.length; i++){
+        for (let i = 0; i < data.length; i++) {
             list.push(new Product(data[i]));
         }
 
         return list;
     }
 
-    static async getNumberOfProductsAndPages(pageSize){
+    static async getNumberOfProductsAndPages(pageSize) {
         return await dbProduct.getNumberOfProductsAndPages(pageSize);
     }
 
-    static async filterProductsAtPage(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize){
+    static async filterProductsAtPage(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize) {
         let data = await dbProduct.filterProductsAtPage(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize);
 
         let list = [];
-        for(let i = 0; i < data.length; i++){
+        for (let i = 0; i < data.length; i++) {
             list.push(new Product(data[i]));
         }
 
         return list;
     }
 
-    static async filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize){
+    static async filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize) {
         return await dbProduct.filterNumberProductsAndPages(keyword, category, brand, gender, startPrice, endPrice, pageSize);
     }
 
-    static async getAllBrands(){
+    static async getAllBrands() {
         let brands = []
         let data = await dbProduct.getAllBrands();
-        for(let i = 0; i < data.length; i++){
+        for (let i = 0; i < data.length; i++) {
             brands.push(data[i].productbrand);
         }
 
         return brands;
     }
 
-    static async getAllGenders(){
+    static async getAllGenders() {
         let genders = []
         let data = await dbProduct.getAllGenders();
-        for(let i = 0; i < data.length; i++){
+        for (let i = 0; i < data.length; i++) {
             genders.push(data[i].productgender);
         }
 
         return genders;
     }
 
-    static async getProductById(id){
+    static async getRelativeProductsByCategoryId(categoryId) {
+        let list = [];
+        let data = await dbProduct.getRelativeProductsByCategoryId(categoryId);
+        for (let i = 0; i < data.length; i++) {
+            list.push(new Product(data[i]));
+        }
+
+        return list;
+    }
+
+    static async getProductById(id) {
         let data = await dbProduct.getProductById(id);
         return data !== null ? new Product(data) : null;
     }
 
-    static async getTop08BestSellerProducts(){
+    static async getTop08BestSellerProducts() {
         let list = [];
 
-        try{
-            let data= await dbProduct.getTopBestSellerProducts();
-            for(let i = 0; i < data.length; i++){
+        try {
+            let data = await dbProduct.getTopBestSellerProducts();
+            for (let i = 0; i < data.length; i++) {
                 list.push(new Product(data[i]));
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
             throw err;
         }
@@ -97,35 +108,35 @@ module.exports = class Product {
         return list;
     }
 
-    static async getTop08NewArrivalProducts(){
+    static async getTop08NewArrivalProducts() {
         let list = [];
 
-        try{
-            let data=await dbProduct.getTopNewArrivalProducts();
-            for(let i = 0; i < data.length; i++){
+        try {
+            let data = await dbProduct.getTopNewArrivalProducts();
+            for (let i = 0; i < data.length; i++) {
                 list.push(new Product(data[i]));
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
-           throw err;
+            throw err;
         }
 
         return list;
     }
-    
-    static async getTop04HotSalesProducts(){
+
+    static async getTop04HotSalesProducts() {
         let list = [];
 
-        try{
-            let data=await dbProduct.getTopHotSalesProducts();
-            for(let i = 0; i < data.length; i++){
+        try {
+            let data = await dbProduct.getTopHotSalesProducts();
+            for (let i = 0; i < data.length; i++) {
                 list.push(new Product(data[i]));
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
-           throw err;
+            throw err;
         }
 
         return list;

@@ -196,6 +196,19 @@ module.exports = {
         return [res.count, pagesNumber];
     },
 
+    getRelativeProductsByCategoryId: async function (categoryId) {
+        const query = `SELECT * FROM products WHERE categoryId = $1`;
+        const values = [categoryId];
+        let res = [];
+        try {
+            res = await db.any(query, values);
+        } catch (error) {
+            console.error(error);
+        }
+
+        return res;
+    },
+
     getAllBrands: async function () {
         const query = ` SELECT DISTINCT productBrand FROM products GROUP BY productBrand;`;
 

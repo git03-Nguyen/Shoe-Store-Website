@@ -267,70 +267,35 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
+            {{#each relativeProducts}}
+            <div class="col-lg-4 col-md-6 col-sm-6 relative-product">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                        <span class="label">New</span>
+                    <div class="product__item__pic set-bg rounded-3" data-setbg="{{this.productImage}}">
                         <ul class="product__hover">
                             <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                            <li><a href="/shop/detail?id={{this.id}}"><img src="img/icon/search.png" alt=""></a>
+                            </li>
                         </ul>
                     </div>
+
                     <div class="product__item__text">
-                        <h6>Piqué Biker Jacket</h6>
-                        <a href="#" class="add-cart"><img src="img/icon/red-shopping-cart.png" alt=""> Add To Cart</a>
+                        <h6>{{this.productName}}</h6>
+                        <a style="color: red !important; cursor: pointer;" class="add-cart" productid="{{this.id}}"
+                            sizes="{{this.productSizes}}" colors="{{this.productColors}}"><img
+                                src="img/icon/red-shopping-cart.png" alt="">
+                            Add To Cart</a>
                         <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
                             <i class="fa fa-star-o"></i>
                         </div>
-                        <h5>$67.24</h5>
-                        <div class="product__color__select">
-                            <label for="pc-1">
-                                <input type="radio" id="pc-1">
-                            </label>
-                            <label class="active black" for="pc-2">
-                                <input type="radio" id="pc-2">
-                            </label>
-                            <label class="grey" for="pc-3">
-                                <input type="radio" id="pc-3">
-                            </label>
-                        </div>
+                        <h5>${{this.productPrice}}</h5>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Piqué Biker Jacket</h6>
-                        <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$67.24</h5>
-                        <div class="product__color__select">
-                            <label for="pc-4">
-                                <input type="radio" id="pc-4">
-                            </label>
-                            <label class="active black" for="pc-5">
-                                <input type="radio" id="pc-5">
-                            </label>
-                            <label class="grey" for="pc-6">
-                                <input type="radio" id="pc-6">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{/each}}
         </div>
     </div>
 </section>
@@ -339,6 +304,61 @@
 {{!-- Start shop-detail script --}}
 <script>
     $(document).ready(function () {
+        $('.relative-product .add-cart').click(function () {
+            let colors = $(this).attr('colors');
+            let color = colors.split(',')[0];
+
+            let sizes = $(this).attr('sizes');
+            let size = parseFloat(sizes.split(',')[0]);
+
+            let productId = parseInt($(this).attr('productid'));
+
+            // Get the current URL
+            let currentURL = window.location.href;
+
+            // Create a URL object
+            let url = new URL(currentURL);
+            let api = url.origin + '/shop/api/post/add-cart';
+
+            let formData = {
+                size: size,
+                color: color,
+                quantity: 1,
+                productId: productId,
+            };
+
+            $.ajax({
+                url: api,
+                method: "POST",
+                data: formData,
+                // Display data
+                success: function (response) {
+                    if (response.message === 'Update item successfully' || response.message === 'Update item failed') {
+                        response.message = 'Item added to cart!';
+                    }
+
+                    Toastify({
+                        text: response.message,
+                        duration: 3000,
+                        newWindow: true,
+                        close: false,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            width: "250px",
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        },
+                        onClick: function () { } // Callback after click
+                    }).showToast();
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        })
+
+
         $('#btn-add-to-cart').click(function () {
             // Get the current URL
             let currentURL = window.location.href;
