@@ -1,3 +1,4 @@
+const dbDetailOrder = require('../utils/dbOrderDetail');
 
 /*
     id int GENERATED ALWAYS AS IDENTITY,
@@ -19,10 +20,10 @@ module.exports = class OrderDetail {
     }
 
     static async createOrderDetail(orderDetail) {
-        return await dbOrder.createOrderDetail(orderDetail);
+        return await dbDetailOrder.createOrderDetail(orderDetail);
     }
 
     static async removeOrderDetail(id) {
-        return await dbOrder.removeOrderDetail(id);
+        return await dbDetailOrder.removeOrderDetail(id);
     }
 }

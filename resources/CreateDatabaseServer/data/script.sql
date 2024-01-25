@@ -56,8 +56,8 @@ create table orders(
 	orderStatus varchar(100),
 	contactPhone varchar(20),
 	shippingAddress varchar(200),
-	shippingState varchar(100),
-	shippingCity varchar(100),
+	email varchar(200),
+	fullName varchar(200),
 	
 	primary key(id)
 );

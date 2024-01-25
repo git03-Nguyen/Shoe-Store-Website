@@ -11,12 +11,12 @@ const { db, pgp } = require('./dbConfig');
 
 module.exports = {
     createOrderDetail: async function (orderDetail) {
-        const query = `INSERT INTO orderdetail (id, orderId, productId, quantity, color, size)
-            VALUES($1, $2, $3, $4, $5, $6);
+        const query = `INSERT INTO orderdetail (orderId, productId, quantity, color, size)
+            VALUES($1, $2, $3, $4, $5)
+            RETURNING id;
         `;
 
         const values = [
-            orderDetail.id,
             orderDetail.orderId,
             orderDetail.productId,
             orderDetail.quantity,
@@ -24,15 +24,14 @@ module.exports = {
             orderDetail.size
         ];
 
-        let flag = true;
+        let res = -1;
         try {
-            await db.none(query, values);
+            res = await db.one(query, values);
         } catch (error) {
-            flag = false;
             console.error(error);
         }
 
-        return flag;
+        return res;
     },
 
     removeOrderDetail: async function (id) {

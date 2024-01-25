@@ -17,6 +17,9 @@ router.post('/api/post/remove-cart', auth.checkAuthenticatedForRemoveCart, requi
 // api: post remove cartlist
 router.post('/api/post/update-cart', auth.checkAuthenticatedForUpdateCart, require('../controllers/shop.c').shopApiPostUpdateCart);
 
+// api: post order
+router.post('/api/post/order', auth.checkAuthenticatedForOrder, require('../controllers/shop.c').shopApiPostOrder);
+
 // get shop-detail page
 router.get('/detail', require('../controllers/shop-detail.c').detail);
 

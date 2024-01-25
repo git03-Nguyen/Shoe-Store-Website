@@ -9,14 +9,16 @@ const { db, pgp } = require('./dbConfig');
     orderStatus varchar(100),
     contactPhone varchar(20),
     shippingAddress varchar(200),
+    email varchar(200),
 */
 
-
 module.exports = {
+
     createOrder: async function (order) {
         const query = ` INSERT INTO orders(userId, total, orderDate, paymentMethod, 
-            orderStatus, contactPhone, shippingAddress)
-            VALUES($1, $2, $3, $4, $5, $6, $7);
+            orderStatus, contactPhone, shippingAddress, email, fullName)
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING id;
         `;
 
         const values = [
@@ -27,16 +29,17 @@ module.exports = {
             order.orderStatus,
             order.contactPhone,
             order.shippingAddress,
+            order.email,
+            order.fullName,
         ];
-        flag = true;
+        let res = -1;
         try {
-            await db.none(query, values);
+            res = await db.one(query, values);
         } catch (error) {
-            flag = false;
             console.error(error);
         }
 
-        return flag;
+        return res;
     },
 
     removeOrder: async function (id) {

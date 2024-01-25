@@ -29,6 +29,16 @@ module.exports = {
         return res.json(data);
     },
 
+    checkAuthenticatedForOrder: async (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+        let data = new Object();
+        data.message = 'Please login to place order!';
+        return res.json(data);
+    },
+
     checkAuthenticatedRedirectLogin: async (req, res, next) => {
         if (req.isAuthenticated()) {
             return next();

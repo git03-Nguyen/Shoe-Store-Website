@@ -1,6 +1,8 @@
 const Product = require('../models/product.m');
 const Category = require('../models/category.m');
 const CartList = require('../models/cartlist.m');
+const Order = require('../models/order.m');
+const OrderDetail = require('../models/orderdetail.m');
 
 function min(a, b) {
     return a <= b ? a : b;
@@ -258,7 +260,6 @@ module.exports = {
         } catch (error) {
             flag = false;
             console.log(error);
-            return next(error);
         }
 
         let data = new Object();
@@ -267,6 +268,65 @@ module.exports = {
         }
         else {
             data.message = 'Update all items failed';
+        }
+
+        return res.json(data);
+    },
+
+    shopApiPostOrder: async (req, res, next) => {
+        let flag = true;
+        let userId = req.user.id;
+        let fullName = req.body.fullName;
+        let shippingAddress = req.body.shippingAddress;
+        let contactPhone = req.body.contactPhone;
+        let email = req.body.email;
+        let total = req.body.total;
+
+        let order = {
+            userid: userId,
+            fullname: fullName,
+            shippingaddress: shippingAddress,
+            contactphone: contactPhone,
+            email: email,
+            total: total,
+            orderdate: new Date(),
+            paymentmethod: 'Payment Account', // fix data
+            orderstatus: 'Waiting For Payment', // default value
+        };
+
+        try {
+            let orderId = await Order.createOrder(new Order(order));
+            if (orderId.id < 0) {
+                throw new Error('Insert order failed');
+            }
+            order.id = parseInt(orderId.id);
+
+            let cartLists = await CartList.getCartListsByUserId(userId);
+            for (let i = 0; i < cartLists.length; i++) {
+                let orderDetail = {
+                    productid: parseInt(cartLists[i].productId),
+                    orderid: order.id,
+                    quantity: parseInt(cartLists[i].quantity),
+                    size: parseFloat(cartLists[i].size),
+                    color: cartLists[i].color,
+                };
+
+                let temp = await OrderDetail.createOrderDetail(new OrderDetail(orderDetail));
+                if (temp < 0) {
+                    throw new Error('Insert order detail failed!');
+                }
+            }
+        } catch (error) {
+            flag = false;
+            console.log(error);
+        }
+
+        let data = new Object();
+        if (flag) {
+            data.message = 'Checkout successfully';
+        }
+        else {
+            data.message = 'Checkout failed';
         }
 
         return res.json(data);

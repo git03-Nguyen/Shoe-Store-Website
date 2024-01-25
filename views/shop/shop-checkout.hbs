@@ -6,8 +6,8 @@
                 <div class="breadcrumb__text">
                     <h4>Check Out</h4>
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
-                        <a href="./shop.html">Shop</a>
+                        <a href="/">Home</a>
+                        <a href="/shop?page=1">Shop</a>
                         <span>Check Out</span>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="#">
+            <div>
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="coupon__code"><span><i class="fa-solid fa-tag"></i></span> Have a coupon? <a
@@ -30,29 +30,30 @@
                         <h6 class="checkout__title">Billing Details</h6>
                         <div class="checkout__input">
                             <p>Full Name<span>*</span></p>
-                            <input type="text" value="{{fullName}}">
+                            <input id="input-full-name" type="text" value="{{fullName}}">
                         </div>
                         <div class="checkout__input">
                             <p>Address<span>*</span></p>
-                            <input type="text" value="{{shippingAddress}}" class="checkout__input__add">
+                            <input id="input-address" type="text" value="{{shippingAddress}}"
+                                class="checkout__input__add">
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Phone<span>*</span></p>
-                                    <input type="text" value="{{contactPhone}}">
+                                    <input id="input-phone" type="text" value="{{contactPhone}}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" value="{{email}}">
+                                    <input id="input-email" type="text" value="{{email}}">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
-                        <div class="checkout__order">
+                        <div class="checkout__order" tag="{{total}}">
                             <h4 class="order__title">Your order</h4>
                             <div class="checkout__order__products">Product <span>Total</span></div>
                             <ul class="checkout__total__products">
@@ -65,12 +66,96 @@
                                 <li>Subtotal <span>${{subtotal}}</span></li>
                                 <li>Total <span>${{total}}</span></li>
                             </ul>
-                            <button type="submit" class="site-btn custom_hover_bg_light_black">PLACE ORDER</button>
+                            <button id="btn-place-order" type="submit"
+                                class="site-btn custom_hover_bg_light_black">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>
 <!-- Checkout Section End -->
+
+{{!-- Start script --}}
+<script>
+    $(document).ready(function () {
+        $('#btn-place-order').click(function () {
+            try {
+                let fullName = $('#input-full-name').val();
+                let address = $('#input-address').val();
+                let phone = $('#input-phone').val();
+                let email = $('#input-email').val();
+                let total = parseFloat($('.checkout__order').attr('tag'));
+
+                console.log("__address " + address);
+
+                if (fullName === null || fullName === undefined || fullName === '') {
+                    throw new Error('Fullname is empty');
+                }
+
+                if (address === null || address === undefined || address === '') {
+                    throw Error('Address is empty');
+                }
+
+                if (phone === null || phone === undefined || phone === '') {
+                    throw Error('phone is empty');
+                }
+
+                var phoneRegex = /^\d{10}$/;
+                if (!phoneRegex.test(phone)) {
+                    throw Error('Phone is invalid');
+                }
+
+                if (email === null || email === undefined || email === '') {
+                    throw Error('Email is empty');
+                }
+
+                // Get the current URL
+                let currentURL = window.location.href;
+
+                // Create a URL object
+                let url = new URL(currentURL);
+                let api = url.origin + '/shop/api/post/order';
+
+                let formData = {
+                    fullName: fullName,
+                    shippingAddress: address,
+                    contactPhone: phone,
+                    email: email,
+                    total: total,
+                };
+
+                $.ajax({
+                    url: api,
+                    method: "POST",
+                    data: formData,
+                    // Display data
+                    success: function (response) {
+                        Toastify({
+                            text: response.message,
+                            duration: 3000,
+                            newWindow: true,
+                            close: false,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                width: "250px",
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            },
+                            onClick: function () { } // Callback after click
+                        }).showToast();
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+            catch (error) {
+                alert(error);
+            }
+        });
+    });
+</script>
+{{!-- End script --}}

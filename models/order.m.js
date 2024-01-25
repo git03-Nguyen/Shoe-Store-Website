@@ -9,6 +9,7 @@ const dbOrder = require('../utils/dbOrder');
     orderStatus varchar(100),
     contactPhone varchar(20),
     shippingAddress varchar(200),
+    email varchar(200),
 */
 
 module.exports = class Order {
@@ -21,6 +22,8 @@ module.exports = class Order {
         this.orderStatus = order.orderstatus;
         this.contactPhone = order.contactphone;
         this.shippingAddress = order.shippingaddress;
+        this.email = order.email;
+        this.fullName = order.fullname;
     }
 
     static async createOrder(order) {
