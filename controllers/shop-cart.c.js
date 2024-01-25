@@ -5,6 +5,7 @@ module.exports = {
     cart: async (req, res, next) => {
         let userId = req.user.id;
         let cartLists = [];
+        let total = 0;
         try {
             let temp = parseInt(userId);
             if (temp === null || temp === undefined || isNaN(temp)) return res.end();
@@ -13,6 +14,7 @@ module.exports = {
             for (let index = 0; index < cartLists.length; index++) {
                 let value = cartLists[index];
                 let product = await Product.getProductById(value.productId);
+                total += parseFloat(product.productPrice) * parseInt(value.quantity);
                 value.productName = product.productName;
                 value.productPrice = product.productPrice;
                 value.productImage = product.productImage;
@@ -62,10 +64,14 @@ module.exports = {
             next(error);
         }
 
+        total = parseFloat(total.toFixed(2));
+
         return res.render('shop/shop-cart', {
             user: req.user,
             status: 'Shop',
             cartLists: cartLists,
+            subtotal: total,
+            total: total,
         });
     }
 }   

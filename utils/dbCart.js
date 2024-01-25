@@ -1,7 +1,7 @@
-const {db, pgp} = require('./dbConfig');
+const { db, pgp } = require('./dbConfig');
 
 module.exports = {
-    getCartListById: async function(id){
+    getCartListById: async function (id) {
         const query = "SELECT * FROM cartlist WHERE id = $1";
         const values = [id];
         let res = null;
@@ -12,12 +12,12 @@ module.exports = {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                     // Handle the case when no data is found
                     console.log('No data found.');
                 }
-                else{
+                else {
                     console.error(error);
                 }
             }
@@ -26,7 +26,7 @@ module.exports = {
         return res;
     },
 
-    getCartListsByUserId: async function(userId){
+    getCartListsByUserId: async function (userId) {
         const query = "SELECT * FROM cartlist WHERE userId = $1";
         const values = [userId];
         let res = [];
@@ -37,7 +37,7 @@ module.exports = {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
         }
@@ -45,7 +45,7 @@ module.exports = {
         return res;
     },
 
-    getCartListByUserIdAndProductId: async function(userId, productId){
+    getCartListByUserIdAndProductId: async function (userId, productId) {
         const query = "SELECT * FROM cartlist WHERE userId = $1 AND productId = $2";
         const values = [userId, productId];
         let res = null;
@@ -55,8 +55,8 @@ module.exports = {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
-              }
-            else{
+            }
+            else {
                 console.error(error);
             }
         }
@@ -64,7 +64,7 @@ module.exports = {
         return res;
     },
 
-    addCartList: async function (cartList){
+    addCartList: async function (cartList) {
         const query = `INSERT INTO cartlist(userId, productId, quantity, color, size, postingDate)
             VALUES($1, $2, $3, $4, $5, $6)
             ON CONFLICT (userId, productId) DO NOTHING;
@@ -79,10 +79,10 @@ module.exports = {
         ];
 
         let flag = true;
-        try{
+        try {
             await db.none(query, values);
         }
-        catch(error){
+        catch (error) {
             console.error(error);
             flag = false;
         }
@@ -90,7 +90,7 @@ module.exports = {
         return flag;
     },
 
-    updateCartList: async function(cartList){
+    updateCartList: async function (cartList) {
         const query = `UPDATE cartlist
             SET quantity = $1, color = $2, size = $3, postingDate = $4 
             WHERE id = $5;
@@ -113,5 +113,20 @@ module.exports = {
         }
 
         return res;
+    },
+
+    removeCartListById: async function (id) {
+        const query = `DELETE FROM CartList WHERE id = $1`;
+        const values = [id];
+        let flag = true;
+
+        try {
+            await db.none(query, values);
+        } catch (error) {
+            console.log(error);
+            flag = false;
+        }
+
+        return flag;
     }
 }

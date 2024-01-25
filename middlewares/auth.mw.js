@@ -4,10 +4,29 @@ module.exports = {
             return next();
         }
 
-        console.log('middleware')
         let data = new Object();
         data.message = 'Please login to add!';
-        res.json(data);
+        return res.json(data);
+    },
+
+    checkAuthenticatedForRemoveCart: async (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+        let data = new Object();
+        data.message = 'Please login to remove!';
+        return res.json(data);
+    },
+
+    checkAuthenticatedForUpdateCart: async (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+        let data = new Object();
+        data.message = 'Please login to update!';
+        return res.json(data);
     },
 
     checkAuthenticatedForCart: async (req, res, next) => {
@@ -15,9 +34,6 @@ module.exports = {
             return next();
         }
 
-        console.log('middleware')
-        let data = new Object();
-        data.message = 'Please login to add!';
-        res.redirect('/user/login');
+        return res.redirect('/user/login');
     },
 }

@@ -2416,6 +2416,7 @@ ol {
 
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__pic {
 	float: left;
+	width: 100px;
 	margin-right: 30px;
 }
 
@@ -4210,6 +4211,14 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 
 .nice-select {
 	width: 90px;
+}
+
+td.cart__close i {
+	cursor: pointer;
+}
+
+#btn-update-cart {
+	cursor: pointer;
 }
 
 /* .shopping__cart__table table tbody tr td.cart__size {

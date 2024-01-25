@@ -219,5 +219,56 @@ module.exports = {
             console.log(err);
             next(err);
         }
-    }
+    },
+
+    shopApiPostRemoveCart: async (req, res, next) => {
+        try {
+            let id = parseInt(req.body.id);
+            let flag = await CartList.removeCartListById(id);
+            let data = new Object();
+            if (flag) {
+                data.message = 'Remove item succesfully';
+            }
+            else {
+                data.message = 'Remove item failed';
+            }
+
+            res.json(data);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    },
+
+    shopApiPostUpdateCart: async (req, res, next) => {
+        let flag = true;
+        let cartLists = req.body.cartLists;
+        try {
+
+            for (let i = 0; i < cartLists.length; i++) {
+                let cartList = new Object();
+                cartList.id = cartLists[i].id;
+                cartList.size = parseFloat(cartLists[i].size);
+                cartList.color = cartLists[i].color;
+                cartList.quantity = parseInt(cartLists[i].quantity);
+                cartList.postingdate = new Date();
+
+                await CartList.updateCartList(new CartList(cartList));
+            }
+        } catch (error) {
+            flag = false;
+            console.log(error);
+            return next(error);
+        }
+
+        let data = new Object();
+        if (flag) {
+            data.message = 'Update all items successfully';
+        }
+        else {
+            data.message = 'Update all items failed';
+        }
+
+        return res.json(data);
+    },
 }
