@@ -1,5 +1,7 @@
 -- postgresql
--- Name database: SnearkerShopDB
+-- Name database: ShoeStoreDB
+-- Use this version for Website
+
 
 create table admins(
 	id int GENERATED ALWAYS AS IDENTITY,
@@ -24,18 +26,10 @@ create table users(
 	password text not null,
 	email varchar(200),
 	fullName varchar(200),
-	address varchar(200),
 	avatar text,
-	codePhone varchar(5),
-	phoneNumber varchar(20), -- user's number phone
-	contactNumver varchar(20), -- In case: reserver order for somebody.
-	shippingAddress varchar(200), -- In case: reserver order for somebody.
-	shippingState varchar(100), -- In case: reserver order for somebody.
-	shippingCity varchar(100), -- In case: reserver order for somebody.
-	billingAddress varchar(200), -- user's address, I think so.
-	billingState varchar(100), -- user's state, I think so.
-	billingCity varchar(100), -- user's city, I think so.
-	billingPinCode varchar(100), -- user's pincode, I think so.
+	phoneNumber varchar(20),
+	address varchar(200),
+	isAdmin bool,
 	registrationDate timestamp,
 	updationDate timestamp,
 	
@@ -56,13 +50,25 @@ create table categories(
 create table orders(
 	id int GENERATED ALWAYS AS IDENTITY,
 	userId int not null,
+	total real,
+	orderDate timestamp,
+	paymentMethod varchar(100),
+	orderStatus varchar(100),
+	contactPhone varchar(20),
+	shippingAddress varchar(200),
+	shippingState varchar(100),
+	shippingCity varchar(100),
+	
+	primary key(id)
+);
+
+create table orderdetail(
+	id int GENERATED ALWAYS AS IDENTITY,
+	orderId int not null,
 	productId int not null,
 	quantity int check(quantity >= 1) not null,
 	color varchar(100),
 	size real,
-	orderDate timestamp,
-	paymentMethod varchar(100),
-	orderStatus varchar(100),
 	
 	primary key(id)
 );
@@ -171,8 +177,9 @@ create table promotionandproduct(
 );
 
 -- Add foreign key
-alter table orders add foreign key (productId) references products;
 alter table orders add foreign key (userId) references users;
+alter table orderdetail add foreign key (orderId) references orders;
+alter table orderdetail add foreign key (productId) references products;
 alter table ordertrackhistory add foreign key (orderId) references orders;
 alter table productreviews add foreign key (productId) references products;
 alter table productreviews add foreign key (userId) references users;

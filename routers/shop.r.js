@@ -21,12 +21,12 @@ router.post('/api/post/update-cart', auth.checkAuthenticatedForUpdateCart, requi
 router.get('/detail', require('../controllers/shop-detail.c').detail);
 
 // get shop-cart page
-router.get('/cart', auth.checkAuthenticatedForCart, require('../controllers/shop-cart.c').cart);
+router.get('/cart', auth.checkAuthenticatedRedirectLogin, require('../controllers/shop-cart.c').cart);
 
 // get shop-favorite page
 router.get('favorite', (req, res) => { });
 
 // get shop-checkout page
-router.get('/checkout', (req, res) => { res.render('shop/shop-checkout', { status: 'Shop' }); });
+router.get('/checkout', auth.checkAuthenticatedRedirectLogin, require('../controllers/shop-checkout.c').checkout);
 
 module.exports = router;

@@ -1,22 +1,22 @@
 require('dotenv').config();
-const {db, pgp} = require('./dbConfig');
+const { db, pgp } = require('./dbConfig');
 
 module.exports = {
-    getAllProductsAtPage: async function (page, pageSize){
+    getAllProductsAtPage: async function (page, pageSize) {
         const query = `
             SELECT * FROM products
             OFFSET $1 LIMIT $2;
         `;
         let res = [];
-        try{
-            res = await db.any(query, [(page - 1)* pageSize, pageSize]);
+        try {
+            res = await db.any(query, [(page - 1) * pageSize, pageSize]);
         }
-        catch(error){
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
         }
@@ -25,40 +25,39 @@ module.exports = {
     },
 
     // return: the number of products and the number of pages
-    getNumberOfProductsAndPages: async function(pageSize){
+    getNumberOfProductsAndPages: async function (pageSize) {
         const query = `
             SELECT COUNT(*) as count FROM products;
         `
         let res = null;
         let flag = true;
-        try{
+        try {
             res = await db.one(query);
         }
-        catch(error)
-        {
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
-              }
-            else{
+            }
+            else {
                 console.error(error);
             }
             flag = false;
         }
 
-        if(res == null){
+        if (res == null) {
             return [0, 1];
         }
 
         let pagesNumber = 1;
-        if(flag){
-           pagesNumber  = Math.floor((res.count-1) / (pageSize)) + 1;
+        if (flag) {
+            pagesNumber = Math.floor((res.count - 1) / (pageSize)) + 1;
         }
 
         return [res.count, pagesNumber];
     },
 
-    getProductById: async function(id) {
+    getProductById: async function (id) {
         const query = `
             SELECT * FROM products WHERE id = $1;
         `;
@@ -66,15 +65,15 @@ module.exports = {
         let res = null;
         const values = [id];
 
-        try{
-            res = await db.one(query, values); 
+        try {
+            res = await db.one(query, values);
         }
-        catch(error){
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
-              }
-            else{
+            }
+            else {
                 console.error(error);
             }
         }
@@ -82,9 +81,9 @@ module.exports = {
         return res;
     },
 
-    filterProductsAtPage: async function(keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize){
+    filterProductsAtPage: async function (keyword, category, brand, gender, startPrice, endPrice, order, page, pageSize) {
         let query = '';
-        if(order === null || order === undefined){
+        if (order === null || order === undefined) {
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
@@ -95,7 +94,7 @@ module.exports = {
                 OFFSET $8 LIMIT $9;
             `;
         }
-        else if(order.toLowerCase() === 'asc'){
+        else if (order.toLowerCase() === 'asc') {
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
@@ -107,7 +106,7 @@ module.exports = {
                 OFFSET $8 LIMIT $9;
             `;
         }
-        else if(order.toLowerCase() === 'desc'){
+        else if (order.toLowerCase() === 'desc') {
             query = `
                 SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id 
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
@@ -123,25 +122,25 @@ module.exports = {
         const values = [
             keyword,
             `%${keyword}%`,
-            category, 
+            category,
             brand,
-            gender, 
-            startPrice, 
+            gender,
+            startPrice,
             endPrice,
-            (page-1)*pageSize,
+            (page - 1) * pageSize,
             pageSize
         ];
-        
+
         let res = [];
-        try{
+        try {
             res = await db.any(query, values);
         }
-        catch(error){
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
         }
@@ -149,7 +148,7 @@ module.exports = {
         return res;
     },
 
-    filterNumberProductsAndPages: async function(keyword, category, brand, gender, startPrice, endPrice, pageSize){
+    filterNumberProductsAndPages: async function (keyword, category, brand, gender, startPrice, endPrice, pageSize) {
         let query = `
                 SELECT COUNT(*) AS count FROM products AS p join categories AS c ON p.categoryId = c.id
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
@@ -162,46 +161,45 @@ module.exports = {
         let res = null;
         const values = [
             keyword,
-            `%${keyword}%`, 
-            category, 
+            `%${keyword}%`,
+            category,
             brand,
             gender,
-            startPrice, 
+            startPrice,
             endPrice
         ];
         let flag = true;
-        try{
+        try {
             res = await db.one(query, values);
         }
-        catch(error)
-        {
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
             flag = false;
         }
 
-        
-        if(res == null){
+
+        if (res == null) {
             return [0, 1];
         }
 
         let pagesNumber = 1;
-        if(flag){
-        pagesNumber  = parseInt((res.count-1) / (pageSize)) + 1;
+        if (flag) {
+            pagesNumber = parseInt((res.count - 1) / (pageSize)) + 1;
         }
 
         return [res.count, pagesNumber];
     },
 
-    getAllBrands: async function(){
+    getAllBrands: async function () {
         const query = ` SELECT DISTINCT productBrand FROM products GROUP BY productBrand;`;
 
-        let res= [];
+        let res = [];
         try {
             res = await db.any(query);
         } catch (error) {
@@ -209,7 +207,7 @@ module.exports = {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
         }
@@ -217,10 +215,10 @@ module.exports = {
         return res;
     },
 
-    getAllGenders: async function(){
+    getAllGenders: async function () {
         const query = ` SELECT DISTINCT productGender FROM products GROUP BY productGender;`;
 
-        let res= [];
+        let res = [];
         try {
             res = await db.any(query);
         } catch (error) {
@@ -228,7 +226,7 @@ module.exports = {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
         }
@@ -236,54 +234,54 @@ module.exports = {
         return res;
     },
 
-    getTopBestSellerProducts: async ()=>{
-        try{
-            let sql=`SELECT * FROM products where productprice::numeric>=50 and productprice::numeric<=100 order by productprice::numeric desc limit 8`;
+    getTopBestSellerProducts: async () => {
+        try {
+            let sql = `SELECT * FROM products where productprice::numeric>=50 and productprice::numeric<=100 order by productprice::numeric desc limit 8`;
             let result = await db.any(sql);
             return result;
         }
-        catch(error){
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
             return [];
         }
     },
 
-    getTopNewArrivalProducts: async ()=>{
-        try{
-            let sql=`SELECT * FROM products order by postingdate desc limit 8`;
-            let result=await db.any(sql);
+    getTopNewArrivalProducts: async () => {
+        try {
+            let sql = `SELECT * FROM products order by postingdate desc limit 8`;
+            let result = await db.any(sql);
             return result;
         }
-        catch(error){
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
             return [];
         }
     },
-    
-    getTopHotSalesProducts: async ()=>{
-        try{
-            let sql=`SELECT * FROM products where productprice::numeric<=80 order by productprice desc limit 4`;
-            let result=await db.any(sql);
+
+    getTopHotSalesProducts: async () => {
+        try {
+            let sql = `SELECT * FROM products where productprice::numeric<=80 order by productprice desc limit 4`;
+            let result = await db.any(sql);
             return result;
-        } 
-        catch(error){
+        }
+        catch (error) {
             if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
                 // Handle the case when no data is found
                 console.log('No data found.');
             }
-            else{
+            else {
                 console.error(error);
             }
             return [];

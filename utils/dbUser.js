@@ -1,5 +1,5 @@
 require('dotenv').config();
-const {db, pgp} = require('./dbConfig');
+const { db, pgp } = require('./dbConfig');
 const bcrypt = require('bcrypt');
 const SALT_ROUND = parseInt(process.env.SALT_ROUND);
 
@@ -155,10 +155,10 @@ module.exports = {
                 SET fullname = $1, email = $2, phonenumber = $3, address = $4, avatar = $5
                 WHERE username = $6
                 RETURNING *;
-            `, 
-            [fullname, email, phonenumber, address, avatar, username]);
+            `,
+                [fullname, email, phonenumber, address, avatar, username]);
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 data = data[0];
                 return data;
             }
@@ -181,16 +181,16 @@ module.exports = {
                 SELECT *
                 FROM "users"
                 WHERE id = $1
-            `, 
-            [userID]);
+            `,
+                [userID]);
 
-            if(!checkedData || checkedData.length <= 0) {
+            if (!checkedData || checkedData.length <= 0) {
                 return null;
             }
 
             checkedData = checkedData[0];
             let state = await bcrypt.compare(curPassword, checkedData.password);
-            if(!state) {
+            if (!state) {
                 console.log(`Incorrect password !`);
                 return null;
             }
@@ -205,10 +205,10 @@ module.exports = {
                 SET password = $1
                 WHERE id = $2
                 RETURNING *;
-            `, 
-            [newPassword, userID]);
+            `,
+                [newPassword, userID]);
 
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 data = data[0];
                 return data;
             }

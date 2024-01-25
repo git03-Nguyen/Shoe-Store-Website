@@ -29,7 +29,7 @@ module.exports = {
         return res.json(data);
     },
 
-    checkAuthenticatedForCart: async (req, res, next) => {
+    checkAuthenticatedRedirectLogin: async (req, res, next) => {
         if (req.isAuthenticated()) {
             return next();
         }

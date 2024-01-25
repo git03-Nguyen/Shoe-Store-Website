@@ -19,12 +19,12 @@ const data = require('../data/data001.json');
 const { isNull } = require('util');
 
 module.exports = {
-    importJSON: async function (){
+    importJSON: async function () {
         // Check database existed ?
-        async function CheckDatabaseExit(databaseName){
+        async function CheckDatabaseExit(databaseName) {
             try {
                 // Use pg-promise query method to execute a SQL query
-                const result =  await db.one('SELECT datname FROM pg_database WHERE datname = $1',[databaseName]);
+                const result = await db.one('SELECT datname FROM pg_database WHERE datname = $1', [databaseName]);
 
                 // If the result is not empty, the database exists
                 return result !== null && result !== undefined && result.datname.toLowerCase() === databaseName.toLowerCase();
@@ -34,7 +34,7 @@ module.exports = {
         }
 
         let checkValue = await CheckDatabaseExit(process.env.DB_NAME);
-        if(checkValue ==  true) {
+        if (checkValue == true) {
             console.log("Database was created");
             return "Database was created";
         }
@@ -61,7 +61,7 @@ module.exports = {
                         `);
 
             // Create tables and add constraints.
-            let sqlScript = await fs.readFile(path.join(__dirname, '../data/script.sql'), {encoding: 'utf-8'});
+            let sqlScript = await fs.readFile(path.join(__dirname, '../data/script.sql'), { encoding: 'utf-8' });
             await db.multi(sqlScript);
         } catch (error) {
             console.log(error);
@@ -69,10 +69,10 @@ module.exports = {
         }
 
         // Insert into categories
-        const categoryDic = new Object(); 
-        for(let index = 0; index < Object.keys(data).length; index++){
-            if(categoryDic[`${data[index].category}`] === null || categoryDic[`${data[index].category}`] === undefined){
-                categoryDic[`${data[index].category}`] =  Object.keys(categoryDic).length + 1;
+        const categoryDic = new Object();
+        for (let index = 0; index < Object.keys(data).length; index++) {
+            if (categoryDic[`${data[index].category}`] === null || categoryDic[`${data[index].category}`] === undefined) {
+                categoryDic[`${data[index].category}`] = Object.keys(categoryDic).length + 1;
                 try {
                     const values = [data[index].category, new Date()];
                     await db.none(`
@@ -99,7 +99,7 @@ module.exports = {
         */
 
         // Insert into products
-        for(let index = 0; index < Object.keys(data).length; index++){
+        for (let index = 0; index < Object.keys(data).length; index++) {
             try {
                 var categoryId = await db.one(`SELECT id FROM categories where categoryName = $1`, [data[index].category]);
                 const values = [
@@ -147,12 +147,12 @@ module.exports = {
                     productThumbImages, productBigImages, productVideoThumbImage, productVideoBigImage, productVideo,
                     productDescription, productAdditionalInformation)
                     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
-                    ON CONFLICT (productName) DO NOTHING;`,values);
+                    ON CONFLICT (productName) DO NOTHING;`, values);
             } catch (error) {
                 console.log(error);
             }
-        }   
-        
+        }
+
         // Update posting date, random date
         try {
             await db.none(`UPDATE public.products
@@ -161,7 +161,7 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
-        
+
         console.log("Database has already created");
         return "Database has already created";
     }
