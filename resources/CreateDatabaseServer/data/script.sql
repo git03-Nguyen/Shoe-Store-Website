@@ -29,7 +29,7 @@ create table users(
 	avatar text,
 	phoneNumber varchar(20),
 	address varchar(200),
-	isAdmin bool,
+	isAdmin bool default false,
 	registrationDate timestamp,
 	updationDate timestamp,
 	
