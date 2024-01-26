@@ -166,6 +166,8 @@ module.exports = {
 
     shopApiPostAddCart: async function (req, res, next) {
         try {
+            let data = new Object();
+
             if (req.user === null || req.user === undefined) {
                 data.message = "Please login to add!";
                 return res.json(data);
@@ -178,9 +180,25 @@ module.exports = {
             let productId = parseInt(req.body.productId);
             let postingDate = new Date();
 
+            if (isNaN(quantity)) {
+                data.message = 'Invalid quantity!';
+                return res.json(data)
+            }
+
+            let product = await Product.getProductById(productId);
+            if (product === null) {
+                data.message = 'The product does not exist!';
+                return res.json(data);
+            }
+            else {
+                if (quantity > product.productAvailability) {
+                    data.message = 'The number of products is not enough!';
+                    return res.json(data);
+                }
+            }
+
             let item = await CartList.getCartListByUserIdAndProductId(userId, productId);
             let flag = true;
-            let data = new Object();
 
             if (item === null || item === undefined) {
                 let cartList = {
@@ -245,6 +263,8 @@ module.exports = {
     shopApiPostUpdateCart: async (req, res, next) => {
         let flag = true;
         let cartLists = req.body.cartLists;
+        let data = new Object();
+
         try {
 
             for (let i = 0; i < cartLists.length; i++) {
@@ -255,6 +275,29 @@ module.exports = {
                 cartList.quantity = parseInt(cartLists[i].quantity);
                 cartList.postingdate = new Date();
 
+                if (isNaN(cartList.quantity)) {
+                    data.message = 'Invalid quantity!';
+                    return res.json(data)
+                }
+                let temp = await CartList.getCartListById(cartLists[i].id);
+                if (temp === null) {
+                    data.message = 'The product is not in cart list!';
+                    res.json(data);
+                }
+                else {
+                    let product = await Product.getProductById(temp.productId);
+                    if (product === null) {
+                        data.message = 'The product does not exist!';
+                        return res.json(data);
+                    }
+                    else {
+                        if (cartList.quantity > product.productAvailability) {
+                            data.message = 'The number of products is not enough!';
+                            return res.json(data);
+                        }
+                    }
+                }
+
                 await CartList.updateCartList(new CartList(cartList));
             }
         } catch (error) {
@@ -262,7 +305,6 @@ module.exports = {
             console.log(error);
         }
 
-        let data = new Object();
         if (flag) {
             data.message = 'Update all items successfully';
         }

@@ -20,7 +20,7 @@ module.exports = class CartList {
     }
 
     static async getCartListById(id) {
-        let data = await dbCart.getCartListById(userId);
+        let data = await dbCart.getCartListById(id);
         return data !== null ? new CartList(data) : null;
     }
 
