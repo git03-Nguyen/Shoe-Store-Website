@@ -1,12 +1,22 @@
 //import Product
 const Product = require('../models/product.m');
+const Category = require('../models/category.m');
 
 function min(a, b) {
     return a <= b ? a : b;
 }
 
 function handlePagination(page, pagesNumber) {
+    if (isNaN(page) || isNaN(pagesNumber)) {
+        return [1];
+    }
+
     let pages = [];
+    if (page - 2 > 1) {
+        pages.push(1);
+        pages.push('...');
+    }
+
     for (let i = page - 2; i <= min(page + 2, pagesNumber); i++) {
         if (i >= 1) {
             pages.push(i);
@@ -94,7 +104,7 @@ module.exports = {
         }
     },
 
-    shopAPIGet: async function (req, res, next) {
+    adminAPIGetProducts: async function (req, res, next) {
         try {
             let page = req.query.page;
             let keyword = req.query.keyword;

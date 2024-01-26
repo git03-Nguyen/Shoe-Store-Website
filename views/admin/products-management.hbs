@@ -1,0 +1,345 @@
+{{!-- --}}
+<div class="container">
+
+</div>
+{{!-- --}}
+
+<!-- Show All Products Section Begin -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-9">
+                <button id="btn-add-product" class="shadow-4"><img src="/img/icon/add-product.png" alt=""> Add
+                    product</button>
+            </div>
+            <hr style="height:1px;border-width:0;color:gray;background-color:gray">
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="shop__sidebar">
+                    <div class="shop__sidebar__search">
+                        <form action="/shop" method="get">
+                            <input type="text" placeholder="Search..." name="keyword">
+                            <input type="text" placeholder="Search..." name="page" value="1" style="display: none;">
+                            <button type="submit"><img src="/img/icon/search.png" /></button>
+                        </form>
+                    </div>
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                </div>
+                                <div id="collapseOne" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__categories">
+                                            <ul class="nice-scroll">
+                                                {{#each categories}}
+                                                <li><a href="/shop?category={{this.categoryName}}&page=1"
+                                                        tag="{{this}}">{{this.categoryName}}</a></li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Brand</a>
+                                </div>
+                                <div id="collapseTwo" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__brand">
+                                            <ul>
+                                                {{#each brands}}
+                                                <li><a href="/shop?brand={{this}}&page=1" tag="{{this}}">{{this}}</a>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseThree">Gender</a>
+                                </div>
+                                <div id="collapseThree" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__gender">
+                                            <ul>
+                                                {{#each genders}}
+                                                <li><a href="/shop?gender={{this}}&page=1" tag="{{this}}">{{this}}</a>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFour">Filter Price</a>
+                                </div>
+                                <div id="collapseFour" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__price">
+                                            <ul>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="0"
+                                                        endPrice="50">$0.00 - $50.00</a></li>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="50"
+                                                        endPrice="100">$50.00 - $100.00</a></li>
+                                                <li><a href="/shop?startPrice=100&endPrice=150&page=1" startPrice="100"
+                                                        endPrice="150">$100.00 - $150.00</a></li>
+                                                <li><a href="/shop?startPrice=150&endPrice=200&page=1" startPrice="150"
+                                                        endPrice="200"> $150.00 - $200.00</a></li>
+                                                <li><a href="/shop?startPrice=200&endPrice=250&page=1" startPrice="200"
+                                                        endPrice="250">$200.00 - $250.00</a></li>
+                                                <li><a href="/shop?startPrice=250&endPrice=infinity&page=1"
+                                                        startPrice="250" endPrice="+infinity">250.00+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="shop__product__option">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div id="showing-result" class="shop__product__option__left">
+                                <p>Showing {{startNumber}}–{{endNumber}} of {{productsNumber}} results</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__right">
+                                <p>Sort by Price:</p>
+                                <select id="sort-filter">
+                                    <option value="None">None</option>
+                                    <option value="Low to Hight">Low To High</option>
+                                    <option value="Hight to Low">High To Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="display-product-cards" class="row">
+                    {{#each allProducts}}
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg rounded-3" data-setbg="{{this.productImage}}">
+                                <ul class="product__hover">
+                                    <li><button class="icon-button" tag="{{this.id}}"><img src="/img/icon/search.png"
+                                                alt=""></button>
+                                    </li>
+                                    <li><button class="icon-button"><img src="/img/icon/edit-product.png"
+                                                alt=""></button></li>
+                                    <li><button class="icon-button"><img src="/img/icon/delete-product.png"
+                                                alt=""></button></li>
+                                </ul>
+                            </div>
+
+                            <div class="product__item__text">
+                                <div style="font-weight: bold;">{{this.productName}}</div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <h5>${{this.productPrice}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__pagination">
+                            {{#each pages}}
+                            {{#ifEquals ../currentPage this}}
+                            <a href="#" class="active">{{this}}</a>
+                            {{else}}
+                            {{#ifEquals this '...'}}
+                            <span>{{this}}</span>
+                            {{else}}
+                            <a href="#">{{this}}</a>
+                            {{/ifEquals}}
+                            {{/ifEquals}}
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+
+{{!-- script here--}}
+<script>
+    // window is ready
+    $(document).ready(function () {
+
+        $('.product__pagination a').each(function (index) {
+            let page = 1;
+            page = parseInt($(this).text());
+
+            $(this).click(function () {
+                handleEventForPagination(page);
+            });
+        });
+
+        $(".nice-select .list").children().each(function (index) {
+            let value = $(this).html();
+            $(this).click(function () {
+                let order = null;
+                if (value == "None") {
+                    order = null;
+                }
+                else if (value == "High To Low") {
+                    order = "DESC";
+                }
+                else if (value == "Low To High") {
+                    order = "ASC";
+                }
+
+                // Get the current URL
+                let currentURL = window.location.href;
+
+                // Create a URL object
+                let url = new URL(currentURL);
+
+                if (order !== null) {
+                    url.searchParams.set('order', order);
+                }
+                else {
+                    url.searchParams.delete('order');
+                }
+
+                // API
+                let api = url.origin + url.pathname + '/api/get' + url.search;
+                console.log((new URL(api)));
+
+                // Update the URL
+                window.history.replaceState({}, document.title, url.href);
+
+                $.ajax({
+                    url: api,
+                    method: "GET",
+                    dataType: "json",
+                    // Display data
+                    success: function (data) {
+                        displayProductCards(data.allProducts);
+                        createPagination(data.currentPage, data.pages);
+                        updateShowingResult(data.startNumber, data.endNumber, data.productsNumber);
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            });
+        });
+    });
+
+    function handleEventForPagination(page) {
+        // Get the current URL
+        let currentURL = window.location.href;
+
+        // Create a URL object
+        let url = new URL(currentURL);
+        url.searchParams.set('page', page);
+
+        // API
+        let api = url.origin + url.pathname + '/api/get' + url.search;
+
+        // Update the URL
+        window.history.replaceState({}, document.title, url.href);
+
+        $.ajax({
+            url: api,
+            method: "GET",
+            dataType: "json",
+            // Display data
+            success: function (data) {
+                displayProductCards(data.allProducts);
+                createPagination(data.currentPage, data.pages);
+                updateShowingResult(data.startNumber, data.endNumber, data.productsNumber);
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+    }
+
+    function displayProductCards(products) {
+        let htmlText = '';
+
+        for (let i = 0; i < products.length; i++) {
+            htmlText += `
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg rounded-3" style="background-image: url(${products[i].productImage})">
+                            <ul class="product__hover">
+                                <li><a href="/shop/detail?id={{this.id}}"><img src="/img/icon/search.png"
+                                                alt=""></a>
+                                </li>
+                                <li><a href="#"><img src="/img/icon/edit-product.png" alt=""></a></li>
+                                <li><a href="#"><img src="/img/icon/delete-product.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h5 style="font-weight: bold;">${products[i].productName}</h5>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>\$${products[i].productPrice}</h5>
+                        </div>
+                    </div>
+                </div>\n
+            `;
+        }
+
+        $("#display-product-cards").html(htmlText);
+    }
+
+    function createPagination(currentPage, pages) {
+        $(".product__pagination").html('');
+        for (let i = 0; i < pages.length; i++) {
+            if (pages[i] == '...') {
+                let span = document.createElement('span');
+                span.innerHTML = pages[i];
+                $(".product__pagination").append($(span));
+                continue;
+            }
+
+            let a = document.createElement('a');
+            a.href = "#";
+            a.innerHTML = pages[i];
+            $(a).click(function () {
+                handleEventForPagination(parseInt(pages[i]));
+            });
+
+            if (pages[i] == currentPage) {
+                console.log()
+                $(a).addClass('active');
+            }
+
+            $(".product__pagination").append($(a));
+        }
+    }
+
+    function updateShowingResult(startNumber, endNumber, productsNumber) {
+        $('#showing-result').html(`<p>Showing ${startNumber}–${endNumber} of ${productsNumber} results</p>`);
+    }
+
+</script>
