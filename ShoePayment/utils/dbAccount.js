@@ -123,4 +123,44 @@ module.exports = {
         }
     },
 
+    handlePaymentFailure: async (accID, transactionPrice) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let accountData = await db_connection.query(`
+                SELECT *
+                FROM accounts
+                WHERE id = $1
+            `,
+                [accID]);
+
+            if (accountData && accountData.length > 0) {
+                accountData = accountData[0];
+            } else {
+                return null;
+            }
+
+            let newBalance = parseInt(accountData.balance) + parseInt(transactionPrice);
+            let updatedAccount = await db_connection.query(`
+                UPDATE accounts
+                SET balance = $1
+                WHERE id = $2
+                RETURNING *;
+            `,
+                [newBalance, accID]);
+
+            if (updatedAccount && updatedAccount.length > 0) {
+                return updatedAccount[0];
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
 }

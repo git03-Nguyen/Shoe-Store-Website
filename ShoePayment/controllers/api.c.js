@@ -96,11 +96,20 @@ module.exports = {
                 });
             }
 
-            let updatedAdmin = await Admin.handleGetPayment(payment_amount);
+            let updatedAdmin = await Admin.handleGetPayment(amount);
             if (!updatedAdmin) {
+                updatedAccount = await Account.handlePaymentFailure(accountID, amount);
+
+                if (!updatedAccount) {
+                    return res.json({
+                        object: null,
+                        message: "Error handling POST payment by ADMIN\nError handling payment FAILURE by ACOUNT",
+                    });
+                }
+
                 return res.json({
                     object: null,
-                    message: "Error handling POST payment by ADMIN",
+                    message: "Error handling POST payment by ADMIN\nYour account transaction payment is returned SUCESSFULLY",
                 });
             }
 

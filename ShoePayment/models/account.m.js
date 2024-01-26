@@ -49,6 +49,15 @@ class Account {
 
         return null;
     }
+
+    static async handlePaymentFailure(accID, transactionPrice) {
+        let data = await DBProvider.handlePaymentFailure(accID, transactionPrice);
+        if (data) {
+            return Account.clone(data);
+        }
+
+        return null;
+    }
 }
 
 module.exports = Account;
