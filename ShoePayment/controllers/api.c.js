@@ -76,4 +76,47 @@ module.exports = {
         }
 
     },
+
+    createNewTransaction: async (req, res, next) => {
+        try {
+            let { accountID, amount, secret } = req.body;
+
+            if (secret != process.env.AXIOS_SECRET) {
+                return res.json({
+                    object: null,
+                    message: "Secret is incorrect",
+                })
+            }
+
+            let updatedAccount = await Account.handlePostPayment(accountID, amount);
+            if (!updatedAccount) {
+                return res.json({
+                    object: null,
+                    message: "Error handling POST payment by ACCOUNT",
+                });
+            }
+
+            let updatedAdmin = await Admin.handleGetPayment(payment_amount);
+            if (!updatedAdmin) {
+                return res.json({
+                    object: null,
+                    message: "Error handling POST payment by ADMIN",
+                });
+            }
+
+            let curDate = new Date();
+            let newTransaction = Transaction.addNewTransaction(accountID, curDate, amount);
+            if (newTransaction) {
+                return res.json({
+                    object: null,
+                    message: "Error handling createing new transaction",
+                });
+            }
+
+            return res.json(newTransaction);
+
+        } catch (error) {
+            next(error);
+        }
+    },
 }
