@@ -28,5 +28,5 @@ const https = require('https');
 const httpsServer = https.createServer(credentials, app);
 const port = process.env.PORT || 3000;
 httpsServer.listen(port, () => {
-  console.log(`Server is running on https://localhost:${port}`);
+  console.log(`Store server is running on https://localhost:${port}`);
 });

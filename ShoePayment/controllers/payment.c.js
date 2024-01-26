@@ -23,7 +23,8 @@ module.exports = {
             if (!updatedAdmin) {
                 let msg = `ERROR: Failed to handle GET payment by ADMIN with accID=${payment_account_id}, amount=${payment_amount}`;
                 console.log(msg);
-                return res.send(msg)
+                return res.send(msg);
+
             }
 
             isReceived = true;

@@ -25,6 +25,31 @@ module.exports = {
         }
     },
 
+    addNewAccount: async (accountID) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                INSERT INTO accounts (id, balance)
+                VALUES ($1, $2)
+                RETURNING *;
+            `,
+                [accountID, 500]);
+
+            if (data && data.length > 0) {
+                return data[0];
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
     getAccountByID: async (accID) => {
         let db_connection = null;
 

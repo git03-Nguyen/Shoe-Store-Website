@@ -28,5 +28,21 @@ module.exports = {
             user: req.user,
             userBalance: userBalance,
         });
+    },
+
+    handleCreateNewAccount: async (req, res, next) => {
+        let newAccount = await axiosInstance.post("https://localhost:4000/api/create", {
+            accountID: req.user.id,
+            secret: process.env.AXIOS_SECRET
+        });
+
+        if (newAccount && newAccount.data && newAccount.data.object) {
+            newAccount = newAccount.data.object;
+        } else {
+            newAccount = null;
+        }
+
+        res.json(newAccount);
+
     }
 }

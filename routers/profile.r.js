@@ -21,4 +21,6 @@ router.get('/', ProfileController.handleGetProfile);
 router.post('/update/general', upload.single('avatar'), UserController.updateGeneralProfile);
 router.post('/update/password', UserController.updatePasswordProfile);
 
+router.post('/create', ProfileController.handleCreateNewAccount);
+
 module.exports = router;

@@ -23,6 +23,15 @@ class Account {
         return null;
     }
 
+    static async addNewAccount(accountID) {
+        let data = await DBProvider.addNewAccount(accountID);
+        if (data) {
+            return Account.clone(data);
+        }
+
+        return null;
+    }
+
     static async getAccountByID(accountID) {
         let data = await DBProvider.getAccountByID(accountID);
         if (data) {
@@ -40,7 +49,6 @@ class Account {
 
         return null;
     }
-
 }
 
 module.exports = Account;

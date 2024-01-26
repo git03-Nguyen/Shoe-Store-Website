@@ -3,41 +3,77 @@ const Admin = require('../models/admin.m');
 const Transaction = require('../models/transaction.m');
 
 
+require('dotenv').config();
+
 module.exports = {
     getAccountByID: async (req, res, next) => {
-        let { accountID, isAdmin, secret } = req.body;
-        if (secret != process.env.AXIOS_SECRET) {
-            return res.json({
-                object: null,
-                message: "secret is incorrect",
-            })
-        }
-
-        if (isAdmin) {
-            let data = await Admin.getAdmin();
-            if (data.id != accountID) {
+        try {
+            let { accountID, isAdmin, secret } = req.body;
+            if (secret != process.env.AXIOS_SECRET) {
                 return res.json({
                     object: null,
-                    message: "Admin's id is incorrect",
+                    message: "Secret is incorrect",
                 })
             }
+
+            if (isAdmin) {
+                let data = await Admin.getAdmin();
+                if (data.id != accountID) {
+                    return res.json({
+                        object: null,
+                        message: "Admin's id is incorrect",
+                    })
+                }
+                return res.json({
+                    object: data,
+                    message: "Admin is returned successfully",
+                })
+            }
+
+            let data = await Account.getAccountByID(accountID);
+            if (data) {
+                return res.json({
+                    object: data,
+                    message: "Account is returned successfully",
+                })
+            }
+
             return res.json({
-                object: data,
-                message: "Admin is returned successfully",
+                object: null,
+                message: "Invalid account",
             })
+        } catch (error) {
+            next(error);
         }
 
-        let data = await Account.getAccountByID(accountID);
-        if (data) {
+    },
+
+    createNewAccount: async (req, res, next) => {
+        try {
+            let { accountID, secret } = req.body;
+
+            if (secret != process.env.AXIOS_SECRET) {
+                return res.json({
+                    object: null,
+                    message: "Secret is incorrect",
+                })
+            }
+
+            let data = await Account.addNewAccount(accountID);
+            if (!data) {
+                return res.json({
+                    object: null,
+                    message: "Error creating new account",
+                });
+            }
+
             return res.json({
                 object: data,
-                message: "Account is returned successfully",
-            })
+                message: "New account is created successfully",
+            });
+        } catch (error) {
+            next(error);
         }
 
-        return res.json({
-            object: null,
-            message: "Invalid account",
-        })
     },
 }

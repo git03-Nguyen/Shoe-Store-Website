@@ -198,9 +198,10 @@
                         {{else}}
                         <h3>🧧🧧🧧 Super gift !!! Ends on <strong> January 30th, 2024.</strong></h3>
                         <h4>🎁🎁🎁 You don't have any account in our payment system.</h4>
-                        <h4>🎁🎁🎁 Make a new one to get 1000$ for free !</h4>
-                        <a type="button" class="btn btn-primary"
-                            href="https://localhost:4000/create?accountID={{user.id}}" target="_blank">Click here</a>
+                        <h4>🎁🎁🎁 Make a new one to get 500$ for free !</h4>
+                        <button type="button" class="btn btn-primary" id="create-new-account-btn">
+                            Create new account now
+                        </button>
                         {{/if}}
 
                         <hr class="border-light m-0">
@@ -371,5 +372,25 @@
                 handlePostingPasswordChange();
             }
         }
+    });
+
+    $('#create-new-account-btn').on("click", async (e) => {
+        let data = {
+            amount: 500,
+        };
+
+        let createdAccount = await $.ajax({
+            url: "/profile/create",
+            method: "POST",
+            dataType: "json",
+            data: data,
+        });
+
+        if (!createdAccount) {
+            alert("Error creating new account !");
+            return;
+        }
+
+        window.location.replace('https://localhost:3000/profile');
     });
 </script>
