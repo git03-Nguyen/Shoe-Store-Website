@@ -369,8 +369,12 @@
 
             let size = parseFloat($('.product__details__option__size .active').attr('tag'));
             let color = $('.product__details__option__color input:checked').attr('tag');
-            let quantity = parseInt($('.quantity input').val());
             let productId = parseInt($('.product__details__breadcrumb span').attr('tag'));
+            let quantity = parseInt($('.quantity input').val());
+            if (isNaN(quantity) || quantity <= 0) {
+                alert("Quantity is invalied");
+                return;
+            }
 
             let formData = {
                 size: size,

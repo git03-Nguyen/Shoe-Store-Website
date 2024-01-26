@@ -180,9 +180,13 @@
 
         for (let i = 0; i < tableRows.length; i++) {
             let id = $(tableRows[i]).find('.cart__close i').attr('tag');
-            let quantity = parseInt($(tableRows[i]).find('.quantity__item input').val());
             let size = parseFloat($(tableRows[i]).find('.cart__size ul li.selected').attr('data-value'));
             let color = $(tableRows[i]).find('.cart__color ul li.selected').attr('data-value');
+            let quantity = parseInt($(tableRows[i]).find('.quantity__item input').val());
+            if (isNaN(quantity) || quantity <= 0) {
+                alert("Quantity is invalied");
+                return;
+            }
 
             cartList = {
                 id: id,

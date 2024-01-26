@@ -102,13 +102,18 @@
                     throw Error('phone is empty');
                 }
 
-                var phoneRegex = /^\d{10}$/;
+                let phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
                 if (!phoneRegex.test(phone)) {
                     throw Error('Phone is invalid');
                 }
 
                 if (email === null || email === undefined || email === '') {
                     throw Error('Email is empty');
+                }
+
+                let emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                if (!emailRegex.test(email)) {
+                    throw Error('Email is invalid');
                 }
 
                 // Get the current URL
