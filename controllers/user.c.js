@@ -7,10 +7,10 @@ module.exports = {
         try {
             let userList = await User.getAllUsers();
             if (!userList) {
-                res.status(404).send("There is no user in database !");
+                return res.json(null);
             }
 
-            res.json(userList);
+            return res.json(userList);
         } catch (error) {
             next(error);
         }
@@ -34,7 +34,7 @@ module.exports = {
             if (!insertedUser) {
                 res.status(404).send('Cannot add new user');
             } else {
-                res.redirect('/');
+                res.redirect('/user/login');
             }
 
         } catch (error) {
@@ -69,16 +69,16 @@ module.exports = {
     updateGeneralProfile: async (req, res, next) => {
         try {
             const data = req.body;
-    
+
             console.log("Data from general profile updating: ");
             console.log(data);
 
             const avatarExtension = req.file.originalname.split('.').pop();
             const avatar = `/img/avatars/avatar_${req.user.id}.${avatarExtension}`;
-    
+
             let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address, avatar);
             console.log("Updated user's avatar: " + updatedUser.avatar);
-            
+
             res.json(updatedUser);
         } catch (error) {
             next(error)
@@ -87,7 +87,7 @@ module.exports = {
 
     updatePasswordProfile: async (req, res, next) => {
         const { data } = req.body;
-        
+
         let updatedUser = await User.updatePasswordProfile(req.user.id, data.curPassword, data.newPassword);
         res.json(updatedUser);
     },

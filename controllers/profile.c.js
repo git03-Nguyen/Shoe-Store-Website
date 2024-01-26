@@ -18,17 +18,11 @@ module.exports = {
             secret: process.env.AXIOS_SECRET
         });
 
-        console.log("User from axios: ");
-        console.log(userBalance.data);
-
         if (userBalance && userBalance.data && userBalance.data.object) {
             userBalance = userBalance.data.object.balance;
         } else {
             userBalance = null;
         }
-
-        console.log("User balance: ");
-        console.log(userBalance);
 
         res.render('profile', {
             user: req.user,
