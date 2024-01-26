@@ -358,6 +358,11 @@ module.exports = {
                     throw new Error('Insert order detail failed!');
                 }
             }
+
+            // if place order successfully => remove all cartlist
+            for (let i = 0; i < cartLists.length; i++) {
+                await CartList.removeCartListById(cartLists[i].id);
+            }
         } catch (error) {
             flag = false;
             console.log(error);
