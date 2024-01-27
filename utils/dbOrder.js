@@ -53,4 +53,16 @@ module.exports = {
         }
         return flag;
     },
+
+    countOrdersByDate: async function (date) {
+        const query = `SELECT COUNT(*) FROM orders WHERE orderdate = $1`;
+        let res;
+        try {
+            res = await db.one(query, [date]);
+        } catch (error) {
+            console.error(error);
+        }
+        return +res.count;
+    },
+
 }

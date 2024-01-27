@@ -1,3 +1,4 @@
+const Order = require('../models/order.m');
 
 module.exports = {
 
@@ -8,6 +9,40 @@ module.exports = {
       title: 'Dashboard',
       user: req.user,
     });
+  },
+
+  // GET /sales?mode=
+  getSales: async (req, res, next) => {
+    let mode = req.query.mode;
+
+    if (mode == 'daily') {
+      // response with 7 recent days: 
+      const today = new Date();
+      const dates = [
+        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6),
+        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5),
+        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 4),
+        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3),
+        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2),
+        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1),
+        today,
+      ];
+
+      // dateStr = date with format "mm/dd"
+      const dateStrs = dates.map(date => {
+        return `${date.getDate()}/${date.getMonth() + 1}`;
+      });
+
+      let data = [];
+      for (let i = 0; i < dates.length; i++) {
+        const date = dates[i];
+        const count = await Order.countOrdersByDate(date);
+        data.push(count);
+      }
+      console.log(data);
+
+      res.json({ dates: dateStrs, data });
+    }
   },
 
 };

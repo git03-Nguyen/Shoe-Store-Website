@@ -33,4 +33,8 @@ module.exports = class Order {
     static async removeOrder(id) {
         return await dbOrder.removeOrder(id);
     }
+
+    static async countOrdersByDate(date) {
+        return await dbOrder.countOrdersByDate(date);
+    }
 }
