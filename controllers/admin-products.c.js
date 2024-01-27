@@ -2,35 +2,43 @@
 const Product = require('../models/product.m');
 const Category = require('../models/category.m');
 const upload = require('../utils/multerUpload/productImage.upload');
-
 function min(a, b) {
     return a <= b ? a : b;
 }
 
 function handlePagination(page, pagesNumber) {
+    page = parseInt(page);
+    pagesNumber = parseInt(pagesNumber);
     if (isNaN(page) || isNaN(pagesNumber)) {
         return [1];
     }
 
     let pages = [];
-    if (page - 2 > 1) {
+    if (page - 3 > 1) {
         pages.push(1);
         pages.push('...');
     }
+    else if (page - 3 == 1) {
+        pages.push(1);
+    }
 
-    for (let i = page - 2; i <= min(page + 2, pagesNumber); i++) {
-        if (i >= 1) {
-            pages.push(i);
+    for (let index = page - 2; index <= min(page + 2, pagesNumber); index++) {
+        if (index >= 1) {
+            pages.push(index);
         }
     }
 
-    if (pagesNumber > pages + 2) {
+    if (pagesNumber > page + 3) {
         pages.push('...');
+        pages.push(pagesNumber);
+    }
+    else if (pagesNumber == page + 3) {
         pages.push(pagesNumber);
     }
 
     return pages;
 }
+
 
 module.exports = {
     manageProducts: async function (req, res, next) {
@@ -218,5 +226,15 @@ module.exports = {
                 return next(err);
             }
         }
+    },
+
+    adminAPIGetProductById: async function (req, res, next) {
+        let id = parseInt(req.query.id);
+        let product = null;
+        if (!isNaN(id)) {
+            product = await Product.getProductById(id);
+        }
+
+        res.json(product);
     }
 }

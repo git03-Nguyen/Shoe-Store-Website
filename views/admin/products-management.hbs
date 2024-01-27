@@ -415,7 +415,6 @@
 
                 // API
                 let api = url.origin + url.pathname + '/api/get' + url.search;
-                console.log((new URL(api)));
 
                 // Update the URL
                 window.history.replaceState({}, document.title, url.href);
@@ -484,20 +483,23 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg rounded-3" style="background-image: url(${products[i].productImage})">
                             <ul class="product__hover">
-                                <li><a href="/shop/detail?id={{this.id}}"><img src="/img/icon/search.png"
-                                                alt=""></a>
+                                <li><button class="icon-button btn-read" tag="${products[i].id}"><img
+                                            src="/img/icon/search.png" alt=""></button>
                                 </li>
-                                <li><a href="#"><img src="/img/icon/edit-product.png" alt=""></a></li>
-                                <li><a href="#"><img src="/img/icon/delete-product.png" alt=""></a></li>
+                                <li><button class="icon-button btn-edit" tag="${products[i].id}"><img
+                                            src="/img/icon/edit-product.png" alt=""></button></li>
+                                <li><button class="icon-button btn-delete"><img src="/img/icon/delete-product.png"
+                                            alt=""></button></li>
                             </ul>
                         </div>
+
                         <div class="product__item__text">
-                            <h5 style="font-weight: bold;">${products[i].productName}</h5>
+                            <div style="font-weight: bold;">${products[i].productName}</div>
                             <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
                             <h5>\$${products[i].productPrice}</h5>
@@ -508,6 +510,7 @@
         }
 
         $("#display-product-cards").html(htmlText);
+        addEventEditProduct();
     }
 
     function createPagination(currentPage, pages) {
@@ -528,7 +531,6 @@
             });
 
             if (pages[i] == currentPage) {
-                console.log()
                 $(a).addClass('active');
             }
 
@@ -543,6 +545,7 @@
     function addEventAddProduct() {
         $('#btn-add-product').click(function () {
             $('#productFormModalLongTitle').text('Add Product');
+            $('#productFormModalLongTitle').attr('tag', '');
             $('#productFormModal').modal('show');
         });
     }
@@ -550,7 +553,52 @@
     function addEventEditProduct() {
         $('.product__hover .btn-edit').click(function () {
             $('#productFormModalLongTitle').text('Edit Product');
+            $('#productFormModalLongTitle').attr('tag', $(this).attr('tag'));
             $('#productFormModal').modal('show');
+
+            let productId = $(this).attr('tag');
+
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let api = url.origin + url.pathname + '/api/get/product?id=' + productId;
+
+            // ajax
+            $.ajax({
+                url: api,
+                method: "GET",
+                dataType: "json",
+                success: function (product) {
+                    if (product === null || product === undefined) {
+                        return;
+                    }
+
+                    $('#inputName').val(product.productName);
+                    $('#inputPrice').val(product.productPrice);
+                    $('#selectCategory').val(product.categoryId);
+                    $('#inputBrand').val(product.productBrand);
+                    $('#inputGender').val(product.productGender);
+                    $('#inputSizes').val(product.productSizes);
+                    $('#inputColors').val(product.productColors);
+                    $('#inputAvailability').val(product.productAvailability);
+                    $('#linkImage').prop('checked', true);
+                    $('#inputLinkImage').val(product.productImage);
+                    $('#selectedImage').attr('src', product.productImage);
+                    $('#inputThumbnailImage1').val(product.productThumbImages[0]);
+                    $('#inputThumbnailImage2').val(product.productThumbImages[1]);
+                    $('#inputThumbnailImage3').val(product.productThumbImages[2]);
+                    $('#inputThreeBigImage1').val(product.productBigImages[0]);
+                    $('#inputThreeBigImage2').val(product.productBigImages[1]);
+                    $('#inputThreeBigImage3').val(product.productBigImages[2]);
+                    $('#inputVideoThumbImage').val(product.productVideoThumbImage);
+                    $('#inputVideoBigImage').val(product.productVideoBigImage);
+                    $('#inputVideo').val(product.productVideo);
+                    $('#inputDescription').val(product.productDescription);
+                    $('#inputAdditionalInformation').val(product.productAdditionalInformation);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
         });
     }
 
@@ -558,30 +606,34 @@
         $('button[data-dismiss="modal"]').click(function () {
             $('#productFormModal').modal('hide');
 
-            // reset form
-            $('#inputName').val('');
-            $('#inputPrice').val('');
-            $('#selectCategory').val('');
-            $('#inputBrand').val('');
-            $('#inputGender').val('');
-            $('#inputSizes').val('');
-            $('#inputColors').val('');
-            $('#inputAvailability').val('');
-            $('#linkImage').prop('checked', true);
-            $('#inputLinkImage').val('');
-            $('#selectedImage').attr('src', 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg');
-            $('#customFile1').val('');
-            $('#inputThumbnailImage1').val('');
-            $('#inputThumbnailImage2').val('');
-            $('#inputThumbnailImage3').val('');
-            $('#inputThreeBigImage1').val('');
-            $('#inputThreeBigImage2').val('');
-            $('#inputThreeBigImage3').val('');
-            $('#inputVideoImage').val('');
-            $('#inputVideo').val('');
-            $('#inputDescription').val('');
-            $('#inputAdditionalInformation').val('');
+            resetModal();
         });
+    }
+
+    function resetModal() {
+        // reset form
+        $('#inputName').val('');
+        $('#inputPrice').val('');
+        $('#selectCategory').val('');
+        $('#inputBrand').val('');
+        $('#inputGender').val('');
+        $('#inputSizes').val('');
+        $('#inputColors').val('');
+        $('#inputAvailability').val('');
+        $('#linkImage').prop('checked', true);
+        $('#inputLinkImage').val('');
+        $('#selectedImage').attr('src', 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg');
+        $('#customFile1').val('');
+        $('#inputThumbnailImage1').val('');
+        $('#inputThumbnailImage2').val('');
+        $('#inputThumbnailImage3').val('');
+        $('#inputThreeBigImage1').val('');
+        $('#inputThreeBigImage2').val('');
+        $('#inputThreeBigImage3').val('');
+        $('#inputVideoImage').val('');
+        $('#inputVideo').val('');
+        $('#inputDescription').val('');
+        $('#inputAdditionalInformation').val('');
     }
 
     // add event for button save
@@ -601,6 +653,12 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        if (response.message == 'Add product successfully' || response.message == 'Update product successfully') {
+                            $('#productFormModal').modal('hide');
+                            resetModal();
+                            handleEventForPagination(parseInt($('.product__pagination .active').text()));
+                        }
+
                         Toastify({
                             text: response.message,
                             duration: 3000,
@@ -643,6 +701,7 @@
     }
 
     function validateProductForm() {
+        let id = null;
         let name = null;
         let price = null;
         let categoryId = null;
@@ -658,6 +717,7 @@
         let isuploadimage = null;
 
         try {
+            id = parseInt($('#productFormModalLongTitle').attr('tag'));
             name = $('#inputName').val();
             price = parseInt($('#inputPrice').val());
             categoryId = parseInt($('#selectCategory + .nice-select li.selected').attr('data-value'));
@@ -673,6 +733,10 @@
             sizesText.forEach(size => {
                 sizes.push(parseFloat(size.trim()));
             });
+
+            if (isNaN(id)) {
+                id = null;
+            }
 
             if ($('input[name="image"]:checked').val() == 'Link Image') {
                 productImage = $('#inputLinkImage').val();
@@ -819,6 +883,7 @@
         }
 
         data = {
+            id: id,
             productname: name,
             productprice: price,
             categoryid: categoryId,
