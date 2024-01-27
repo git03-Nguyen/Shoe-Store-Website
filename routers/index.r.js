@@ -18,6 +18,8 @@ module.exports = function (app) {
   // "/shop" "/shop-cart" "/shop-favorite" "shop-detail" "shop-checkout"
   app.use('/shop', require('./shop.r'));
 
+  app.use('/transaction', require('./transaction.r'));
+
   // "/about"
   app.use("/about", require("./about.r"));
 
