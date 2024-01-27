@@ -1,4 +1,4 @@
-{{!-- Modals --}}
+{{!--Start Modals --}}
 <div class="container">
     <!-- Start Product Form Modal -->
     <div class="modal fade" id="productFormModal" tabindex="-1" role="dialog"
@@ -193,8 +193,14 @@
             </div>
         </div>
     </div>
+    {{!-- End Product Form Modal--}}
 </div>
-{{!-- End Product Form Modal--}}
+
+
+
+{{!-- End Product Detail Modal --}}
+</div>
+{{!--Start Modals --}}
 
 <!-- Show All Products Section Begin -->
 <section class="shop spad">
@@ -441,6 +447,7 @@
         addEventAddProduct();
         addEventEditProduct();
         addEventDeleteProduct();
+        addEventWatchProduct();
         addEventCloseModel();
         addEventSaveModel();
     });
@@ -513,6 +520,7 @@
         $("#display-product-cards").html(htmlText);
         addEventEditProduct();
         addEventDeleteProduct();
+        addEventWatchProduct();
     }
 
     function createPagination(currentPage, pages) {
@@ -641,6 +649,20 @@
                     console.log("Error:", error);
                 }
             });
+        });
+    }
+
+    function addEventWatchProduct() {
+        $('.product__hover .btn-read').click(function () {
+            $('#productDetailModal').modal('show');
+
+            let productId = $(this).attr('tag');
+
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let api = url.origin + '/shop/detail?id=' + productId;
+
+            window.location.href = api;
         });
     }
 
