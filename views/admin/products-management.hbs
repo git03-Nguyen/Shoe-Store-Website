@@ -1,4 +1,4 @@
-{{!-- Modals --}}
+{{!--Start Modals --}}
 <div class="container">
     <!-- Start Product Form Modal -->
     <div class="modal fade" id="productFormModal" tabindex="-1" role="dialog"
@@ -26,9 +26,9 @@
                         <label style="color: black !important" for="selectCategory" class="form-label">Category<span
                                 style="color: red !important">*</span></label>
                         <select class="form-control w-100" id="selectCategory">
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            {{#each categories}}
+                            <option value="{{this.id}}">{{this.categoryName}}</option>
+                            {{/each}}
                         </select>
                     </div>
                     <div class="mb-3">
@@ -56,7 +56,12 @@
                         <small id="colorsHelper" class="form-text text-muted">The colors is splitted by comma. (c-1:
                             Black, c-2: Blue, c-3; Orange, c-4: Red, c-5: White)</small>
                     </div>
-
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputAvailability" class="form-lable">Product
+                            Availability<span style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputAvailability"
+                            aria-describedby="availabilityHelper" placeholder="Product Availability">
+                    </div>
                     <div class="mb-3">
                         <label style="color: black !important;" class="form-lable">Product Image<span
                                 style="color: red !important">*</span></label>
@@ -81,48 +86,121 @@
                                     <div class="btn btn-primary btn-rounded">
                                         <label class="form-label text-white m-1" for="customFile1">Choose file</label>
                                         <input type="file" class="form-control d-none" id="customFile1"
-                                            onchange="displaySelectedImage(event, 'selectedImage')" />
+                                            accept="image/png, image/jpeg, image/jpg" />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-
                     <div class="mb-3">
-                        <label style="color: black !important" for="inputAvailability" class="form-lable">Product
-                            Availability<span style="color: red !important">*</span></label>
-                        <input type="text" class="form-control" id="inputAvailability"
-                            aria-describedby="availabilityHelper" placeholder="Product Availability">
-                    </div>
+                        <label style="color: black !important" class="form-lable">Link Thumbnail Images</label>
+                        <div class="mb-3 ms-3">
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThumbnailImage1">Thumbnail Image 1</label>
+                                <input type="text" class="form-control" id="inputThumbnailImage1"
+                                    placeholder="Thumbnail Image 1">
+                            </div>
 
-                    <div class="mb-3">
-                        <label style="color: black !important" for="inputDescription"
-                            class="form-lable">Description</label>
-                        <textarea class="form-control" id="inputDescription" placeholder="Description"
-                            rows="6"></textarea>
-                        <small id="descriptionHelper" class="form-text text-muted">You can use HTML language to write
-                            Product Description.</small>
-                    </div>
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThumbnailImage1">Thumbnail Image 2</label>
+                                <input type="text" class="form-control" id="inputThumbnailImage2"
+                                    placeholder="Thumbnail Image 2">
+                            </div>
 
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThumbnailImage3">Thumbnail Image 3</label>
+                                <input type="text" class="form-control" id="inputThumbnailImage3"
+                                    placeholder="Thumbnail Image 3">
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
-                        <label style="color: black !important" for="inputAdditionalInformation"
-                            class="form-lable">Additional Information</label>
-                        <textarea class="form-control" id="inputAdditionalInformation"
-                            placeholder="Additional Information" rows="6"></textarea>
-                        <small id="additionalInformationHelper" class="form-text text-muted">You can use HTML language
-                            to write Additional Information.</small>
+                        <label style="color: black !important" class="form-lable">Link Big Images</label>
+                        <div class="mb-3 ms-3">
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThreeBigImage1">Three Big Image 1</label>
+                                <input type="text" class="form-control" id="inputThreeBigImage1"
+                                    placeholder="Three Big Image 1">
+                            </div>
+
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThreeBigImage2">Three Big Image 2</label>
+                                <input type="text" class="form-control" id="inputThreeBigImage2"
+                                    placeholder="Three Big Image 2">
+                            </div>
+
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThreeBigImage3">Three Big Image 3</label>
+                                <input type="text" class="form-control" id="inputThreeBigImage3"
+                                    placeholder="Three Big Image 3">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important;" class="form-table" for="inputVideoThumbImage">Link
+                                Video Thumbnail Image</label>
+                            <input type="text" class="form-control" id="inputVideoThumbImage"
+                                placeholder="Video Thumbnail Image">
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important;" class="form-table" for="inputVideoBigImage">Link
+                                Video Big Image</label>
+                            <input type="text" class="form-control" id="inputVideoBigImage"
+                                placeholder="Video Big Image">
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important;" class="form-table" for="inputVideo">Link
+                                Video</label>
+                            <input type="text" class="form-control" id="inputVideo" placeholder="Video">
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important" for="inputDescription"
+                                class="form-lable">Description</label>
+                            <textarea class="form-control" id="inputDescription" placeholder="Description"
+                                rows="6"></textarea>
+                            <small id="descriptionHelper" class="form-text text-muted">You can use HTML language to
+                                write
+                                Product Description.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important" for="inputAdditionalInformation"
+                                class="form-lable">Additional Information</label>
+                            <textarea class="form-control" id="inputAdditionalInformation"
+                                placeholder="Additional Information" rows="6"></textarea>
+                            <small id="additionalInformationHelper" class="form-text text-muted">You can use HTML
+                                language
+                                to write Additional Information.</small>
+                        </div>
+
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btn-save-modal" type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
     </div>
+    {{!-- End Product Form Modal--}}
 </div>
-{{!-- End Product Form Modal--}}
+
+
+
+{{!-- End Product Detail Modal --}}
+</div>
+{{!--Start Modals --}}
 
 <!-- Show All Products Section Begin -->
 <section class="shop spad">
@@ -256,10 +334,10 @@
                                     <li><button class="icon-button btn-read" tag="{{this.id}}"><img
                                                 src="/img/icon/search.png" alt=""></button>
                                     </li>
-                                    <li><button class="icon-button btn-edit"><img src="/img/icon/edit-product.png"
-                                                alt=""></button></li>
-                                    <li><button class="icon-button btn-delete"><img src="/img/icon/delete-product.png"
-                                                alt=""></button></li>
+                                    <li><button class="icon-button btn-edit" tag="{{this.id}}"><img
+                                                src="/img/icon/edit-product.png" alt=""></button></li>
+                                    <li><button class="icon-button btn-delete" tag="{{this.id}}"><img
+                                                src="/img/icon/delete-product.png" alt=""></button></li>
                                 </ul>
                             </div>
 
@@ -312,13 +390,9 @@
             $(this).click(function () {
                 handleEventForPagination(page);
             });
-
-            addEventAddProduct();
-            addEventEditProduct();
-            addEventCloseModel()
         });
 
-        $(".nice-select .list").children().each(function (index) {
+        $("#sort-filter + .nice-select .list").children().each(function (index) {
             let value = $(this).html();
             $(this).click(function () {
                 let order = null;
@@ -347,7 +421,6 @@
 
                 // API
                 let api = url.origin + url.pathname + '/api/get' + url.search;
-                console.log((new URL(api)));
 
                 // Update the URL
                 window.history.replaceState({}, document.title, url.href);
@@ -368,6 +441,15 @@
                 });
             });
         });
+
+        // Add Events
+        addEventChangeImage();
+        addEventAddProduct();
+        addEventEditProduct();
+        addEventDeleteProduct();
+        addEventWatchProduct();
+        addEventCloseModel();
+        addEventSaveModel();
     });
 
     function handleEventForPagination(page) {
@@ -409,20 +491,23 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg rounded-3" style="background-image: url(${products[i].productImage})">
                             <ul class="product__hover">
-                                <li><a href="/shop/detail?id={{this.id}}"><img src="/img/icon/search.png"
-                                                alt=""></a>
+                                <li><button class="icon-button btn-read" tag="${products[i].id}"><img
+                                            src="/img/icon/search.png" alt=""></button>
                                 </li>
-                                <li><a href="#"><img src="/img/icon/edit-product.png" alt=""></a></li>
-                                <li><a href="#"><img src="/img/icon/delete-product.png" alt=""></a></li>
+                                <li><button class="icon-button btn-edit" tag="${products[i].id}"><img
+                                            src="/img/icon/edit-product.png" alt=""></button></li>
+                                <li><button class="icon-button btn-delete" tag="${products[i].id}"><img src="/img/icon/delete-product.png"
+                                            alt=""></button></li>
                             </ul>
                         </div>
+
                         <div class="product__item__text">
-                            <h5 style="font-weight: bold;">${products[i].productName}</h5>
+                            <div style="font-weight: bold;">${products[i].productName}</div>
                             <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
                             <h5>\$${products[i].productPrice}</h5>
@@ -433,6 +518,9 @@
         }
 
         $("#display-product-cards").html(htmlText);
+        addEventEditProduct();
+        addEventDeleteProduct();
+        addEventWatchProduct();
     }
 
     function createPagination(currentPage, pages) {
@@ -453,7 +541,6 @@
             });
 
             if (pages[i] == currentPage) {
-                console.log()
                 $(a).addClass('active');
             }
 
@@ -467,13 +554,115 @@
 
     function addEventAddProduct() {
         $('#btn-add-product').click(function () {
+            $('#productFormModalLongTitle').text('Add Product');
+            $('#productFormModalLongTitle').attr('tag', '');
             $('#productFormModal').modal('show');
         });
     }
 
     function addEventEditProduct() {
         $('.product__hover .btn-edit').click(function () {
+            $('#productFormModalLongTitle').text('Edit Product');
+            $('#productFormModalLongTitle').attr('tag', $(this).attr('tag'));
             $('#productFormModal').modal('show');
+
+            let productId = $(this).attr('tag');
+
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let api = url.origin + url.pathname + '/api/get/product?id=' + productId;
+
+            // ajax
+            $.ajax({
+                url: api,
+                method: "GET",
+                dataType: "json",
+                success: function (product) {
+                    if (product === null || product === undefined) {
+                        return;
+                    }
+
+                    $('#inputName').val(product.productName);
+                    $('#inputPrice').val(product.productPrice);
+                    $('#selectCategory').val(product.categoryId);
+                    $('#inputBrand').val(product.productBrand);
+                    $('#inputGender').val(product.productGender);
+                    $('#inputSizes').val(product.productSizes);
+                    $('#inputColors').val(product.productColors);
+                    $('#inputAvailability').val(product.productAvailability);
+                    $('#linkImage').prop('checked', true);
+                    $('#inputLinkImage').val(product.productImage);
+                    $('#selectedImage').attr('src', product.productImage);
+                    $('#inputThumbnailImage1').val(product.productThumbImages[0]);
+                    $('#inputThumbnailImage2').val(product.productThumbImages[1]);
+                    $('#inputThumbnailImage3').val(product.productThumbImages[2]);
+                    $('#inputThreeBigImage1').val(product.productBigImages[0]);
+                    $('#inputThreeBigImage2').val(product.productBigImages[1]);
+                    $('#inputThreeBigImage3').val(product.productBigImages[2]);
+                    $('#inputVideoThumbImage').val(product.productVideoThumbImage);
+                    $('#inputVideoBigImage').val(product.productVideoBigImage);
+                    $('#inputVideo').val(product.productVideo);
+                    $('#inputDescription').val(product.productDescription);
+                    $('#inputAdditionalInformation').val(product.productAdditionalInformation);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    }
+
+    function addEventDeleteProduct() {
+        $('.product__hover .btn-delete').click(function () {
+            let productId = $(this).attr('tag');
+
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let api = url.origin + url.pathname + '/api/delete/product?id=' + productId;
+
+            // ajax
+            $.ajax({
+                url: api,
+                method: "DELETE",
+                dataType: "json",
+                success: function (response) {
+                    if (response.message == 'Delete product successfully') {
+                        handleEventForPagination(parseInt($('.product__pagination .active').text()));
+                    }
+
+                    Toastify({
+                        text: response.message,
+                        duration: 3000,
+                        newWindow: true,
+                        close: false,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            width: "250px",
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        },
+                        onClick: function () { } // Callback after click
+                    }).showToast();
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    }
+
+    function addEventWatchProduct() {
+        $('.product__hover .btn-read').click(function () {
+            $('#productDetailModal').modal('show');
+
+            let productId = $(this).attr('tag');
+
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let api = url.origin + '/shop/detail?id=' + productId;
+
+            window.location.href = api;
         });
     }
 
@@ -481,48 +670,144 @@
         $('button[data-dismiss="modal"]').click(function () {
             $('#productFormModal').modal('hide');
 
-            // reset form
-            $('#inputName').val('');
-            $('#inputPrice').val('');
-            $('#selectCategory').val('');
-            $('#inputBrand').val('');
-            $('#inputGender').val('');
-            $('#inputSizes').val('');
-            $('#inputColors').val('');
-            $('#linkImage').prop('checked', true);
-            $('#inputLinkImage').val('');
-            $('#selectedImage').attr('src', 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg');
-            $('#inputAvailability').val('');
-            $('#inputDescription').val('');
+            resetModal();
         });
     }
 
-    function ValidateProductForm() {
-        try {
-            let name = $('#inputName').val();
-            let price = parseInt($('#inputPrice').val());
-            let categoryId = parseInt($('#selectCategory + nice-select li.checked').attr('data-value'));
-            let brand = $('#inputBrand').val();
-            let gender = $('#inputGender').val();
-            let sizesText = $('#inputSizes').val().split(',');
-            let colorsText = $('#inputColors').val().split(',');
-            let productImage = null;
+    function resetModal() {
+        // reset form
+        $('#inputName').val('');
+        $('#inputPrice').val('');
+        $('#selectCategory').val('');
+        $('#inputBrand').val('');
+        $('#inputGender').val('');
+        $('#inputSizes').val('');
+        $('#inputColors').val('');
+        $('#inputAvailability').val('');
+        $('#linkImage').prop('checked', true);
+        $('#inputLinkImage').val('');
+        $('#selectedImage').attr('src', 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg');
+        $('#customFile1').val('');
+        $('#inputThumbnailImage1').val('');
+        $('#inputThumbnailImage2').val('');
+        $('#inputThumbnailImage3').val('');
+        $('#inputThreeBigImage1').val('');
+        $('#inputThreeBigImage2').val('');
+        $('#inputThreeBigImage3').val('');
+        $('#inputVideoImage').val('');
+        $('#inputVideo').val('');
+        $('#inputDescription').val('');
+        $('#inputAdditionalInformation').val('');
+    }
 
-            let sizes = [];
+    // add event for button save
+    function addEventSaveModel() {
+        $('#btn-save-modal').click(function () {
+            let formData = validateProductForm();
+            console.log(formData);
+            if (formData !== null && formData !== undefined) {
+                let currentURL = window.location.href;
+                let url = new URL(currentURL);
+                let api = url.origin + url.pathname + '/api/post/product';
+
+                $.ajax({
+                    url: api,
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.message == 'Add product successfully' || response.message == 'Update product successfully') {
+                            $('#productFormModal').modal('hide');
+                            resetModal();
+                            handleEventForPagination(parseInt($('.product__pagination .active').text()));
+                        }
+
+                        Toastify({
+                            text: response.message,
+                            duration: 3000,
+                            newWindow: true,
+                            close: false,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                width: "250px",
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            },
+                            onClick: function () { } // Callback after click
+                        }).showToast();
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+        });
+    }
+
+    // add event change image
+    function addEventChangeImage() {
+        $('#customFile1').change(function () {
+            const selectedImage = document.getElementById('selectedImage');
+            const fileInput = document.getElementById('customFile1');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    selectedImage.src = e.target.result;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+    }
+
+    function validateProductForm() {
+        let id = null;
+        let name = null;
+        let price = null;
+        let categoryId = null;
+        let brand = null;
+        let gender = null;
+        let sizesText = [];
+        let sizes = [];
+        let colorsText = [];
+        let productImage = null;
+        let availability = null;
+        let description = null;
+        let additionalInformation = null;
+        let isuploadimage = null;
+
+        try {
+            id = parseInt($('#productFormModalLongTitle').attr('tag'));
+            name = $('#inputName').val();
+            price = parseInt($('#inputPrice').val());
+            categoryId = parseInt($('#selectCategory + .nice-select li.selected').attr('data-value'));
+            brand = $('#inputBrand').val();
+            gender = $('#inputGender').val();
+            sizesText = $('#inputSizes').val().split(',');
+            colorsText = $('#inputColors').val().split(',');
+            availability = parseInt($('#inputAvailability').val());
+            description = $('#inputDescription').val();
+            additionalInformation = $('#inputAdditionalInformation').val();
+            isuploadimage = $('input[name="image"]:checked').val() == 'Upload Image';
+
             sizesText.forEach(size => {
-                sizes.push(parseInt(size));
+                sizes.push(parseFloat(size.trim()));
             });
+
+            if (isNaN(id)) {
+                id = null;
+            }
 
             if ($('input[name="image"]:checked').val() == 'Link Image') {
                 productImage = $('#inputLinkImage').val();
             }
             else {
-                productImage = $('#selectedImage').attr('src');
+                productImage = $('#customFile1').attr('src');
             }
-
-            let availability = parseInt($('#inputAvailability').val());
-            let description = $('#inputDescription').val();
-            let additionalInformation = $('#inputAdditionalInformation').val();
 
             // Validate
             if (name == '') {
@@ -541,10 +826,6 @@
                 throw new Error('Product price must be greater than 0');
             }
 
-            if (categoryId == '') {
-                throw new Error('Product category is required');
-            }
-
             if (isNaN(categoryId) || categoryId < 0) {
                 throw new Error('Product category does not exist');
             }
@@ -554,7 +835,7 @@
             }
 
             if (gender == '') {
-                throw new Error('Prodcut gender is required');
+                throw new Error('Product gender is required');
             }
 
             if (sizes.length == 0) {
@@ -572,6 +853,7 @@
             }
 
             for (let i = 0; i < colorsText.length; i++) {
+                colorsText[i] = colorsText[i].trim();
                 if (colorsText[i] == '') {
                     throw new Error('Product color is empty');
                 }
@@ -581,20 +863,115 @@
                 }
             }
 
+            if (isNaN(availability) || availability < 0) {
+                throw new Error('Product availability is invalid');
+            }
+
             if (productImage == '') {
                 throw new Error('Product image is required');
             }
 
-            if (isNaN(availability) || availability < 0) {
-                throw new Error('Product availability is invalid');
+            if (isuploadimage) {
+                if (document.getElementById('customFile1').files.length == 0) {
+                    throw new Error('Product image is required');
+                }
+                else {
+                    // Validate size of upload image: customFile1
+                    let fileInput = document.getElementById('customFile1');
+                    if (fileInput.files[0].size > 1024 * 1024 * 20) {
+                        throw new Error('Product image must be less than 20MB');
+                    }
+
+                    // Validate extension fo image file is png or jpeg
+                    let extension = fileInput.files[0].name.split('.').pop().toLowerCase();
+                    if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
+                        throw new Error('Product image must be png, jpeg or jpg');
+                    }
+                }
             }
         }
         catch (Error) {
             alert(Error);
-            return false;
+            return null;
         }
 
-        return true;
-    }
+        let productthumbimages = [];
+        let productbigimages = [];
+        let productvideothumbimage = null;
+        let productvideobigimage = null;
+        let productvideo = null;
 
+        let thumbnailImage1 = $('#inputThumbnailImage1').val();
+        if (thumbnailImage1.length > 0) {
+            productthumbimages.push(thumbnailImage1);
+        }
+
+        let thumbnailImage2 = $('#inputThumbnailImage2').val();
+        if (thumbnailImage2.length > 0) {
+            productthumbimages.push(thumbnailImage2);
+        }
+
+        let thumbnailImage3 = $('#inputThumbnailImage3').val();
+        if (thumbnailImage3.length > 0) {
+            productthumbimages.push(thumbnailImage3);
+        }
+
+        let threeBigImage1 = $('#inputThreeBigImage1').val();
+        if (threeBigImage1.length > 0) {
+            productbigimages.push(threeBigImage1);
+        }
+
+        let threeBigImage2 = $('#inputThreeBigImage2').val();
+        if (threeBigImage2.length > 0) {
+            productbigimages.push(threeBigImage2);
+        }
+
+        let threeBigImage3 = $('#inputThreeBigImage3').val();
+        if (threeBigImage3.length > 0) {
+            productbigimages.push(threeBigImage3);
+        }
+
+        let videoThumbImage = $('#inputVideoThumbImage').val();
+        if (videoThumbImage.length > 0) {
+            productvideothumbimage = videoThumbImage;
+        }
+
+        let videoBigImage = $('#inputVideoBigImage').val();
+        if (videoBigImage.length > 0) {
+            productvideobigimage = videoBigImage;
+        }
+
+        let video = $('#inputVideo').val();
+        if (video.length > 0) {
+            productvideo = video;
+        }
+
+        data = {
+            id: id,
+            productname: name,
+            productprice: price,
+            categoryid: categoryId,
+            productbrand: brand,
+            productgender: gender,
+            productsizes: sizes,
+            productcolors: colorsText,
+            productimage: productImage,
+            productthumbimages: productthumbimages,
+            productbigimages: productbigimages,
+            productvideothumbimage: productvideothumbimage,
+            productvideobigimage: productvideobigimage,
+            productvideo: productvideo,
+            productavailability: availability,
+            productdescription: description,
+            productadditionalinformation: additionalInformation,
+            isuploadimage: $('input[name="image"]:checked').val() == 'Upload Image',
+        };
+
+        let imagefile = document.getElementById('customFile1').files[0];
+
+        let formData = new FormData();
+        formData.append('product', JSON.stringify(data));
+        formData.append('imagefile', imagefile);
+        return formData;
+    }
 </script>

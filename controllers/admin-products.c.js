@@ -1,35 +1,44 @@
 //import Product
 const Product = require('../models/product.m');
 const Category = require('../models/category.m');
-
+const upload = require('../utils/multerUpload/productImage.upload');
 function min(a, b) {
     return a <= b ? a : b;
 }
 
 function handlePagination(page, pagesNumber) {
+    page = parseInt(page);
+    pagesNumber = parseInt(pagesNumber);
     if (isNaN(page) || isNaN(pagesNumber)) {
         return [1];
     }
 
     let pages = [];
-    if (page - 2 > 1) {
+    if (page - 3 > 1) {
         pages.push(1);
         pages.push('...');
     }
+    else if (page - 3 == 1) {
+        pages.push(1);
+    }
 
-    for (let i = page - 2; i <= min(page + 2, pagesNumber); i++) {
-        if (i >= 1) {
-            pages.push(i);
+    for (let index = page - 2; index <= min(page + 2, pagesNumber); index++) {
+        if (index >= 1) {
+            pages.push(index);
         }
     }
 
-    if (pagesNumber > pages + 2) {
+    if (pagesNumber > page + 3) {
         pages.push('...');
+        pages.push(pagesNumber);
+    }
+    else if (pagesNumber == page + 3) {
         pages.push(pagesNumber);
     }
 
     return pages;
 }
+
 
 module.exports = {
     manageProducts: async function (req, res, next) {
@@ -169,5 +178,88 @@ module.exports = {
         catch (err) {
             next(err);
         }
+    },
+
+    adminAPIPostProduct: async function (req, res, next) {
+        let product = JSON.parse(req.body.product);
+
+        product.productsizes.forEach((value, index, array) => {
+            product.productsizes[index] = parseFloat(value);
+        });
+
+        let data = new Object();
+
+        if (product.isuploadimage) {
+            console.log("upload image and assign new path to product image");
+            product.productimage = '/img/product/' + req.file.filename;
+        }
+
+        if (product.id === null || product.id === undefined) {
+            try {
+                let id = await Product.addProduct(new Product(product));
+                if (id < 0) {
+                    data.message = "Add product failed";
+                }
+                else {
+                    data.message = "Add product successfully";
+                }
+
+                return res.json(data);
+            }
+            catch (err) {
+                return next(err);
+            }
+        }
+        else {
+            try {
+                let flag = await Product.updateProduct(new Product(product));
+                if (flag) {
+                    data.message = "Update product successfully";
+                }
+                else {
+                    data.message = "Update product failed";
+                }
+
+                return res.json(data);
+            }
+            catch (err) {
+                return next(err);
+            }
+        }
+    },
+
+    adminAPIGetProductById: async function (req, res, next) {
+        let id = parseInt(req.query.id);
+        let product = null;
+        if (!isNaN(id)) {
+            product = await Product.getProductById(id);
+        }
+
+        res.json(product);
+    },
+
+    adminAPIDeleteProductById: async function (req, res, next) {
+        let id = parseInt(req.query.id);
+        let data = new Object();
+        console.log("__id: " + id);
+        if (!isNaN(id)) {
+            try {
+                let flag = await Product.deleteProduct(id);
+                if (flag) {
+                    data.message = "Delete product successfully";
+                }
+                else {
+                    data.message = "Delete product failed";
+                }
+            }
+            catch (err) {
+                return next(err);
+            }
+        }
+        else {
+            data.message = "Delete product failed";
+        }
+
+        res.json(data);
     }
 }
