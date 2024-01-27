@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-md-3 mb-3">
         <div class="card bg-primary text-white h-100">
-          <div class="card-body py-5">Primary Card</div>
+          <div class="card-body py-5">Revenue</div>
           <div class="card-footer d-flex">
             View Details
             <span class="ms-auto">
@@ -19,7 +19,7 @@
       </div>
       <div class="col-md-3 mb-3">
         <div class="card bg-warning text-dark h-100">
-          <div class="card-body py-5">Warning Card</div>
+          <div class="card-body py-5">Increase</div>
           <div class="card-footer d-flex">
             View Details
             <span class="ms-auto">
@@ -30,7 +30,7 @@
       </div>
       <div class="col-md-3 mb-3">
         <div class="card bg-success text-white h-100">
-          <div class="card-body py-5">Success Card</div>
+          <div class="card-body py-5">Number of orders</div>
           <div class="card-footer d-flex">
             View Details
             <span class="ms-auto">
@@ -41,7 +41,7 @@
       </div>
       <div class="col-md-3 mb-3">
         <div class="card bg-danger text-white h-100">
-          <div class="card-body py-5">Danger Card</div>
+          <div class="card-body py-5">Number of users</div>
           <div class="card-footer d-flex">
             View Details
             <span class="ms-auto">
@@ -51,26 +51,38 @@
         </div>
       </div>
     </div>
+
+
     <div class="row">
       <div class="col-md-6 mb-3">
         <div class="card h-100">
-          <div class="card-header">
-            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-            Area Chart Example
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Sale Trends
+            </div>
+            <div class="form-group mb-0">
+              <select class="form-control" id="modeSelect1">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
           </div>
           <div class="card-body">
-            <canvas class="chart" width="400" height="200"></canvas>
+            <canvas class="chart-1" width="400" height="200"></canvas>
           </div>
         </div>
       </div>
+
       <div class="col-md-6 mb-3">
         <div class="card h-100">
           <div class="card-header">
             <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-            Area Chart Example
+            Category Distribution
           </div>
           <div class="card-body">
-            <canvas class="chart" width="400" height="200"></canvas>
+            <canvas class="chart-2" width="400" height="200"></canvas>
           </div>
         </div>
       </div>
@@ -570,3 +582,146 @@
     </div>
   </div>
 </main>
+
+{{#section 'script'}}
+<script>
+
+  let salesChart = null;
+
+  async function loadSaleTrendChart(mode) {
+    if (salesChart) {
+      salesChart.destroy();
+    }
+
+    const ctxSale = document.querySelector(".chart-1").getContext("2d");
+
+    try {
+      let url = "/admin/sales?mode=" + mode;
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+    const saleTrendData = {
+      labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
+      datasets: [{
+        label: '# of sold products',
+        data: [12, 19, 3, 5, 2, 3, 6],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 0, 0, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 0, 0, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    let text = "Dates";
+    if (mode === "weekly") {
+      text = "Weeks";
+    } else if (mode === "monthly") {
+      text = "Months";
+    }
+
+    const options = {
+      type: 'bar',
+      data: saleTrendData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+          x: {
+            title: {
+              display: true,
+              text: text,
+            }
+          }
+        }
+      }
+    };
+
+    salesChart = new Chart(ctxSale, options);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    loadSaleTrendChart("daily");
+  });
+
+  const modeSelect1 = document.querySelector("#modeSelect1");
+  modeSelect1.addEventListener("change", function (e) {
+    const mode = e.target.value;
+    loadSaleTrendChart(mode);
+  });
+
+</script>
+
+<script>
+  const charts = document.querySelectorAll(".chart-2");
+
+  charts.forEach(function (chart) {
+    var ctx = chart.getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Brown"],
+        datasets: [
+          {
+            label: "# of sold products",
+            data: [12, 19, 3, 5, 2, 3, 6],
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 0, 0, 0.2)"
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+              "rgba(255, 0, 0, 1)"
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  });
+
+  $(document).ready(function () {
+    $(".data-table").each(function (_, table) {
+      $(table).DataTable();
+    });
+  });
+</script>
+{{/section}}
