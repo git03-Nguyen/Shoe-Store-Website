@@ -1,0 +1,84 @@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+          <!-- Your form fields go here. For example: -->
+          <div class="mb-3">
+            <label for="categoryName" class="form-label" style="color: #000">Category Name</label>
+            <input type="text" class="form-control" id="categoryName" name="categoryName">
+          </div>
+          <div class="mb-3">
+            <label for="categoryDescription" class="form-label" style="color: #000">Category Description</label>
+            <textarea type="text" class="form-control" id="categoryDescription" name="categoryDescription"></textarea>
+          </div>
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  let categoryId = 0;
+
+  const editModal = document.getElementById('editModal');
+  if (editModal) {
+    editModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      const button = event.relatedTarget;
+      // Extract info from data-bs-* attributes
+      const categoryName = button.getAttribute('data-bs-categoryName');
+      const categoryDescription = button.getAttribute('data-bs-categoryDescription');
+      // Update the modal's content.
+      categoryId = button.getAttribute('data-bs-id');
+      const modalTitle = editModal.querySelector('.modal-title');
+      const modalBodyInput = editModal.querySelector('.modal-body input');
+      const modalBodyTextarea = editModal.querySelector('.modal-body textarea');
+      modalTitle.textContent = 'Edit Category';
+      modalBodyInput.value = categoryName;
+      modalBodyTextarea.value = categoryDescription;
+
+    });
+  }
+  const saveChanges = document.getElementById('saveChanges');
+  console.log(saveChanges);
+  saveChanges.addEventListener('click', function () {
+    console.log('clicked');
+    $('#editModal').modal('hide');
+    const categoryName = document.getElementById('categoryName').value;
+    const categoryDescription = document.getElementById('categoryDescription').value;
+    console.log(categoryName, categoryDescription, categoryId);
+
+
+    const data = {
+      categoryName,
+      categoryDescription,
+      categoryId
+    }
+    console.log(data);
+    $.ajax({
+      url: '/admin/category-management/edit',
+      type: 'POST',
+      data: data,
+      success: function (response) {
+        if (response) {
+          alert(response.message);
+          location.reload();
+        }
+        else {
+          alert('Error while updating category!');
+        }
+      }
+    });
+  });
+</script>

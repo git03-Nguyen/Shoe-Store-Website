@@ -32,7 +32,7 @@ module.exports = {
         try {
             let insertedUser = await User.addNewUser(newUser);
             if (!insertedUser) {
-                res.status(404).send('Cannot add new user');
+                return res.status(404).send('Cannot add new user');
             } else {
                 res.redirect('/user/login');
             }
