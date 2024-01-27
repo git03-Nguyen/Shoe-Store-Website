@@ -5,7 +5,7 @@ module.exports = {
   getDashboard: (req, res, next) => {
     res.render('admin/dashboard', {
       layout: 'admin',
-      title: 'Admin Dashboard',
+      title: 'Dashboard',
       user: req.user,
     });
   },
