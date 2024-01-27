@@ -6,9 +6,8 @@ const storage = multer.diskStorage({
     },
 
     filename: function (req, file, callback) {
-        const product = JSON.parse(req.body.data);
         const fileExtension = file.originalname.split('.').pop();
-        const newFileName = `product_${product.id}.${fileExtension}`;
+        const newFileName = `product_${file.originalname}`;
 
         callback(null, newFileName);
     },

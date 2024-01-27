@@ -26,6 +26,15 @@ module.exports = class Product {
         this.updateDate = product.updatedate;
     }
 
+    static async addProduct(product) {
+        let id = await dbProduct.addProduct(product);
+        return id;
+    }
+
+    static async updateProduct(product) {
+        return await dbProduct.updateProduct(product);
+    }
+
     static async getAllProductsAtPage(page, pageSize) {
         let data = await dbProduct.getAllProductsAtPage(page, pageSize);
 

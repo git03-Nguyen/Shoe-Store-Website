@@ -1,6 +1,7 @@
 //import Product
 const Product = require('../models/product.m');
 const Category = require('../models/category.m');
+const upload = require('../utils/multerUpload/productImage.upload');
 
 function min(a, b) {
     return a <= b ? a : b;
@@ -172,13 +173,50 @@ module.exports = {
     },
 
     adminAPIPostProduct: async function (req, res, next) {
-        try {
-            let { } = JSON.parse(req.body.data);
+        let product = JSON.parse(req.body.product);
 
+        product.productsizes.forEach((value, index, array) => {
+            product.productsizes[index] = parseFloat(value);
+        });
 
+        let data = new Object();
+
+        if (product.isuploadimage) {
+            console.log("upload image and assign new path to product image");
+            product.productimage = '/img/product/' + req.file.filename;
         }
-        catch (err) {
-            next(err);
+
+        if (product.id === null || product.id === undefined) {
+            try {
+                let id = await Product.addProduct(new Product(product));
+                if (id < 0) {
+                    data.message = "Add product failed";
+                }
+                else {
+                    data.message = "Add product successfully";
+                }
+
+                return res.json(data);
+            }
+            catch (err) {
+                return next(err);
+            }
+        }
+        else {
+            try {
+                let flag = await Product.updateProduct(new Product(product));
+                if (flag) {
+                    data.message = "Update product successfully";
+                }
+                else {
+                    data.message = "Update product failed";
+                }
+
+                return res.json(data);
+            }
+            catch (err) {
+                return next(err);
+            }
         }
     }
 }

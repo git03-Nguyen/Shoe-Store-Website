@@ -26,9 +26,9 @@
                         <label style="color: black !important" for="selectCategory" class="form-label">Category<span
                                 style="color: red !important">*</span></label>
                         <select class="form-control w-100" id="selectCategory">
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            {{#each categories}}
+                            <option value="{{this.id}}">{{this.categoryName}}</option>
+                            {{/each}}
                         </select>
                     </div>
                     <div class="mb-3">
@@ -144,9 +144,17 @@
                         </div>
 
                         <div class="mb-3">
-                            <label style="color: black !important;" class="form-table" for="inputVideoImage">Link Video
-                                Image</label>
-                            <input type="text" class="form-control" id="inputVideoImage" placeholder="Video Image">
+                            <label style="color: black !important;" class="form-table" for="inputVideoThumbImage">Link
+                                Video Thumbnail Image</label>
+                            <input type="text" class="form-control" id="inputVideoThumbImage"
+                                placeholder="Video Thumbnail Image">
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important;" class="form-table" for="inputVideoBigImage">Link
+                                Video Big Image</label>
+                            <input type="text" class="form-control" id="inputVideoBigImage"
+                                placeholder="Video Big Image">
                         </div>
 
                         <div class="mb-3">
@@ -320,8 +328,8 @@
                                     <li><button class="icon-button btn-read" tag="{{this.id}}"><img
                                                 src="/img/icon/search.png" alt=""></button>
                                     </li>
-                                    <li><button class="icon-button btn-edit"><img src="/img/icon/edit-product.png"
-                                                alt=""></button></li>
+                                    <li><button class="icon-button btn-edit" tag="{{this.id}}"><img
+                                                src="/img/icon/edit-product.png" alt=""></button></li>
                                     <li><button class="icon-button btn-delete"><img src="/img/icon/delete-product.png"
                                                 alt=""></button></li>
                                 </ul>
@@ -579,8 +587,9 @@
     // add event for button save
     function addEventSaveModel() {
         $('#btn-save-modal').click(function () {
-            let dataForm = validateProductForm();
-            if (dataForm !== null && dataForm !== undefined) {
+            let formData = validateProductForm();
+            console.log(formData);
+            if (formData !== null && formData !== undefined) {
                 let currentURL = window.location.href;
                 let url = new URL(currentURL);
                 let api = url.origin + url.pathname + '/api/post/product';
@@ -588,8 +597,9 @@
                 $.ajax({
                     url: api,
                     method: "POST",
-                    dataType: "json",
-                    // Display data
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response) {
                         Toastify({
                             text: response.message,
@@ -632,7 +642,6 @@
         });
     }
 
-
     function validateProductForm() {
         let name = null;
         let price = null;
@@ -646,6 +655,7 @@
         let availability = null;
         let description = null;
         let additionalInformation = null;
+        let isuploadimage = null;
 
         try {
             name = $('#inputName').val();
@@ -658,16 +668,17 @@
             availability = parseInt($('#inputAvailability').val());
             description = $('#inputDescription').val();
             additionalInformation = $('#inputAdditionalInformation').val();
+            isuploadimage = $('input[name="image"]:checked').val() == 'Upload Image';
 
             sizesText.forEach(size => {
-                sizes.push(parseInt(size));
+                sizes.push(parseFloat(size));
             });
 
             if ($('input[name="image"]:checked').val() == 'Link Image') {
                 productImage = $('#inputLinkImage').val();
             }
             else {
-                productImage = $('#selectedImage').attr('src');
+                productImage = $('#customFile1').attr('src');
             }
 
             // Validate
@@ -731,16 +742,23 @@
                 throw new Error('Product image is required');
             }
 
-            // Validate size of upload image: customFile1
-            let fileInput = document.getElementById('customFile1');
-            if (fileInput.files[0].size > 1024 * 1024) {
-                throw new Error('Product image must be less than 1MB');
-            }
+            if (isuploadimage) {
+                if (document.getElementById('customFile1').files.length == 0) {
+                    throw new Error('Product image is required');
+                }
+                else {
+                    // Validate size of upload image: customFile1
+                    let fileInput = document.getElementById('customFile1');
+                    if (fileInput.files[0].size > 1024 * 1024) {
+                        throw new Error('Product image must be less than 1MB');
+                    }
 
-            // Validate extension fo image file is png or jpeg
-            let extension = fileInput.files[0].name.split('.').pop().toLowerCase();
-            if (extension !== 'png' && extension !== 'jpeg') {
-                throw new Error('Product image must be png or jpeg');
+                    // Validate extension fo image file is png or jpeg
+                    let extension = fileInput.files[0].name.split('.').pop().toLowerCase();
+                    if (extension !== 'png' && extension !== 'jpeg') {
+                        throw new Error('Product image must be png or jpeg');
+                    }
+                }
             }
         }
         catch (Error) {
@@ -750,7 +768,8 @@
 
         let productthumbimages = [];
         let productbigimages = [];
-        let productvideoimage = null;
+        let productvideothumbimage = null;
+        let productvideobigimage = null;
         let productvideo = null;
 
         let thumbnailImage1 = $('#inputThumbnailImage1').val();
@@ -783,9 +802,14 @@
             productbigimages.push(threeBigImage3);
         }
 
-        let videoImage = $('#inputVideoImage').val();
-        if (videoImage.length > 0) {
-            productvideoimage = videoImage;
+        let videoThumbImage = $('#inputVideoThumbImage').val();
+        if (videoThumbImage.length > 0) {
+            productvideothumbimage = videoThumbImage;
+        }
+
+        let videoBigImage = $('#inputVideoBigImage').val();
+        if (videoBigImage.length > 0) {
+            productvideobigimage = videoBigImage;
         }
 
         let video = $('#inputVideo').val();
@@ -793,7 +817,7 @@
             productvideo = video;
         }
 
-        return {
+        data = {
             productname: name,
             productprice: price,
             categoryid: categoryId,
@@ -804,14 +828,20 @@
             productimage: productImage,
             productthumbimages: productthumbimages,
             productbigimages: productbigimages,
-            productvideoimage: productvideoimage,
+            productvideothumbimage: productvideothumbimage,
+            productvideobigimage: productvideobigimage,
             productvideo: productvideo,
             productavailability: availability,
             productdescription: description,
             productadditionalinformation: additionalInformation,
-            isUploadImage: $('input[name="image"]:checked').val() == 'Upload Image',
-            imagefile: document.getElementById('customFile1').files[0],
+            isuploadimage: $('input[name="image"]:checked').val() == 'Upload Image',
         };
-    }
 
+        let imagefile = document.getElementById('customFile1').files[0];
+
+        let formData = new FormData();
+        formData.append('product', JSON.stringify(data));
+        formData.append('imagefile', imagefile);
+        return formData;
+    }
 </script>

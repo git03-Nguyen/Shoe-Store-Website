@@ -2,6 +2,138 @@ require('dotenv').config();
 const { db, pgp } = require('./dbConfig');
 
 module.exports = {
+    addProduct: async function (product) {
+        const query = `
+            INSERT INTO products (
+                categoryId,
+                productName,
+                productBrand,
+                productSizes,
+                productColors,
+                productPrice,
+                productPriceBeforeDiscount,
+                productDescription,
+                productAdditionalInformation,
+                productImage,
+                productThumbImages,
+                productBigImages,
+                productVideoThumbImage,
+                productVideoBigImage,
+                productVideo,
+                productGender,
+                shippingCharge,
+                productAvailability,
+                postingDate,
+                updateDate)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 
+                    $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, 
+                    $20)
+            ON CONFLICT (productName) DO NOTHING
+            RETURNING id;
+        `;
+
+        const values = [
+            product.categoryId,
+            product.productName,
+            product.productBrand,
+            product.productSizes,
+            product.productColors,
+            product.productPrice,
+            product.productPriceBeforeDiscount,
+            product.productDescription,
+            product.productAdditionalInformation,
+            product.productImage,
+            product.productThumbImages,
+            product.productBigImages,
+            product.productVideoThumbImage,
+            product.productVideoBigImage,
+            product.productVideo,
+            product.productGender,
+            product.shippingCharge,
+            product.productAvailability,
+            product.postingDate,
+            product.updateDate,
+        ];
+
+        let res = -1;
+        try {
+            res = await db.one(query, values);
+        }
+        catch (error) {
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No row is inserted.');
+            }
+            else {
+                console.error(error);
+            }
+        }
+
+        return res;
+    },
+
+    updateProduct: async function (product) {
+        const query = `
+        UPDATE products
+        SET categoryId = $1,
+            productName = $2,
+            productBrand = $3,
+            productSizes = $4,
+            productColors = $5,
+            productPrice = $6,
+            productPriceBeforeDiscount = $7,
+            productDescription = $8,
+            productAdditionalInformation = $9,
+            productImage = $10,
+            productThumbImages = $11,
+            productBigImages = $12,
+            productVideoThumbImage = $13,
+            productVideoBigImage = $14,
+            productVideo = $15,
+            productGender = $16,
+            shippingCharge = $17,
+            productAvailability = $18,
+            postingDate = $19,
+            updateDate = $20
+        WHERE id = $21;
+    `;
+
+        const values = [
+            product.categoryId,
+            product.productName,
+            product.productBrand,
+            product.productSizes,
+            product.productColors,
+            product.productPrice,
+            product.productPriceBeforeDiscount,
+            product.productDescription,
+            product.productAdditionalInformation,
+            product.productImage,
+            product.productThumbImages,
+            product.productBigImages,
+            product.productVideoThumbImage,
+            product.productVideoBigImage,
+            product.productVideo,
+            product.productGender,
+            product.shippingCharge,
+            product.productAvailability,
+            product.postingDate,
+            product.updateDate,
+            product.id,
+        ];
+
+        let flag = true;
+        try {
+            await db.none(query, values);
+        }
+        catch (error) {
+            flag = false;
+            console.error(error);
+        }
+
+        return flag;
+    },
+
     getAllProductsAtPage: async function (page, pageSize) {
         const query = `
             SELECT * FROM products
