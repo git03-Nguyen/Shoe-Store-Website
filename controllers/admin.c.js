@@ -1,3 +1,5 @@
+const Category = require('../models/category.m');
+
 
 module.exports = {
 
@@ -10,6 +12,19 @@ module.exports = {
     });
   },
 
+  getCategoryManagement: async (req, res, next) => {
+
+    // Get all categories
+    let categories = await Category.getAllCategories();
+    // console.log(categories);
+    res.render('admin/category-management', {
+      layout: 'admin',
+      title: 'Category Management',
+      user: req.user,
+      categories: categories,
+    });
+ 
+  }
 };
 
 

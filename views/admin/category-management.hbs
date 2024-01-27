@@ -1,0 +1,111 @@
+<div class="bg-white-color px-5 py-3 text-center">
+  <div class="row mx-5 mb-2">
+
+    <div class="d-flex justify-content-between align-items-end mb-1">
+      <a href="">
+        <button class="btn btn-success">
+          <i class="fas fa-plus"></i>
+          <span class="ms-1">Add New Category</span>
+        </button>
+      </a>
+    </div>
+
+    <div class="table-responsive mt-3">
+      <table class="table">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col" class="text-start">Category Name</th>
+            <th scope="col">Category Description</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Update Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each categories}}
+          <tr>
+            <th scope="row">{{sum @index 1}}</th>
+            <td>
+              {{this.categoryName}}
+            </td>
+            <td class="text-start">
+              {{this.categoryDescription}}
+            </td>
+            <td>{{this.creationDate}}</td>
+            <td>{{this.updateDate}}</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+
+                <button class="btn btn-outline-dark btn-edit" data-bs-toggle="modal" data-bs-target="#editModal"
+                data-bs-categoryName="{{this.categoryName}}" data-bs-categoryDescription="{{this.categoryDescription}}">
+                  <i class="fas fa-edit"></i>
+                </button>
+
+
+                <button class="btn btn-outline-danger ms-2 ">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {{/each}}
+
+
+        </tbody>
+      </table>
+      <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editForm">
+                <!-- Your form fields go here. For example: -->
+                <div class="mb-3">
+                  <label for="categoryName" class="form-label" style="color: #000">Category Name</label>
+                  <input type="text" class="form-control" id="categoryName">
+                </div>
+                <div class="mb-3">
+                  <label for="categoryDescription" class="form-label" style="color: #000">Category Description</label>
+                  <textarea type="text" class="form-control" id="categoryDescription"></textarea>
+                </div>
+                <!-- Add more form fields as needed -->
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const editModal=document.getElementById('editModal');
+if (editModal)
+{
+  editModal.addEventListener('show.bs.modal', function (event) {
+  // Button that triggered the modal
+  const button = event.relatedTarget;
+  // Extract info from data-bs-* attributes
+  const categoryName = button.getAttribute('data-bs-categoryName');
+  const categoryDescription = button.getAttribute('data-bs-categoryDescription');
+  // Update the modal's content.
+
+  const modalTitle = editModal.querySelector('.modal-title');
+  const modalBodyInput = editModal.querySelector('.modal-body input');
+  const modalBodyTextarea = editModal.querySelector('.modal-body textarea');
+  modalTitle.textContent = 'Edit Category';
+  modalBodyInput.value = categoryName;
+  modalBodyTextarea.value = categoryDescription;
+  
+  });
+}
+</script>

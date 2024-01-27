@@ -5,7 +5,7 @@ const controllers = require('../controllers/admin.c');
 
 router.get('/', controllers.getDashboard);
 
-router.get('/mangement/products', controllers.);
+router.get('/mangement/category', controllers.getCategoryManagement);
 
 module.exports = router;
 

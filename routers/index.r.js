@@ -24,4 +24,6 @@ module.exports = function (app) {
   // "/contact"
   app.use("/contact", require("./contact.r"));
 
+  app.use("/admin", require("./admin.r"));
+
 }
