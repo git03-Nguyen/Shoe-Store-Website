@@ -15,7 +15,7 @@ router.get('/sales/categories', require('../controllers/admin.c').getSalesByCate
 
 
 // For category management
-router.get('/mangement/category', controllers.getCategoryManagement);
+router.get('/categories', controllers.getCategoryManagement);
 
 router.post('/category-management/edit', controllers.postEditCategory);
 

@@ -12,7 +12,7 @@
         aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
       </button>
-      <a class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold" href="#">Shop</a>
+      <a class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold" href="#">Administrator</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar"
         aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -33,8 +33,8 @@
               <i class="bi bi-person-fill"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#">Back to shop</a></li>
-              <li><a class="dropdown-item" href="#">Log out</a></li>
+              <li><a class="dropdown-item" href="/">Back to shop</a></li>
+              <li><a class="dropdown-item" href="/user/logout">Log out</a></li>
             </ul>
           </li>
         </ul>
@@ -51,7 +51,8 @@
     <nav class="navbar-dark">
       <ul class="navbar-nav py-2">
         <li>
-          <a href="#" class="nav-link px-3 active">
+          <a href="{{#ifEquals subnavigation 0}}#{{else}}/admin{{/ifEquals}}"
+            class="nav-link px-3 {{#ifEquals subnavigation 0}}active{{/ifEquals}}">
             <span class="me-2"><i class="bi bi-speedometer2"></i></span>
             <span>Dashboard</span>
           </a>
@@ -60,40 +61,39 @@
           <hr class="divider border-white" />
         </li>
         <li>
-          <a href="#" class="nav-link px-3">
+          <a href="{{#ifEquals subnavigation 1}}#{{else}}/admin/users{{/ifEquals}}"
+            class="nav-link px-3 {{#ifEquals subnavigation 1}}active{{/ifEquals}}">
             <span class="me-2"><i class="fa fa-user"></i></span>
-            <span>Users management</span>
+            <span>Users</span>
+          </a>
+        </li>
+        <li class="">
+          <hr class="divider border-white" />
+        </li>
+        <li>
+          <a href="{{#ifEquals subnavigation 2}}#{{else}}/admin/orders{{/ifEquals}}"
+            class="nav-link px-3 {{#ifEquals subnavigation 2}}active{{/ifEquals}}">
+            <span class="me-2"><i class="fa fa-list"></i></span>
+            <span>Orders</span>
+          </a>
+        </li>
+        <li class="">
+          <hr class="divider border-white" />
+        </li>
+        <li>
+          <a href="{{#ifEquals subnavigation 3}}#{{else}}/admin/categories{{/ifEquals}}"
+            class="nav-link px-3 {{#ifEquals subnavigation 3}}active{{/ifEquals}}">
+            <span class="me-2"><i class="fa fa-tags"></i></span>
+            <span>Categories</span>
           </a>
         </li>
         <li>
-          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
-            <span class="me-2"><i class="fa fa-store"></i></span>
-            <span>Shop management</span>
-            <span class="ms-auto">
-              <span class="right-icon">
-                <i class="bi bi-chevron-down"></i>
-              </span>
-            </span>
+          <a href="{{#ifEquals subnavigation 4}}#{{else}}/admin/products{{/ifEquals}}"
+            class="nav-link px-3 {{#ifEquals subnavigation 4}}active{{/ifEquals}}">
+            <span class="me-2"><i class="fa fa-shopping-cart"></i></span>
+            <span>Products</span>
           </a>
-          <div class="collapse" id="layouts">
-            <ul class="navbar-nav ps-3">
-              <li>
-                <a href="#" class="nav-link px-3">
-                  <span class="me-2"><i class="fas bi bi-receipt"></i></span>
-                  <span>Products management</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link px-3">
-                  <span class="me-2"><i class="fas fa-tags"></i></span>
-                  <span>Categories management</span>
-                </a>
-              </li>
-            </ul>
-          </div>
         </li>
-
-
       </ul>
     </nav>
   </div>

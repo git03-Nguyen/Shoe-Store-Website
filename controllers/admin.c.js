@@ -11,6 +11,7 @@ module.exports = {
     res.render('admin/dashboard', {
       layout: 'admin',
       title: 'Dashboard',
+      subnavigation: 0,
       user: req.user,
     });
   },
@@ -24,6 +25,7 @@ module.exports = {
     res.render('admin/category-management', {
       layout: 'admin',
       title: 'Category Management',
+      subnavigation: 3,
       user: req.user,
       categories: categories,
     });
