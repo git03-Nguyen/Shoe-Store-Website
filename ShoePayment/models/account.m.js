@@ -68,15 +68,6 @@ class Account {
 
         return null;
     }
-
-    static async handlePostPaymentAPI(accountID, amount, pincode) {
-        let data = await DBProvider.handlePostPaymentAPI(accountID, amount, pincode);
-        if (data) {
-            return Account.clone(data);
-        }
-
-        return null;
-    }
 }
 
 module.exports = Account;
