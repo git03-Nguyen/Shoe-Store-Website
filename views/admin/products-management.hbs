@@ -1,0 +1,600 @@
+{{!-- Modals --}}
+<div class="container">
+    <!-- Start Product Form Modal -->
+    <div class="modal fade" id="productFormModal" tabindex="-1" role="dialog"
+        aria-labelledby="productFormModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productFormModalLongTitle">Product Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label style="color: black !important;" for="inputName" class="form-label">Product Name<span
+                                style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Product Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPrice" class="form-lable">Price<span
+                                style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputPrice" placeholder="Price">
+                    </div>
+                    <div class="mb-3">
+                        <label style="color: black !important" for="selectCategory" class="form-label">Category<span
+                                style="color: red !important">*</span></label>
+                        <select class="form-control w-100" id="selectCategory">
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputBrand" class="form-label">Brand<span
+                                style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputBrand" placeholder="Brand"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputGender" class="form-label">Gender<span
+                                style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputGender" placeholder="Gender"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputSizes" class="form-lable">Sizes<span
+                                style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputSizes" aria-describedby="sizesHelper"
+                            placeholder="Ex: 39, 40, 41">
+                        <small id="sizesHelper" class="form-text text-muted">The sizes is splitted by comma</small>
+                    </div>
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputColors" class="form-lable">Colors<span
+                                style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputColors" aria-describedby="colorsHelper"
+                            placeholder="Ex: c-1, c-3, c-4 ">
+                        <small id="colorsHelper" class="form-text text-muted">The colors is splitted by comma. (c-1:
+                            Black, c-2: Blue, c-3; Orange, c-4: Red, c-5: White)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: black !important;" class="form-lable">Product Image<span
+                                style="color: red !important">*</span></label>
+                        <div class="mb-3 ms-3">
+                            <input type="radio" id="linkImage" name="image" value="Link Image" checked>
+                            <label style="color: black !important;" class="form-table" for="linkImage">Link
+                                Image</label>
+                            <input type="text" class="form-control" id="inputLinkImage" placeholder="Link Image">
+                        </div>
+                        <!--Image-->
+                        <div class="mb-3 ms-3">
+                            <input type="radio" id="uploadImage" name="image" value="Upload Image">
+                            <label style="color: black !important;" class="form-table" for="uploadImage">Upload
+                                Image</label>
+                            <div>
+                                <div class="mb-4 d-flex justify-content-center">
+                                    <img id="selectedImage"
+                                        src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                                        alt="example placeholder" style="width: 300px;" />
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <div class="btn btn-primary btn-rounded">
+                                        <label class="form-label text-white m-1" for="customFile1">Choose file</label>
+                                        <input type="file" class="form-control d-none" id="customFile1"
+                                            onchange="displaySelectedImage(event, 'selectedImage')" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputAvailability" class="form-lable">Product
+                            Availability<span style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputAvailability"
+                            aria-describedby="availabilityHelper" placeholder="Product Availability">
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputDescription"
+                            class="form-lable">Description</label>
+                        <textarea class="form-control" id="inputDescription" placeholder="Description"
+                            rows="6"></textarea>
+                        <small id="descriptionHelper" class="form-text text-muted">You can use HTML language to write
+                            Product Description.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputAdditionalInformation"
+                            class="form-lable">Additional Information</label>
+                        <textarea class="form-control" id="inputAdditionalInformation"
+                            placeholder="Additional Information" rows="6"></textarea>
+                        <small id="additionalInformationHelper" class="form-text text-muted">You can use HTML language
+                            to write Additional Information.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- End Product Form Modal--}}
+
+<!-- Show All Products Section Begin -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-9">
+                <button id="btn-add-product" class="shadow-4"><img src="/img/icon/add-product.png" alt=""> Add
+                    product</button>
+            </div>
+            <hr style="height:1px;border-width:0;color:gray;background-color:gray">
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="shop__sidebar">
+                    <div class="shop__sidebar__search">
+                        <form action="/shop" method="get">
+                            <input type="text" placeholder="Search..." name="keyword">
+                            <input type="text" placeholder="Search..." name="page" value="1" style="display: none;">
+                            <button type="submit"><img src="/img/icon/search.png" /></button>
+                        </form>
+                    </div>
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                </div>
+                                <div id="collapseOne" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__categories">
+                                            <ul class="nice-scroll">
+                                                {{#each categories}}
+                                                <li><a href="/shop?category={{this.categoryName}}&page=1"
+                                                        tag="{{this}}">{{this.categoryName}}</a></li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Brand</a>
+                                </div>
+                                <div id="collapseTwo" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__brand">
+                                            <ul>
+                                                {{#each brands}}
+                                                <li><a href="/shop?brand={{this}}&page=1" tag="{{this}}">{{this}}</a>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseThree">Gender</a>
+                                </div>
+                                <div id="collapseThree" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__gender">
+                                            <ul>
+                                                {{#each genders}}
+                                                <li><a href="/shop?gender={{this}}&page=1" tag="{{this}}">{{this}}</a>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFour">Filter Price</a>
+                                </div>
+                                <div id="collapseFour" class="collapse hide" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__price">
+                                            <ul>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="0"
+                                                        endPrice="50">$0.00 - $50.00</a></li>
+                                                <li><a href="/shop?startPrice=0&endPrice=50&page=1" startPrice="50"
+                                                        endPrice="100">$50.00 - $100.00</a></li>
+                                                <li><a href="/shop?startPrice=100&endPrice=150&page=1" startPrice="100"
+                                                        endPrice="150">$100.00 - $150.00</a></li>
+                                                <li><a href="/shop?startPrice=150&endPrice=200&page=1" startPrice="150"
+                                                        endPrice="200"> $150.00 - $200.00</a></li>
+                                                <li><a href="/shop?startPrice=200&endPrice=250&page=1" startPrice="200"
+                                                        endPrice="250">$200.00 - $250.00</a></li>
+                                                <li><a href="/shop?startPrice=250&endPrice=infinity&page=1"
+                                                        startPrice="250" endPrice="+infinity">250.00+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="shop__product__option">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div id="showing-result" class="shop__product__option__left">
+                                <p>Showing {{startNumber}}–{{endNumber}} of {{productsNumber}} results</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__right">
+                                <p>Sort by Price:</p>
+                                <select id="sort-filter">
+                                    <option value="None">None</option>
+                                    <option value="Low to Hight">Low To High</option>
+                                    <option value="Hight to Low">High To Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="display-product-cards" class="row">
+                    {{#each allProducts}}
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg rounded-3" data-setbg="{{this.productImage}}">
+                                <ul class="product__hover">
+                                    <li><button class="icon-button btn-read" tag="{{this.id}}"><img
+                                                src="/img/icon/search.png" alt=""></button>
+                                    </li>
+                                    <li><button class="icon-button btn-edit"><img src="/img/icon/edit-product.png"
+                                                alt=""></button></li>
+                                    <li><button class="icon-button btn-delete"><img src="/img/icon/delete-product.png"
+                                                alt=""></button></li>
+                                </ul>
+                            </div>
+
+                            <div class="product__item__text">
+                                <div style="font-weight: bold;">{{this.productName}}</div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <h5>${{this.productPrice}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__pagination">
+                            {{#each pages}}
+                            {{#ifEquals ../currentPage this}}
+                            <a href="#" class="active">{{this}}</a>
+                            {{else}}
+                            {{#ifEquals this '...'}}
+                            <span>{{this}}</span>
+                            {{else}}
+                            <a href="#">{{this}}</a>
+                            {{/ifEquals}}
+                            {{/ifEquals}}
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+
+{{!-- script here--}}
+<script>
+    // window is ready
+    $(document).ready(function () {
+        $('.product__pagination a').each(function (index) {
+            let page = 1;
+            page = parseInt($(this).text());
+
+            $(this).click(function () {
+                handleEventForPagination(page);
+            });
+
+            addEventAddProduct();
+            addEventEditProduct();
+            addEventCloseModel()
+        });
+
+        $(".nice-select .list").children().each(function (index) {
+            let value = $(this).html();
+            $(this).click(function () {
+                let order = null;
+                if (value == "None") {
+                    order = null;
+                }
+                else if (value == "High To Low") {
+                    order = "DESC";
+                }
+                else if (value == "Low To High") {
+                    order = "ASC";
+                }
+
+                // Get the current URL
+                let currentURL = window.location.href;
+
+                // Create a URL object
+                let url = new URL(currentURL);
+
+                if (order !== null) {
+                    url.searchParams.set('order', order);
+                }
+                else {
+                    url.searchParams.delete('order');
+                }
+
+                // API
+                let api = url.origin + url.pathname + '/api/get' + url.search;
+                console.log((new URL(api)));
+
+                // Update the URL
+                window.history.replaceState({}, document.title, url.href);
+
+                $.ajax({
+                    url: api,
+                    method: "GET",
+                    dataType: "json",
+                    // Display data
+                    success: function (data) {
+                        displayProductCards(data.allProducts);
+                        createPagination(data.currentPage, data.pages);
+                        updateShowingResult(data.startNumber, data.endNumber, data.productsNumber);
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            });
+        });
+    });
+
+    function handleEventForPagination(page) {
+        // Get the current URL
+        let currentURL = window.location.href;
+
+        // Create a URL object
+        let url = new URL(currentURL);
+        url.searchParams.set('page', page);
+
+        // API
+        let api = url.origin + url.pathname + '/api/get' + url.search;
+
+        // Update the URL
+        window.history.replaceState({}, document.title, url.href);
+
+        $.ajax({
+            url: api,
+            method: "GET",
+            dataType: "json",
+            // Display data
+            success: function (data) {
+                displayProductCards(data.allProducts);
+                createPagination(data.currentPage, data.pages);
+                updateShowingResult(data.startNumber, data.endNumber, data.productsNumber);
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+    }
+
+    function displayProductCards(products) {
+        let htmlText = '';
+
+        for (let i = 0; i < products.length; i++) {
+            htmlText += `
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg rounded-3" style="background-image: url(${products[i].productImage})">
+                            <ul class="product__hover">
+                                <li><a href="/shop/detail?id={{this.id}}"><img src="/img/icon/search.png"
+                                                alt=""></a>
+                                </li>
+                                <li><a href="#"><img src="/img/icon/edit-product.png" alt=""></a></li>
+                                <li><a href="#"><img src="/img/icon/delete-product.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h5 style="font-weight: bold;">${products[i].productName}</h5>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>\$${products[i].productPrice}</h5>
+                        </div>
+                    </div>
+                </div>\n
+            `;
+        }
+
+        $("#display-product-cards").html(htmlText);
+    }
+
+    function createPagination(currentPage, pages) {
+        $(".product__pagination").html('');
+        for (let i = 0; i < pages.length; i++) {
+            if (pages[i] == '...') {
+                let span = document.createElement('span');
+                span.innerHTML = pages[i];
+                $(".product__pagination").append($(span));
+                continue;
+            }
+
+            let a = document.createElement('a');
+            a.href = "#";
+            a.innerHTML = pages[i];
+            $(a).click(function () {
+                handleEventForPagination(parseInt(pages[i]));
+            });
+
+            if (pages[i] == currentPage) {
+                console.log()
+                $(a).addClass('active');
+            }
+
+            $(".product__pagination").append($(a));
+        }
+    }
+
+    function updateShowingResult(startNumber, endNumber, productsNumber) {
+        $('#showing-result').html(`<p>Showing ${startNumber}–${endNumber} of ${productsNumber} results</p>`);
+    }
+
+    function addEventAddProduct() {
+        $('#btn-add-product').click(function () {
+            $('#productFormModal').modal('show');
+        });
+    }
+
+    function addEventEditProduct() {
+        $('.product__hover .btn-edit').click(function () {
+            $('#productFormModal').modal('show');
+        });
+    }
+
+    function addEventCloseModel() {
+        $('button[data-dismiss="modal"]').click(function () {
+            $('#productFormModal').modal('hide');
+
+            // reset form
+            $('#inputName').val('');
+            $('#inputPrice').val('');
+            $('#selectCategory').val('');
+            $('#inputBrand').val('');
+            $('#inputGender').val('');
+            $('#inputSizes').val('');
+            $('#inputColors').val('');
+            $('#linkImage').prop('checked', true);
+            $('#inputLinkImage').val('');
+            $('#selectedImage').attr('src', 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg');
+            $('#inputAvailability').val('');
+            $('#inputDescription').val('');
+        });
+    }
+
+    function ValidateProductForm() {
+        try {
+            let name = $('#inputName').val();
+            let price = parseInt($('#inputPrice').val());
+            let categoryId = parseInt($('#selectCategory + nice-select li.checked').attr('data-value'));
+            let brand = $('#inputBrand').val();
+            let gender = $('#inputGender').val();
+            let sizesText = $('#inputSizes').val().split(',');
+            let colorsText = $('#inputColors').val().split(',');
+            let productImage = null;
+
+            let sizes = [];
+            sizesText.forEach(size => {
+                sizes.push(parseInt(size));
+            });
+
+            if ($('input[name="image"]:checked').val() == 'Link Image') {
+                productImage = $('#inputLinkImage').val();
+            }
+            else {
+                productImage = $('#selectedImage').attr('src');
+            }
+
+            let availability = parseInt($('#inputAvailability').val());
+            let description = $('#inputDescription').val();
+            let additionalInformation = $('#inputAdditionalInformation').val();
+
+            // Validate
+            if (name == '') {
+                throw new Error('Product name is required');
+            }
+
+            if (price == '') {
+                throw new Error('Product price is required');
+            }
+
+            if (isNaN(price)) {
+                throw new Error('Product price must be a number');
+            }
+
+            if (price < 0) {
+                throw new Error('Product price must be greater than 0');
+            }
+
+            if (categoryId == '') {
+                throw new Error('Product category is required');
+            }
+
+            if (isNaN(categoryId) || categoryId < 0) {
+                throw new Error('Product category does not exist');
+            }
+
+            if (brand == '') {
+                throw new Error('Product brand is required');
+            }
+
+            if (gender == '') {
+                throw new Error('Prodcut gender is required');
+            }
+
+            if (sizes.length == 0) {
+                throw new Error('Product size is required');
+            }
+
+            for (let i = 0; i < sizes.length; i++) {
+                if (isNaN(sizes[i]) || sizes[i] < 0) {
+                    throw new Error('Product size is invalid');
+                }
+            }
+
+            if (colorsText.length == 0) {
+                throw new Error('Product color is required');
+            }
+
+            for (let i = 0; i < colorsText.length; i++) {
+                if (colorsText[i] == '') {
+                    throw new Error('Product color is empty');
+                }
+
+                if (colorsText[i] !== 'c-1' && colorsText[i] !== 'c-2' && colorsText[i] !== 'c-3' && colorsText[i] !== 'c-4' && colorsText[i] !== 'c-5') {
+                    throw new Error('Product color is invalid');
+                }
+            }
+
+            if (productImage == '') {
+                throw new Error('Product image is required');
+            }
+
+            if (isNaN(availability) || availability < 0) {
+                throw new Error('Product availability is invalid');
+            }
+        }
+        catch (Error) {
+            alert(Error);
+            return false;
+        }
+
+        return true;
+    }
+
+</script>

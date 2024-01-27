@@ -337,13 +337,22 @@ module.exports = {
         };
 
         try {
+            let cartLists = await CartList.getCartListsByUserId(userId);
+            if (cartLists === null || cartLists === undefined) {
+                throw new Error('Get cart list failed!');
+            }
+
+            if (cartLists.length === 0) {
+                throw new Error('Cart list is empty!');
+            }
+
             let orderId = await Order.createOrder(new Order(order));
             if (orderId.id < 0) {
                 throw new Error('Insert order failed');
             }
+
             order.id = parseInt(orderId.id);
 
-            let cartLists = await CartList.getCartListsByUserId(userId);
             for (let i = 0; i < cartLists.length; i++) {
                 let orderDetail = {
                     productid: parseInt(cartLists[i].productId),
