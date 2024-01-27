@@ -2,12 +2,11 @@
   <div class="row mx-5 mb-2">
 
     <div class="d-flex justify-content-between align-items-end mb-1">
-      <a href="">
-        <button class="btn btn-success">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
           <i class="fas fa-plus"></i>
           <span class="ms-1">Add New Category</span>
         </button>
-      </a>
+      
     </div>
 
     <div class="table-responsive mt-3">
@@ -56,6 +55,7 @@
         </tbody>
       </table>
      {{>modal-edit-category}}
+     {{>modal-add-new-category}}
     </div>
 
   </div>
