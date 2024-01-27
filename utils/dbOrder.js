@@ -55,14 +55,24 @@ module.exports = {
     },
 
     countOrdersByDate: async function (date) {
-        const query = `SELECT COUNT(*) FROM orders WHERE orderdate = $1`;
+        const query = `
+            SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
+            FROM orders join orderdetail on orders.id = orderdetail.orderid
+            WHERE orders.orderdate = $1
+            GROUP BY orders.orderdate
+        `;
         let res;
         try {
             res = await db.one(query, [date]);
+            console.log(res);
         } catch (error) {
             console.error(error);
         }
-        return +res.count;
+        if (res) {
+            return res.counts;
+        } else {
+            return 0;
+        }
     },
 
     countOrdersByCategories: async function (from, to) {
