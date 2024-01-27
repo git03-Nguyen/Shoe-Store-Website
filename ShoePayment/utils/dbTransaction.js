@@ -71,4 +71,28 @@ module.exports = {
         }
     },
 
+    addNewTransactionOrder: async (accountID, orderID, createDate, amount) => {
+        let db_connection = null;
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                INSERT INTO transactions ("accountID", "orderID", "createDate", amount)
+                VALUES ($1, $2, $3, $4)
+                RETURNING *;
+            `,
+                [accountID, orderID, createDate, amount]);
+
+            if (data && data.length > 0) {
+                return data[0];
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
 }

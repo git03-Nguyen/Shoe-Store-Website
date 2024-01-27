@@ -267,7 +267,7 @@ module.exports = {
 
         try {
 
-            for (let i = 0; i < cartLists.length; i++) {
+            for (let i = 0; i < cartLists?.length; i++) {
                 let cartList = new Object();
                 cartList.id = cartLists[i].id;
                 cartList.size = parseFloat(cartLists[i].size);
@@ -371,6 +371,8 @@ module.exports = {
         let data = new Object();
         if (flag) {
             data.message = 'Checkout successfully';
+            data.orderID = order.id;
+            data.amount = req.body.total;
         }
         else {
             data.message = 'Checkout failed';

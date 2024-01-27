@@ -79,7 +79,7 @@ module.exports = {
 
     createNewTransaction: async (req, res, next) => {
         try {
-            let { accountID, amount, secret } = req.body;
+            let { accountID, orderID, amount, secret } = req.body;
 
             if (secret != process.env.AXIOS_SECRET) {
                 return res.json({
@@ -114,15 +114,17 @@ module.exports = {
             }
 
             let curDate = new Date();
-            let newTransaction = Transaction.addNewTransaction(accountID, curDate, amount);
-            if (newTransaction) {
+            let newTransaction = await Transaction.addNewTransactionOrder(accountID, orderID, curDate, amount);
+            if (!newTransaction) {
                 return res.json({
                     object: null,
-                    message: "Error handling createing new transaction",
+                    message: "Error handling creating new transaction",
                 });
             }
 
-            return res.json(newTransaction);
+            return res.json({
+                object: newTransaction
+            });
 
         } catch (error) {
             next(error);

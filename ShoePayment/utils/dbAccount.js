@@ -96,7 +96,7 @@ module.exports = {
 
             let newBalance = parseInt(accountData.balance) - parseInt(transactionPrice);
             if (newBalance < 0) {
-                console.log("The account's balance is lss than the transaction's price !");
+                console.log("The account's balance is less than the transaction's price !");
                 return null;
             }
 

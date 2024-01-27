@@ -683,7 +683,8 @@ ol {
 -----------------------*/
 
 #login-form,
-#signup-form {
+#signup-form,
+#transaction-confirm-form {
 	width: 500px;
 	margin: 20px auto;
 	background-color: #104070;
@@ -4253,4 +4254,4 @@ iframe {
 	width: 100%;
 	height: 250px;
 	border: #1F2D3E 1px solid;
-  }
+}
