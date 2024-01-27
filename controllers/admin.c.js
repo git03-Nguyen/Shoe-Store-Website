@@ -39,9 +39,20 @@ module.exports = {
         const count = await Order.countOrdersByDate(date);
         data.push(count);
       }
-      console.log(data);
 
       res.json({ dates: dateStrs, data });
+    }
+  },
+
+  // GET /sales/categories?from=&to=
+  getSalesByCategories: async (req, res, next) => {
+    let from = req.query.from;
+    let to = req.query.to;
+
+    if (from && to) {
+      const data = await Order.countOrdersByCategories(from, to);
+      console.log(data);
+      res.json(data);
     }
   },
 

@@ -77,9 +77,15 @@
 
       <div class="col-md-6 mb-3">
         <div class="card h-100">
-          <div class="card-header">
-            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-            Category Distribution
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Category Distribution
+            </div>
+            <div class="form-group mb-0 d-flex justify-content-center align-items-center gap-1">
+              <input type="date" class="form-control" id="fromDate" /> -
+              <input type="date" class="form-control" id="toDate" />
+            </div>
           </div>
           <div class="card-body">
             <canvas class="chart-2" width="400" height="200"></canvas>
@@ -596,7 +602,7 @@
     const ctxSale = document.querySelector(".chart-1").getContext("2d");
 
     try {
-      let url = "/admin/sales?mode=" + mode;
+      let url = "/admin/sales/products?mode=" + mode;
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
@@ -676,50 +682,95 @@
 </script>
 
 <script>
-  const charts = document.querySelectorAll(".chart-2");
+  let categoryChart = null;
 
-  charts.forEach(function (chart) {
-    var ctx = chart.getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Brown"],
-        datasets: [
-          {
-            label: "# of sold products",
-            data: [12, 19, 3, 5, 2, 3, 6],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 0, 0, 0.2)"
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
-              "rgba(255, 0, 0, 1)"
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
+  async function loadCategoryChart() {
+    if (categoryChart) {
+      categoryChart.destroy();
+    }
+
+    const ctxCategory = document.querySelector(".chart-2").getContext("2d");
+
+    try {
+      const from = document.querySelector("#fromDate").value;
+      const to = document.querySelector("#toDate").value;
+
+      const response = await fetch(`/admin/sales/categories?from=${from}&to=${to}`);
+      const data = await response.json();
+      console.log(data);
+
+      const categoryData = {
+        labels: data.categories,
+        datasets: [{
+          label: '# of sold products',
+          data: data.counts,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 0, 0, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 0, 0, 1)'
+          ],
+          borderWidth: 1
+        }]
+      };
+
+      const options = {
+        type: 'bar',
+        data: categoryData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Categories",
+              }
+            }
+          }
+        }
+      };
+
+      categoryChart = new Chart(ctxCategory, options);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const fromDate = document.querySelector("#fromDate");
+    const toDate = document.querySelector("#toDate");
+    //  set fromDate to 7 days ago
+    const date = new Date();
+    date.setDate(date.getDate() - 7);
+    fromDate.value = date.toISOString().slice(0, 10);
+    toDate.value = new Date().toISOString().slice(0, 10);
+    fromDate.addEventListener("change", function () {
+      loadCategoryChart();
     });
+    toDate.addEventListener("change", function () {
+      loadCategoryChart();
+    });
+    loadCategoryChart();
   });
 
+</script>
+
+<script>
   $(document).ready(function () {
     $(".data-table").each(function (_, table) {
       $(table).DataTable();

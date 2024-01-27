@@ -65,4 +65,22 @@ module.exports = {
         return +res.count;
     },
 
-}
+    countOrdersByCategories: async function (from, to) {
+        const query = `
+        SELECT categories.categoryname, COALESCE(SUM(orderdetail.quantity), 0) AS total_quantity
+        FROM categories
+        LEFT JOIN products ON categories.id = products.categoryid
+        LEFT JOIN orderdetail ON products.id = orderdetail.productid
+        LEFT JOIN orders ON orderdetail.orderid = orders.id AND DATE(orders.orderdate) >= $1 AND DATE(orders.orderdate) <= $2
+        GROUP BY categories.id, categories.categoryname;
+        `;
+        let res;
+        try {
+            res = await db.any(query, [from, to]);
+        } catch (error) {
+            console.error(error);
+        }
+        return res;
+    },
+
+};
