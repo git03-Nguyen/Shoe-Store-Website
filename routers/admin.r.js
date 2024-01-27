@@ -14,5 +14,7 @@ router.get('/mangement/category', controllers.getCategoryManagement);
 
 router.post('/category-management/edit', controllers.postEditCategory);
 
+router.post('/category-management/create', controllers.postAddNewCategory);
+
 module.exports = router;
 

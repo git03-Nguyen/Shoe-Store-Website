@@ -1,29 +1,60 @@
- <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">Add New Category</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
-                <!-- Your form fields go here. For example: -->
-                <div class="mb-3">
-                  <label for="categoryName" class="form-label" style="color: #000">Category Name</label>
-                  <input type="text" class="form-control" id="categoryName" name="categoryName">
-                </div>
-                <div class="mb-3">
-                  <label for="categoryDescription" class="form-label" style="color: #000">Category Description</label>
-                  <textarea type="text" class="form-control" id="categoryDescription"
-                    name="categoryDescription"></textarea>
-                </div>
-                <!-- Add more form fields as needed -->
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="saveChanges">Create</button>
-            </div>
-          </div>
-        </div>
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Add New Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+          <!-- Your form fields go here. For example: -->
+          <div class="mb-3">
+            <label for="categoryName" class="form-label" style="color: #000">Category Name</label>
+            <input type="text" class="form-control" id="ctgName" name="ctgName">
+          </div>
+          <div class="mb-3">
+            <label for="ctgDescription" class="form-label" style="color: #000">Category Description</label>
+            <textarea type="text" class="form-control" id="ctgDescription" name="ctgDescription"></textarea>
+          </div>
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="createBtn">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const createBtn = document.getElementById('createBtn');
+  createBtn.addEventListener('click', function () {
+    console.log('clicked');
+    $('#addModal').modal('hide');
+    const categoryName = document.getElementById('ctgName').value;
+    console.log(categoryName);
+    const categoryDescription = document.getElementById('ctgDescription').value;
+    console.log(categoryDescription);
+    console.log(categoryName, categoryDescription);
+    const data = {
+      categoryName,
+      categoryDescription
+    }
+    console.log(data);
+    $.ajax({
+      url: '/admin/category-management/create',
+        method: 'POST',
+          data: data,
+            success: function(res) {
+              if (res) {
+                alert(res.message);
+                location.reload();
+              }
+              else {
+                alert('Error while updating category!');
+              }
+            }
+    });
+  });
+</script>

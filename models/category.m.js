@@ -23,4 +23,9 @@ module.exports = class Category{
         let data = await dbCategory.editCategory(id, name, description);
         return data;
     }
+
+    static async addNewCategory(category){
+        let data = await dbCategory.addNewCategory(category);
+        return data;
+    }
 }

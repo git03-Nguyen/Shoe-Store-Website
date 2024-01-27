@@ -37,5 +37,24 @@ module.exports = {
        }
        return res;
 
+    },
+    addNewCategory: async function(category){
+        const query = `INSERT INTO categories(categoryname, categorydescription, creationdate) VALUES($1, $2, NOW());`;
+        let value=[category.categoryName,category.categoryDescription];
+        let res = [];
+        try {
+            res = await db.any(query,value);
+        } catch (error) {
+            if (error instanceof pgp.errors.QueryResultError && error.code === pgp.errors.queryResultErrorCode.noData) {
+                // Handle the case when no data is found
+                console.log('No data found.');
+            }
+            else{
+                console.error(error);
+            }
+ 
+       }
+       return res;
+
     }
 }
