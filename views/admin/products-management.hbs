@@ -56,7 +56,12 @@
                         <small id="colorsHelper" class="form-text text-muted">The colors is splitted by comma. (c-1:
                             Black, c-2: Blue, c-3; Orange, c-4: Red, c-5: White)</small>
                     </div>
-
+                    <div class="mb-3">
+                        <label style="color: black !important" for="inputAvailability" class="form-lable">Product
+                            Availability<span style="color: red !important">*</span></label>
+                        <input type="text" class="form-control" id="inputAvailability"
+                            aria-describedby="availabilityHelper" placeholder="Product Availability">
+                    </div>
                     <div class="mb-3">
                         <label style="color: black !important;" class="form-lable">Product Image<span
                                 style="color: red !important">*</span></label>
@@ -81,42 +86,101 @@
                                     <div class="btn btn-primary btn-rounded">
                                         <label class="form-label text-white m-1" for="customFile1">Choose file</label>
                                         <input type="file" class="form-control d-none" id="customFile1"
-                                            onchange="displaySelectedImage(event, 'selectedImage')" />
+                                            accept="image/png, image/jpeg" />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-
                     <div class="mb-3">
-                        <label style="color: black !important" for="inputAvailability" class="form-lable">Product
-                            Availability<span style="color: red !important">*</span></label>
-                        <input type="text" class="form-control" id="inputAvailability"
-                            aria-describedby="availabilityHelper" placeholder="Product Availability">
-                    </div>
+                        <label style="color: black !important" class="form-lable">Link Thumbnail Images</label>
+                        <div class="mb-3 ms-3">
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThumbnailImage1">Thumbnail Image 1</label>
+                                <input type="text" class="form-control" id="inputThumbnailImage1"
+                                    placeholder="Thumbnail Image 1">
+                            </div>
 
-                    <div class="mb-3">
-                        <label style="color: black !important" for="inputDescription"
-                            class="form-lable">Description</label>
-                        <textarea class="form-control" id="inputDescription" placeholder="Description"
-                            rows="6"></textarea>
-                        <small id="descriptionHelper" class="form-text text-muted">You can use HTML language to write
-                            Product Description.</small>
-                    </div>
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThumbnailImage1">Thumbnail Image 2</label>
+                                <input type="text" class="form-control" id="inputThumbnailImage2"
+                                    placeholder="Thumbnail Image 2">
+                            </div>
 
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThumbnailImage3">Thumbnail Image 3</label>
+                                <input type="text" class="form-control" id="inputThumbnailImage3"
+                                    placeholder="Thumbnail Image 3">
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
-                        <label style="color: black !important" for="inputAdditionalInformation"
-                            class="form-lable">Additional Information</label>
-                        <textarea class="form-control" id="inputAdditionalInformation"
-                            placeholder="Additional Information" rows="6"></textarea>
-                        <small id="additionalInformationHelper" class="form-text text-muted">You can use HTML language
-                            to write Additional Information.</small>
+                        <label style="color: black !important" class="form-lable">Link Big Images</label>
+                        <div class="mb-3 ms-3">
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThreeBigImage1">Three Big Image 1</label>
+                                <input type="text" class="form-control" id="inputThreeBigImage1"
+                                    placeholder="Three Big Image 1">
+                            </div>
+
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThreeBigImage2">Three Big Image 2</label>
+                                <input type="text" class="form-control" id="inputThreeBigImage2"
+                                    placeholder="Three Big Image 2">
+                            </div>
+
+                            <div class="mb-3">
+                                <label style="color: black !important;" class="form-table"
+                                    for="inputThreeBigImage3">Three Big Image 3</label>
+                                <input type="text" class="form-control" id="inputThreeBigImage3"
+                                    placeholder="Three Big Image 3">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important;" class="form-table" for="inputVideoImage">Link Video
+                                Image</label>
+                            <input type="text" class="form-control" id="inputVideoImage" placeholder="Video Image">
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important;" class="form-table" for="inputVideo">Link
+                                Video</label>
+                            <input type="text" class="form-control" id="inputVideo" placeholder="Video">
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important" for="inputDescription"
+                                class="form-lable">Description</label>
+                            <textarea class="form-control" id="inputDescription" placeholder="Description"
+                                rows="6"></textarea>
+                            <small id="descriptionHelper" class="form-text text-muted">You can use HTML language to
+                                write
+                                Product Description.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label style="color: black !important" for="inputAdditionalInformation"
+                                class="form-lable">Additional Information</label>
+                            <textarea class="form-control" id="inputAdditionalInformation"
+                                placeholder="Additional Information" rows="6"></textarea>
+                            <small id="additionalInformationHelper" class="form-text text-muted">You can use HTML
+                                language
+                                to write Additional Information.</small>
+                        </div>
+
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btn-save-modal" type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -312,13 +376,9 @@
             $(this).click(function () {
                 handleEventForPagination(page);
             });
-
-            addEventAddProduct();
-            addEventEditProduct();
-            addEventCloseModel()
         });
 
-        $(".nice-select .list").children().each(function (index) {
+        $("#sort-filter + .nice-select .list").children().each(function (index) {
             let value = $(this).html();
             $(this).click(function () {
                 let order = null;
@@ -368,6 +428,13 @@
                 });
             });
         });
+
+        // Add Events
+        addEventChangeImage();
+        addEventAddProduct();
+        addEventEditProduct();
+        addEventCloseModel();
+        addEventSaveModel();
     });
 
     function handleEventForPagination(page) {
@@ -467,12 +534,14 @@
 
     function addEventAddProduct() {
         $('#btn-add-product').click(function () {
+            $('#productFormModalLongTitle').text('Add Product');
             $('#productFormModal').modal('show');
         });
     }
 
     function addEventEditProduct() {
         $('.product__hover .btn-edit').click(function () {
+            $('#productFormModalLongTitle').text('Edit Product');
             $('#productFormModal').modal('show');
         });
     }
@@ -489,26 +558,107 @@
             $('#inputGender').val('');
             $('#inputSizes').val('');
             $('#inputColors').val('');
+            $('#inputAvailability').val('');
             $('#linkImage').prop('checked', true);
             $('#inputLinkImage').val('');
             $('#selectedImage').attr('src', 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg');
-            $('#inputAvailability').val('');
+            $('#customFile1').val('');
+            $('#inputThumbnailImage1').val('');
+            $('#inputThumbnailImage2').val('');
+            $('#inputThumbnailImage3').val('');
+            $('#inputThreeBigImage1').val('');
+            $('#inputThreeBigImage2').val('');
+            $('#inputThreeBigImage3').val('');
+            $('#inputVideoImage').val('');
+            $('#inputVideo').val('');
             $('#inputDescription').val('');
+            $('#inputAdditionalInformation').val('');
         });
     }
 
-    function ValidateProductForm() {
-        try {
-            let name = $('#inputName').val();
-            let price = parseInt($('#inputPrice').val());
-            let categoryId = parseInt($('#selectCategory + nice-select li.checked').attr('data-value'));
-            let brand = $('#inputBrand').val();
-            let gender = $('#inputGender').val();
-            let sizesText = $('#inputSizes').val().split(',');
-            let colorsText = $('#inputColors').val().split(',');
-            let productImage = null;
+    // add event for button save
+    function addEventSaveModel() {
+        $('#btn-save-modal').click(function () {
+            let dataForm = validateProductForm();
+            if (dataForm !== null && dataForm !== undefined) {
+                let currentURL = window.location.href;
+                let url = new URL(currentURL);
+                let api = url.origin + url.pathname + '/api/post/product';
 
-            let sizes = [];
+                $.ajax({
+                    url: api,
+                    method: "POST",
+                    dataType: "json",
+                    // Display data
+                    success: function (response) {
+                        Toastify({
+                            text: response.message,
+                            duration: 3000,
+                            newWindow: true,
+                            close: false,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                width: "250px",
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            },
+                            onClick: function () { } // Callback after click
+                        }).showToast();
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+        });
+    }
+
+    // add event change image
+    function addEventChangeImage() {
+        $('#customFile1').change(function () {
+            const selectedImage = document.getElementById('selectedImage');
+            const fileInput = document.getElementById('customFile1');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    selectedImage.src = e.target.result;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+    }
+
+
+    function validateProductForm() {
+        let name = null;
+        let price = null;
+        let categoryId = null;
+        let brand = null;
+        let gender = null;
+        let sizesText = [];
+        let sizes = [];
+        let colorsText = [];
+        let productImage = null;
+        let availability = null;
+        let description = null;
+        let additionalInformation = null;
+
+        try {
+            name = $('#inputName').val();
+            price = parseInt($('#inputPrice').val());
+            categoryId = parseInt($('#selectCategory + .nice-select li.selected').attr('data-value'));
+            brand = $('#inputBrand').val();
+            gender = $('#inputGender').val();
+            sizesText = $('#inputSizes').val().split(',');
+            colorsText = $('#inputColors').val().split(',');
+            availability = parseInt($('#inputAvailability').val());
+            description = $('#inputDescription').val();
+            additionalInformation = $('#inputAdditionalInformation').val();
+
             sizesText.forEach(size => {
                 sizes.push(parseInt(size));
             });
@@ -519,10 +669,6 @@
             else {
                 productImage = $('#selectedImage').attr('src');
             }
-
-            let availability = parseInt($('#inputAvailability').val());
-            let description = $('#inputDescription').val();
-            let additionalInformation = $('#inputAdditionalInformation').val();
 
             // Validate
             if (name == '') {
@@ -541,10 +687,6 @@
                 throw new Error('Product price must be greater than 0');
             }
 
-            if (categoryId == '') {
-                throw new Error('Product category is required');
-            }
-
             if (isNaN(categoryId) || categoryId < 0) {
                 throw new Error('Product category does not exist');
             }
@@ -554,7 +696,7 @@
             }
 
             if (gender == '') {
-                throw new Error('Prodcut gender is required');
+                throw new Error('Product gender is required');
             }
 
             if (sizes.length == 0) {
@@ -581,20 +723,95 @@
                 }
             }
 
+            if (isNaN(availability) || availability < 0) {
+                throw new Error('Product availability is invalid');
+            }
+
             if (productImage == '') {
                 throw new Error('Product image is required');
             }
 
-            if (isNaN(availability) || availability < 0) {
-                throw new Error('Product availability is invalid');
+            // Validate size of upload image: customFile1
+            let fileInput = document.getElementById('customFile1');
+            if (fileInput.files[0].size > 1024 * 1024) {
+                throw new Error('Product image must be less than 1MB');
+            }
+
+            // Validate extension fo image file is png or jpeg
+            let extension = fileInput.files[0].name.split('.').pop().toLowerCase();
+            if (extension !== 'png' && extension !== 'jpeg') {
+                throw new Error('Product image must be png or jpeg');
             }
         }
         catch (Error) {
             alert(Error);
-            return false;
+            return null;
         }
 
-        return true;
+        let productthumbimages = [];
+        let productbigimages = [];
+        let productvideoimage = null;
+        let productvideo = null;
+
+        let thumbnailImage1 = $('#inputThumbnailImage1').val();
+        if (thumbnailImage1.length > 0) {
+            productthumbimages.push(thumbnailImage1);
+        }
+
+        let thumbnailImage2 = $('#inputThumbnailImage2').val();
+        if (thumbnailImage2.length > 0) {
+            productthumbimages.push(thumbnailImage2);
+        }
+
+        let thumbnailImage3 = $('#inputThumbnailImage3').val();
+        if (thumbnailImage3.length > 0) {
+            productthumbimages.push(thumbnailImage3);
+        }
+
+        let threeBigImage1 = $('#inputThreeBigImage1').val();
+        if (threeBigImage1.length > 0) {
+            productbigimages.push(threeBigImage1);
+        }
+
+        let threeBigImage2 = $('#inputThreeBigImage2').val();
+        if (threeBigImage2.length > 0) {
+            productbigimages.push(threeBigImage2);
+        }
+
+        let threeBigImage3 = $('#inputThreeBigImage3').val();
+        if (threeBigImage3.length > 0) {
+            productbigimages.push(threeBigImage3);
+        }
+
+        let videoImage = $('#inputVideoImage').val();
+        if (videoImage.length > 0) {
+            productvideoimage = videoImage;
+        }
+
+        let video = $('#inputVideo').val();
+        if (video.length > 0) {
+            productvideo = video;
+        }
+
+        return {
+            productname: name,
+            productprice: price,
+            categoryid: categoryId,
+            productbrand: brand,
+            productgender: gender,
+            productsizes: sizes,
+            productcolors: colorsText,
+            productimage: productImage,
+            productthumbimages: productthumbimages,
+            productbigimages: productbigimages,
+            productvideoimage: productvideoimage,
+            productvideo: productvideo,
+            productavailability: availability,
+            productdescription: description,
+            productadditionalinformation: additionalInformation,
+            isUploadImage: $('input[name="image"]:checked').val() == 'Upload Image',
+            imagefile: document.getElementById('customFile1').files[0],
+        };
     }
 
 </script>

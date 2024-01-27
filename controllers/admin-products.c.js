@@ -169,5 +169,16 @@ module.exports = {
         catch (err) {
             next(err);
         }
+    },
+
+    adminAPIPostProduct: async function (req, res, next) {
+        try {
+            let { } = JSON.parse(req.body.data);
+
+
+        }
+        catch (err) {
+            next(err);
+        }
     }
 }
