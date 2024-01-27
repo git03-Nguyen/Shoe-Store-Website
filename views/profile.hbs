@@ -16,7 +16,7 @@
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-social-links">Social links</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-connections">Payment connections</a>
+                        href="#account-connections">Account connections</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-notifications">Notifications</a>
                 </div>
@@ -170,7 +170,7 @@
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
-                                <input type="email" required class="form-control" name="email" id="email"
+                                <input type="email" required class="form-control" name="email" id="email-info"
                                     value="{{user.email}}">
                             </div>
                         </div>
@@ -199,9 +199,17 @@
                         <h3>🧧🧧🧧 Super gift !!! Ends on <strong> January 30th, 2024.</strong></h3>
                         <h4>🎁🎁🎁 You don't have any account in our payment system.</h4>
                         <h4>🎁🎁🎁 Make a new one to get 500$ for free !</h4>
-                        <button type="button" class="btn btn-primary" id="create-new-account-btn">
-                            Create new account now
-                        </button>
+                        <h4>🗝️🗝️🗝️ Ensure to remember your PIN Code</h4>
+
+                        <label for="pincode" class="form-label">PIN Code: </label>
+                        <div class="input-group" style="margin: 10px 0;">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input type="password" required class="form-control" name="pincode" id="pincode">
+                        </div>
+
+                        <button type="button" class="btn btn-primary" id="create-new-account-btn">Create now</button>
                         {{/if}}
 
                         <hr class="border-light m-0">
@@ -376,7 +384,7 @@
 
     $('#create-new-account-btn').on("click", async (e) => {
         let data = {
-            amount: 500,
+            pincode: $('#pincode').val(),
         };
 
         let createdAccount = await $.ajax({

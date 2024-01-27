@@ -18,4 +18,6 @@ router.get('/confirm', TransactionController.handleConfirmTransaction);
 //POST
 router.post('/create', TransactionController.handleCreateTransaction);
 
+router.post('/validate', TransactionController.handleValidateTransaction);
+
 module.exports = router;

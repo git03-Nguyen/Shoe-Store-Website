@@ -1,9 +1,10 @@
 const DBProvider = require('../utils/dbAccount');
 
 class Account {
-    constructor(id, balance) {
+    constructor(id, balance, pincode) {
         this.id = id;
         this.balance = balance;
+        this.pincode = pincode;
     }
 
     static clone(obj) {
@@ -11,7 +12,7 @@ class Account {
             return null;
         }
 
-        return new Account(obj.id, obj.balance);
+        return new Account(obj.id, obj.balance, obj.pincode);
     }
 
     static async getAllAccounts() {
@@ -23,8 +24,8 @@ class Account {
         return null;
     }
 
-    static async addNewAccount(accountID) {
-        let data = await DBProvider.addNewAccount(accountID);
+    static async addNewAccount(accountID, pincode) {
+        let data = await DBProvider.addNewAccount(accountID, pincode);
         if (data) {
             return Account.clone(data);
         }
@@ -52,6 +53,24 @@ class Account {
 
     static async handlePaymentFailure(accID, transactionPrice) {
         let data = await DBProvider.handlePaymentFailure(accID, transactionPrice);
+        if (data) {
+            return Account.clone(data);
+        }
+
+        return null;
+    }
+
+    static async getAccountByAPI(accountID, pincode) {
+        let data = await DBProvider.getAccountByAPI(accountID, pincode);
+        if (data) {
+            return Account.clone(data);
+        }
+
+        return null;
+    }
+
+    static async handlePostPaymentAPI(accountID, amount, pincode) {
+        let data = await DBProvider.handlePostPaymentAPI(accountID, amount, pincode);
         if (data) {
             return Account.clone(data);
         }

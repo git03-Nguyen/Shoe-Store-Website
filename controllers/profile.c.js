@@ -33,6 +33,7 @@ module.exports = {
     handleCreateNewAccount: async (req, res, next) => {
         let newAccount = await axiosInstance.post("https://localhost:4000/api/create", {
             accountID: req.user.id,
+            pincode: req.body?.pincode,
             secret: process.env.AXIOS_SECRET
         });
 

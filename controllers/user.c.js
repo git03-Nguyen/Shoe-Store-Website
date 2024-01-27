@@ -73,8 +73,11 @@ module.exports = {
             console.log("Data from general profile updating: ");
             console.log(data);
 
-            const avatarExtension = req.file.originalname.split('.').pop();
-            const avatar = `/img/avatars/avatar_${req.user.id}.${avatarExtension}`;
+            const avatar = req.user.avatar;
+            if (req.file) {
+                const avatarExtension = req.file.originalname.split('.').pop();
+                avatar = `/img/avatars/avatar_${req.user.id}.${avatarExtension}`;
+            }
 
             let updatedUser = await User.updateGeneralProfile(data.username, data.fullname, data.email, data.phonenumber, data.address, avatar);
             console.log("Updated user's avatar: " + updatedUser.avatar);

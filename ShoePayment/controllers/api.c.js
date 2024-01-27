@@ -50,7 +50,7 @@ module.exports = {
 
     createNewAccount: async (req, res, next) => {
         try {
-            let { accountID, secret } = req.body;
+            let { accountID, pincode, secret } = req.body;
 
             if (secret != process.env.AXIOS_SECRET) {
                 return res.json({
@@ -59,7 +59,7 @@ module.exports = {
                 })
             }
 
-            let data = await Account.addNewAccount(accountID);
+            let data = await Account.addNewAccount(accountID, pincode);
             if (!data) {
                 return res.json({
                     object: null,

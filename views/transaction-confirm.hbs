@@ -3,7 +3,7 @@
 
 
     <span style="margin: 0 auto; text-align: center">Please checkout your order information again <br></span>
-    <span style="margin: 0 auto; text-align: center">Enter your password to confirm transaction</span>
+    <span style="margin: 0 auto; text-align: center">Enter your PIN code to confirm transaction</span>
 
     <div class="separator">
         <h4 class="hidden-error"></h4>
@@ -51,15 +51,49 @@
         <input type="number" required class="form-control" name="amount" id="amount" value="{{amount}}" readonly>
     </div>
 
-    <label for="password" class="form-label">Password: </label>
+    <label for="pincode" class="form-label">Pincode: </label>
     <div class="input-group">
         <span class="input-group-text" id="basic-addon1">
             <i class="fa-solid fa-key"></i>
         </span>
-        <input type="password" required class="form-control" name="password" id="password">
+        <input type="password" required class="form-control" name="pincode" id="pincode">
     </div>
 
     <div class="button-row">
-        <button id="transaction-confirm-btn" type="submit" class="btn btn-primary">Confirm</button>
+        <button id="transaction-confirm-btn" type="button" class="btn btn-primary">Confirm</button>
     </div>
 </form>
+
+
+<script>
+    $('#transaction-confirm-btn').on('click', async () => {
+        let data = {
+            pincode: $('#pincode').val(),
+        };
+
+        let returnedAccount = await $.ajax({
+            url: '/transaction/validate',
+            method: "POST",
+            dataType: 'json',
+            data: data
+        });
+
+        if (!returnedAccount) {
+            alert("Error requesting transaction validtation to the server");
+            return;
+        }
+
+        if (!returnedAccount.object) {
+            alert(returnedAccount.message);
+            return;
+        }
+        returnedAccount = returnedAccount.object;
+        let transactionAmount = parseInt($('#amount').val());
+        if (returnedAccount.balance < transactionAmount) {
+            alert("The account's balance is LESS than the transaction's amount !");
+            return;
+        }
+
+        $('#transaction-confirm-form').submit();
+    });
+</script>

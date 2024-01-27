@@ -27,13 +27,10 @@ module.exports = {
 
     handleCreateTransaction: async (req, res, next) => {
         try {
-            let { username, orderID, amount, password } = req.body;
-            let state = await bcrypt.compare(password, req.user.password);
+            let { username, orderID, amount } = req.body;
 
-            if (username != req.user.username || !state) {
-                console.log(`Input: ${username} vs User: ${req.user.username}`);
-                console.log(`Input: ${password}`);
-                return res.send("Incorrect username or password");
+            if (username != req.user.username) {
+                return res.send("Incorrect user");
             }
 
             let updatedUser = await axiosInstance.post("https://localhost:4000/api/transaction", {
@@ -55,6 +52,42 @@ module.exports = {
 
 
             return res.redirect('https://localhost:3000/profile');
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    handleValidateTransaction: async (req, res, next) => {
+        try {
+            let pincode = req.body.pincode;
+
+            let returnedAccount = await axiosInstance.post("https://localhost:4000/api/account", {
+                accountID: req.user.id,
+                isAdmin: req.user.isadmin,
+                secret: process.env.AXIOS_SECRET
+            });
+
+            if (!returnedAccount || !returnedAccount.data || !returnedAccount.data.object) {
+                return res.json({
+                    object: null,
+                    message: "Error loading account information from database"
+                });
+            }
+
+            returnedAccount = returnedAccount.data.object;
+            let state = await bcrypt.compare(pincode, returnedAccount.pincode);
+
+            if (!state) {
+                return res.json({
+                    object: null,
+                    message: "Incorrect pincode !"
+                });
+            }
+
+            return res.json({
+                object: returnedAccount,
+                message: "Account is returned successfully"
+            });
         } catch (error) {
             next(error);
         }
