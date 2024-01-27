@@ -35,6 +35,10 @@ module.exports = class Product {
         return await dbProduct.updateProduct(product);
     }
 
+    static async deleteProduct(id) {
+        return await dbProduct.deleteProduct(id);
+    }
+
     static async getAllProductsAtPage(page, pageSize) {
         let data = await dbProduct.getAllProductsAtPage(page, pageSize);
 

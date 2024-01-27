@@ -330,8 +330,8 @@
                                     </li>
                                     <li><button class="icon-button btn-edit" tag="{{this.id}}"><img
                                                 src="/img/icon/edit-product.png" alt=""></button></li>
-                                    <li><button class="icon-button btn-delete"><img src="/img/icon/delete-product.png"
-                                                alt=""></button></li>
+                                    <li><button class="icon-button btn-delete" tag="{{this.id}}"><img
+                                                src="/img/icon/delete-product.png" alt=""></button></li>
                                 </ul>
                             </div>
 
@@ -440,6 +440,7 @@
         addEventChangeImage();
         addEventAddProduct();
         addEventEditProduct();
+        addEventDeleteProduct();
         addEventCloseModel();
         addEventSaveModel();
     });
@@ -488,7 +489,7 @@
                                 </li>
                                 <li><button class="icon-button btn-edit" tag="${products[i].id}"><img
                                             src="/img/icon/edit-product.png" alt=""></button></li>
-                                <li><button class="icon-button btn-delete"><img src="/img/icon/delete-product.png"
+                                <li><button class="icon-button btn-delete" tag="${products[i].id}"><img src="/img/icon/delete-product.png"
                                             alt=""></button></li>
                             </ul>
                         </div>
@@ -511,6 +512,7 @@
 
         $("#display-product-cards").html(htmlText);
         addEventEditProduct();
+        addEventDeleteProduct();
     }
 
     function createPagination(currentPage, pages) {
@@ -594,6 +596,46 @@
                     $('#inputVideo').val(product.productVideo);
                     $('#inputDescription').val(product.productDescription);
                     $('#inputAdditionalInformation').val(product.productAdditionalInformation);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    }
+
+    function addEventDeleteProduct() {
+        $('.product__hover .btn-delete').click(function () {
+            let productId = $(this).attr('tag');
+
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let api = url.origin + url.pathname + '/api/delete/product?id=' + productId;
+
+            // ajax
+            $.ajax({
+                url: api,
+                method: "DELETE",
+                dataType: "json",
+                success: function (response) {
+                    if (response.message == 'Delete product successfully') {
+                        handleEventForPagination(parseInt($('.product__pagination .active').text()));
+                    }
+
+                    Toastify({
+                        text: response.message,
+                        duration: 3000,
+                        newWindow: true,
+                        close: false,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            width: "250px",
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        },
+                        onClick: function () { } // Callback after click
+                    }).showToast();
                 },
                 error: function (error) {
                     console.log("Error:", error);

@@ -236,5 +236,30 @@ module.exports = {
         }
 
         res.json(product);
+    },
+
+    adminAPIDeleteProductById: async function (req, res, next) {
+        let id = parseInt(req.query.id);
+        let data = new Object();
+        console.log("__id: " + id);
+        if (!isNaN(id)) {
+            try {
+                let flag = await Product.deleteProduct(id);
+                if (flag) {
+                    data.message = "Delete product successfully";
+                }
+                else {
+                    data.message = "Delete product failed";
+                }
+            }
+            catch (err) {
+                return next(err);
+            }
+        }
+        else {
+            data.message = "Delete product failed";
+        }
+
+        res.json(data);
     }
 }

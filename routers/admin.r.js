@@ -17,5 +17,7 @@ router.post('/management/products/api/post/product', upload.single('imagefile'),
 // admin api get product by id
 router.get('/management/products/api/get/product', require('../controllers/admin-products.c').adminAPIGetProductById);
 
+// admin api delete product by id
+router.delete('/management/products/api/delete/product', require('../controllers/admin-products.c').adminAPIDeleteProductById);
 module.exports = router;
 

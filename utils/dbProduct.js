@@ -134,6 +134,25 @@ module.exports = {
         return flag;
     },
 
+    deleteProduct: async function (id) {
+        const query = `
+            DELETE FROM products WHERE id = $1;
+        `;
+
+        const values = [id];
+
+        let flag = true;
+        try {
+            await db.none(query, values);
+        }
+        catch (error) {
+            flag = false;
+            console.error(error);
+        }
+
+        return flag;
+    },
+
     getAllProductsAtPage: async function (page, pageSize) {
         const query = `
             SELECT * FROM products
