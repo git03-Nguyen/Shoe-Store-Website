@@ -28,4 +28,8 @@ module.exports = class Category{
         let data = await dbCategory.addNewCategory(category);
         return data;
     }
+    static async deleteCategory(id){
+        let data = await dbCategory.deleteCategory(id);
+        return data;
+    }
 }

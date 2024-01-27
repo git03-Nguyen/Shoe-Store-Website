@@ -1,4 +1,5 @@
 const Category = require('../models/category.m');
+const dbCategory = require('../utils/dbCategory');
 
 
 module.exports = {
@@ -62,16 +63,40 @@ module.exports = {
     let result=await Category.addNewCategory(newCategory);
     if (result)
     {
-      res.json({success: true, message: 'Add category successfully!'});
+      res.json({success: true, message: 'Add Category successfully!'});
     }
     else {
-      res.json({success: false, message: 'Add category failed!'});
+      res.json({success: false, message: 'Add Category failed!'});
     }
   }
   catch(err){
-    res.json({success: false, message: 'Add category failed!'});
+    res.json({success: false, message: 'Add Category failed!'});
   }
 
+},
+//POST /admin/category-management/delete
+  postDeleteCategory: async (req, res, next) => {
+    const { categoryId} = req.body;
+   try{
+
+    const productCount=await dbCategory.checkCategoryHasExistProduct(categoryId);
+    if (productCount>0)
+    {
+      res.json({success: false, message: 'Cannot delete category because it has products.'});
+      return;
+    }
+    let result=await Category.deleteCategory(categoryId);
+    if (result)
+    {
+      res.json({success: true, message: 'Delete category successfully!'});
+    }
+    else {
+      res.json({success: false, message: 'Delete category failed!1'});
+    }
+  }
+  catch(err){
+    res.json({success: false, message: 'Delete category failed!2'});
+  }
 }
 };
 

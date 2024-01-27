@@ -13,7 +13,7 @@
       <table class="table">
         <thead class="table-light">
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">No</th>
             <th scope="col" class="text-start">Category Name</th>
             <th scope="col">Category Description</th>
             <th scope="col">Creation Date</th>
@@ -42,8 +42,8 @@
                   <i class="fas fa-edit"></i>
                 </button>
 
-
-                <button class="btn btn-outline-danger ms-2 ">
+                <button class="btn btn-outline-danger ms-2 btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                data-bs-id="{{this.id}}">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
@@ -56,6 +56,7 @@
       </table>
      {{>modal-edit-category}}
      {{>modal-add-new-category}}
+     {{>modal-delete-category}}
     </div>
 
   </div>
