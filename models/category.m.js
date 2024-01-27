@@ -18,4 +18,9 @@ module.exports = class Category{
 
         return list;
     } 
+
+    static async editCategory(id, name, description){
+        let data = await dbCategory.editCategory(id, name, description);
+        return data;
+    }
 }
