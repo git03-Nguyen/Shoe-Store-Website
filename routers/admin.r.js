@@ -26,6 +26,9 @@ router.post('/category-management/delete', controllers.postDeleteCategory);
 
 // For product management
 router.get('/products', controllers.getProductManagement);
+router.get('/products/get', controllers.getProducts);
+router.post('/products/edit', controllers.postEditProduct);
+// router.post('/products/delete', controllers.postDeleteProduct);
 
 // ------------
 

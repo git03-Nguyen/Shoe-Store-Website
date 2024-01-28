@@ -1,0 +1,319 @@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+          <!-- Your form fields go here. For example: -->
+          <div class="mb-2">
+            <label for="inputName" class="form-label" style="color: #000">Product Name<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputName" name="inputName" required>
+          </div>
+          <div class="mb-2">
+            <label for="inputPrice" class="form-label" style="color: #000">Price<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputPrice" name="inputPrice" required>
+          </div>
+          <div class="mb-2">
+            <label for="selectCategory" class="form-label" style="color: #000">Category<span
+                class="text-danger">(*)</span></label>
+            <select class="form-select" aria-label="Default select example" id="selectCategory" name="selectCategory"
+              required>
+              {{#each categories}}
+              <option value="{{id}}">{{categoryName}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label for="inputBrand" class="form-label" style="color: #000">Brand<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputBrand" name="inputBrand" required>
+          </div>
+          <div class="mb-2">
+            <label for="inputGender" class="form-label" style="color: #000">Gender<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputGender" name="inputGender" required>
+          </div>
+          <div class="mb-2">
+            <label for="inputSizes" class="form-label" style="color: #000">Sizes<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputSizes" name="inputSizes" placeholder="Ex: 39, 40, 41"
+              required>
+            <small id="sizesHelper" class="form-text text-muted">The sizes is splitted by comma</small>
+          </div>
+          <div class="mb-2">
+            <label for="inputColors" class="form-label" style="color: #000">Colors<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputColors" name="inputColors" placeholder="Ex: c-1, c-3, c-4 "
+              required>
+            <small id="colorsHelper" class="form-text text-muted">The colors is splitted by comma. (c-1:
+              Black, c-2: Blue, c-3; Orange, c-4: Red, c-5: White)</small>
+          </div>
+          <div class="mb-2">
+            <label for="inputAvailability" class="form-label" style="color: #000">Availability<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputAvailability" name="inputAvailability" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" style="color: #000">Product Image<span class="text-danger">(*)</span></label>
+            <div class="mb-3 ms-3">
+              <input type="radio" id="linkImage" name="image" value="Link Image" checked>
+              <label style="color: black !important;" class="form-table" for="linkImage">Link
+                Image</label>
+              <input type="text" class="form-control" id="inputLinkImage" placeholder="Link Image">
+            </div>
+            <div class="mb-3 ms-3">
+              <input type="radio" id="uploadImage" name="image" value="Upload Image">
+              <label style="color: black !important;" class="form-table" for="uploadImage">Upload
+                Image</label>
+              <div>
+                <div class="mb-4 d-flex justify-content-center">
+                  <img id="selectedImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                    alt="example placeholder" style="width: 300px;" />
+                </div>
+                <div class="d-flex justify-content-center">
+                  <div class="btn btn-primary btn-rounded">
+                    <label class="form-label text-white m-1" for="customFile1">Choose file</label>
+                    <input type="file" class="form-control d-none" id="customFile1"
+                      accept="image/png, image/jpeg, image/jpg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label style="color: black !important" class="form-lable">Link Thumbnail Images</label>
+            <div class="mb-3 ms-3">
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThumbnailImage1">Thumbnail Image
+                  1</label>
+                <input type="text" class="form-control" id="inputThumbnailImage1" placeholder="Thumbnail Image 1">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThumbnailImage1">Thumbnail Image
+                  2</label>
+                <input type="text" class="form-control" id="inputThumbnailImage2" placeholder="Thumbnail Image 2">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThumbnailImage3">Thumbnail Image
+                  3</label>
+                <input type="text" class="form-control" id="inputThumbnailImage3" placeholder="Thumbnail Image 3">
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label style="color: black !important" class="form-lable">Link Big Images</label>
+            <div class="mb-3 ms-3">
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThreeBigImage1">Three Big Image
+                  1</label>
+                <input type="text" class="form-control" id="inputThreeBigImage1" placeholder="Three Big Image 1">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThreeBigImage2">Three Big Image
+                  2</label>
+                <input type="text" class="form-control" id="inputThreeBigImage2" placeholder="Three Big Image 2">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThreeBigImage3">Three Big Image
+                  3</label>
+                <input type="text" class="form-control" id="inputThreeBigImage3" placeholder="Three Big Image 3">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important;" class="form-table" for="inputVideoThumbImage">Link
+                Video Thumbnail Image</label>
+              <input type="text" class="form-control" id="inputVideoThumbImage" placeholder="Video Thumbnail Image">
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important;" class="form-table" for="inputVideoBigImage">Link
+                Video Big Image</label>
+              <input type="text" class="form-control" id="inputVideoBigImage" placeholder="Video Big Image">
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important;" class="form-table" for="inputVideo">Link
+                Video</label>
+              <input type="text" class="form-control" id="inputVideo" placeholder="Video">
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important" for="inputDescription" class="form-lable">Description</label>
+              <textarea class="form-control" id="inputDescription" placeholder="Description" rows="6"></textarea>
+              <small id="descriptionHelper" class="form-text text-muted">You can use HTML language to
+                write
+                Product Description.</small>
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important" for="inputAdditionalInformation" class="form-lable">Additional
+                Information</label>
+              <textarea class="form-control" id="inputAdditionalInformation" placeholder="Additional Information"
+                rows="6"></textarea>
+              <small id="additionalInformationHelper" class="form-text text-muted">You can use HTML
+                language
+                to write Additional Information.</small>
+            </div>
+
+
+          </div>
+
+
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveChanges">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  let id = null;
+
+  const editModal = document.getElementById('editModal');
+  if (editModal) {
+    editModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      const button = event.relatedTarget;
+      // Extract info from data-bs-* attributes
+      id = button.getAttribute('data-bs-id');
+      // get data from server
+      let data = null;
+      $.ajax({
+        url: '/admin/products/get?id=' + id,
+        method: 'GET',
+        success: function (res) {
+          if (res.success === true) {
+            data = res.data;
+            // update UI
+            editModal.querySelector('#inputName').value = data.productName;
+            editModal.querySelector('#inputPrice').value = data.productPrice;
+            editModal.querySelector('#selectCategory').value = data.categoryId;
+            editModal.querySelector('#inputBrand').value = data.productBrand;
+            editModal.querySelector('#inputGender').value = data.productGender;
+            editModal.querySelector('#inputSizes').value = data.productSizes.join(', ');
+            editModal.querySelector('#inputColors').value = data.productColors.join(', ');
+            editModal.querySelector('#inputAvailability').value = data.productAvailability;
+            editModal.querySelector('#inputLinkImage').value = data.productImage;
+            editModal.querySelector('#inputThumbnailImage1').value = data.productThumbImages[0];
+            editModal.querySelector('#inputThumbnailImage2').value = data.productThumbImages[1];
+            editModal.querySelector('#inputThumbnailImage3').value = data.productThumbImages[2];
+            editModal.querySelector('#inputThreeBigImage1').value = data.productBigImages[0];
+            editModal.querySelector('#inputThreeBigImage2').value = data.productBigImages[1];
+            editModal.querySelector('#inputThreeBigImage3').value = data.productBigImages[2];
+            editModal.querySelector('#inputVideoThumbImage').value = data.productVideoThumbImage;
+            editModal.querySelector('#inputVideoBigImage').value = data.productVideoBigImage;
+            editModal.querySelector('#inputVideo').value = data.productVideo;
+            editModal.querySelector('#inputDescription').value = data.productDescription;
+            editModal.querySelector('#inputAdditionalInformation').value = data.productAdditionalInformation;
+            editModal.querySelector('#selectedImage').src = data.productImage;
+
+          }
+          else {
+            showToast('Get Status', "Can't get product data");
+          }
+        }
+      });
+
+    });
+  }
+  const saveChanges = document.getElementById('saveChanges');
+
+  saveChanges.addEventListener('click', function () {
+    $('#editModal').modal('hide');
+
+    const productName = editModal.querySelector('#inputName').value;
+    const productPrice = editModal.querySelector('#inputPrice').value;
+    const categoryId = editModal.querySelector('#selectCategory').value;
+    const productBrand = editModal.querySelector('#inputBrand').value;
+    const productGender = editModal.querySelector('#inputGender').value;
+    const productSizes = editModal.querySelector('#inputSizes').value.split(', ').map(item => parseInt(item));
+    const productColors = editModal.querySelector('#inputColors').value.split(', ');
+    const productAvailability = editModal.querySelector('#inputAvailability').value;
+    const productImage = editModal.querySelector('#inputLinkImage').value;
+    const productThumbImages = [
+      editModal.querySelector('#inputThumbnailImage1').value,
+      editModal.querySelector('#inputThumbnailImage2').value,
+      editModal.querySelector('#inputThumbnailImage3').value
+    ];
+    const productBigImages = [
+      editModal.querySelector('#inputThreeBigImage1').value,
+      editModal.querySelector('#inputThreeBigImage2').value,
+      editModal.querySelector('#inputThreeBigImage3').value
+    ];
+    const productVideoThumbImage = editModal.querySelector('#inputVideoThumbImage').value;
+    const productVideoBigImage = editModal.querySelector('#inputVideoBigImage').value;
+    const productVideo = editModal.querySelector('#inputVideo').value;
+    const productDescription = editModal.querySelector('#inputDescription').value;
+    const productAdditionalInformation = editModal.querySelector('#inputAdditionalInformation').value;
+
+    const data = {
+      id,
+      productName,
+      productPrice,
+      categoryId,
+      productBrand,
+      productGender,
+      productSizes,
+      productColors,
+      productAvailability,
+      productImage,
+      productThumbImages,
+      productBigImages,
+      productVideoThumbImage,
+      productVideoBigImage,
+      productVideo,
+      productDescription,
+      productAdditionalInformation
+    };
+    console.log(data);
+
+    $.ajax({
+      url: '/admin/products/edit',
+      method: 'POST',
+      data: data,
+      success: function (res) {
+        if (res.success === true) {
+          showToast('Edit Status', res.message);
+          reloadPageOnToastHiden();
+        }
+        else {
+          showToast('Edit Status', res.message);
+        }
+      }
+    });
+
+  });
+</script>
+
+<script>
+  $('#customFile1').change(function () {
+    const selectedImage = document.getElementById('selectedImage');
+    const fileInput = document.getElementById('customFile1');
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        selectedImage.src = e.target.result;
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  });
+</script>

@@ -294,6 +294,30 @@ module.exports = {
     });
   },
 
+  // GET /products/get
+  getProducts: async (req, res, next) => {
+    const { id } = req.query;
+    const products = await Product.getAllProducts();
+    const product = products.find(product => product.id == id);
+    res.json({ success: true, data: product });
+  },
+
+  // POST /products/edit
+  postEditProduct: async (req, res, next) => {
+    try {
+      let result = await Product.updateProduct(req.body);
+      if (result) {
+        res.json({ success: true, message: 'Edit product successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Edit product failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Edit product failed!' });
+    }
+  },
+
 
 
 };

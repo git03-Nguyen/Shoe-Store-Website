@@ -102,7 +102,7 @@ module.exports = {
             product.categoryId,
             product.productName,
             product.productBrand,
-            product.productSizes,
+            product.productSizes.map(size => +size), // convert string to number
             product.productColors,
             product.productPrice,
             product.productPriceBeforeDiscount,
