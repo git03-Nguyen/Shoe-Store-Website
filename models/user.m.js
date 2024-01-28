@@ -118,8 +118,18 @@ class User {
         }
     }
 
-    static async editUser(id, username, fullname, email, phonenumber, address, isadmin) {
-        let data = await DBProvider.editUser(id, username, fullname, email, phonenumber, address, isadmin);
+    static async editUser(id, username, fullname, email, phonenumber, avatar, address, isadmin) {
+        let data = await DBProvider.editUser(id, username, fullname, email, phonenumber, avatar, address, isadmin);
+        if (!data) {
+            return data;
+        }
+
+        data = User.clone(data);
+        return data;
+    }
+
+    static async updateAvatar(id, avatar) {
+        let data = await DBProvider.updateAvatar(id, avatar);
         if (!data) {
             return data;
         }

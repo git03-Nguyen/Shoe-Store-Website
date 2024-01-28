@@ -247,7 +247,7 @@ module.exports = {
         }
     },
 
-    editUser: async (id, username, fullname, email, phonenumber, address, isadmin) => {
+    editUser: async (id, username, fullname, email, phonenumber, avatar, address, isadmin) => {
         let db_connection = null;
 
         try {
@@ -255,11 +255,39 @@ module.exports = {
 
             let data = await db_connection.query(`
                 UPDATE "users"
-                SET username = $1, fullname = $2, email = $3, phonenumber = $4, address = $5, isadmin = $6
-                WHERE id = $7
+                SET username = $1, fullname = $2, email = $3, phonenumber = $4, avatar = $5, address = $6, isadmin = $7
+                WHERE id = $8
                 RETURNING *;
             `,
-                [username, fullname, email, phonenumber, address, isadmin, id]);
+                [username, fullname, email, phonenumber, avatar, address, isadmin, id]);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    updateAvatar: async (userID, avatar) => {
+        let db_connection = null;
+        console.log(userID);
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET avatar = $1
+                WHERE id = $2
+                RETURNING *;
+            `,
+                [avatar, userID]);
 
             if (data && data.length > 0) {
                 data = data[0];

@@ -177,9 +177,9 @@ module.exports = {
 
   // POST /users/edit
   postEditUser: async (req, res, next) => {
-    const { id, username, fullname, email, phonenumber, address, isadmin } = req.body;
+    const { id, username, fullname, email, phonenumber, avatar, address, isadmin } = req.body;
     try {
-      let result = await User.editUser(id, username, fullname, email, phonenumber, address, isadmin);
+      let result = await User.editUser(id, username, fullname, email, phonenumber, avatar, address, isadmin);
       if (result) {
         res.json({ success: true, message: 'Edit user successfully!' });
       }
@@ -189,6 +189,27 @@ module.exports = {
     }
     catch (err) {
       res.json({ success: false, message: 'Edit user failed!' });
+    }
+  },
+
+  // POST /users/upload
+  postUploadAvatar: async (req, res, next) => {
+    const { id } = req.body;
+    // avatar = the path of the avatar image after multer upload
+    let avatar = req.file.path;
+    // delete the prefix public
+    avatar = avatar.replace('public', '');
+    try {
+      let result = await User.updateAvatar(id, avatar);
+      if (result) {
+        res.json({ success: true, message: 'Upload avatar successfully!', avatar: avatar });
+      }
+      else {
+        res.json({ success: false, message: 'Upload avatar failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Upload avatar failed!' });
     }
   },
 };

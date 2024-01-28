@@ -8,6 +8,7 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 const controllers = require('../controllers/admin.c');
 const uploadProduct = require('../utils/multerUpload/productImage.upload');
+const uploadAvatar = require('../utils/multerUpload/avatarUser.upload');
 
 // For statistics charts
 router.get('/', controllers.getDashboard);
@@ -42,6 +43,7 @@ router.delete('/management/products/api/delete/product', require('../controllers
 router.get('/users', controllers.getUserManagement);
 router.post('/users/delete', controllers.postDeleteUser);
 router.post('/users/edit', controllers.postEditUser);
+router.post('/users/upload', uploadAvatar.single('avatar'), controllers.postUploadAvatar);
 
 
 module.exports = router;

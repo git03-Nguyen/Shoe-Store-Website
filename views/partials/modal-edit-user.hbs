@@ -28,6 +28,7 @@
             <div class="input-group">
               <input type="text" class="form-control" id="avatarUrl" name="avatarUrl" required>
               <button class="btn btn-primary" type="button" id="uploadImage">Upload</button>
+              <input type="file" class="form-control" id="avatar" name="avatar" style="display: none">
             </div>
           </div>
           <div class="mb-2">
@@ -92,7 +93,7 @@
     const username = editModal.querySelector('#username').value;
     const fullname = editModal.querySelector('#fullname').value;
     const email = editModal.querySelector('#email').value;
-    const avatar = editModal.querySelector('#avatarUrl').value;
+    const avatarUrl = editModal.querySelector('#avatarUrl').value;
     const phonenumber = editModal.querySelector('#phonenumber').value;
     const address = editModal.querySelector('#address').value;
     const isadmin = editModal.querySelector('#role').value === '1';
@@ -101,7 +102,7 @@
       username,
       fullname,
       email,
-      avatar,
+      avatar: avatarUrl,
       phonenumber,
       address,
       isadmin
@@ -123,4 +124,38 @@
       }
     });
   });
+</script>
+
+<script>
+  const uploadImage = document.getElementById('uploadImage');
+  // trigger input file
+  uploadImage.addEventListener('click', function () {
+    const avatar = document.getElementById('avatar');
+    avatar.click();
+  });
+
+  // after choose avatar, then upload
+  const avatar = document.getElementById('avatar');
+  avatar.addEventListener('change', function () {
+    const formData = new FormData();
+    formData.append('avatar', avatar.files[0]);
+    formData.append('id', id);
+    $.ajax({
+      url: '/admin/users/upload',
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (res) {
+        if (res.success === true) {
+          const avatarUrl = document.getElementById('avatarUrl');
+          avatarUrl.value = res.avatar;
+        }
+        else {
+          showToast('Upload Status', res.message);
+        }
+      }
+    });
+  });
+
 </script>
