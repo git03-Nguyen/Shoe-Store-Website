@@ -59,4 +59,8 @@ module.exports = class Order {
         });
         return data;
     }
+
+    static async getRevenue() {
+        return await dbOrder.getRevenue();
+    }
 }

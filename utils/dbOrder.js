@@ -135,4 +135,24 @@ module.exports = {
         return res;
     },
 
+    getRevenue: async function () {
+        // sum the total column
+        const query = `
+            SELECT COALESCE(SUM(total), 0) as total
+            FROM orders
+        `;
+        let res;
+        try {
+            res = await db.one(query);
+        } catch (error) {
+            res = null;
+            // console.error(error);
+        }
+        if (res) {
+            return res.total;
+        } else {
+            return 0;
+        }
+    },
+
 };

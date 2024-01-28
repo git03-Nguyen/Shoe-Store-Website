@@ -16,7 +16,7 @@ module.exports = {
       title: 'Dashboard',
       subnavigation: 0,
       user: req.user,
-      revenue: 0,
+      revenue: await Order.getRevenue(),
       nOfOrders: await Order.countOrders(),
       nOfUsers: await User.countUsers(),
       nOfProducts: await dbProduct.countProducts(),
