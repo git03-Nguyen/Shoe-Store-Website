@@ -23,11 +23,11 @@
     // Button that triggered the modal
     const button = event.relatedTarget;
     // Extract info from data-bs-* attributes
-  categoryId = button.getAttribute('data-bs-id');
+    categoryId = button.getAttribute('data-bs-id');
     // Update the modal's content.
     const modalTitle = deleteModal.querySelector('.modal-title');
     modalTitle.textContent = 'Confirm Delete';
-    
+
   });
   const confirmBtn = document.getElementById('confirmBtn');
   confirmBtn.addEventListener('click', function () {
@@ -41,13 +41,12 @@
       method: 'POST',
       data: data,
       success: function (res) {
-        if (res) {
-          alert(res.message);
-          
-       location.reload();
+        if (res.success===true) {
+         showToast('Delete Catogry Status', res.message);
+         reloadPageOnToastHiden();
         }
         else {
-          alert('Error while updating category!');
+          showToast('Delete Catogry Status', res.message);
         }
       }
     });
