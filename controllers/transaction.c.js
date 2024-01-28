@@ -3,6 +3,8 @@ const axios = require('axios');
 const https = require('https');
 const jwt = require('jsonwebtoken');
 
+const Order = require('../models/order.m');
+
 require('dotenv').config();
 
 const axiosInstance = axios.create({
@@ -47,7 +49,7 @@ module.exports = {
 
             updatedUser = updatedUser?.data;
             if (updatedUser) {
-                jwt.verify(updatedUser, process.env.JWT_SECRET, (err, content) => {
+                jwt.verify(updatedUser, process.env.JWT_SECRET, async (err, content) => {
                     if (err) {
                         throw err;
                     }
@@ -61,6 +63,13 @@ module.exports = {
                     }
 
                     updatedUser = content.object;
+
+                    let updatedOrderStatus = "Paid Successfully";
+                    let updatedOrder = await Order.updateOrderStatus(orderID, updatedOrderStatus);
+                    if (!updatedOrder) {
+                        return res.send("Error updating order status from waitting for payment to paid successfully");
+                    }
+
                     return res.redirect('https://localhost:3000/profile');
                 })
             } else {

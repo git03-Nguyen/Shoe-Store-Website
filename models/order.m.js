@@ -51,4 +51,10 @@ module.exports = class Order {
         });
         return data;
     }
+
+    static async updateOrderStatus(orderID, status) {
+        let data = await dbOrder.updateOrderStatus(orderID, status);
+
+        return data;
+    }
 }

@@ -93,4 +93,25 @@ module.exports = {
         return res;
     },
 
+    updateOrderStatus: async (orderID, status) => {
+        const query = `
+            UPDATE orders
+            SET orderstatus = $1
+            WHERE id = $2
+            RETURNING *;
+        `;
+        let res;
+        try {
+            res = await db.query(query, [status, orderID]);
+
+            if (!res || res.length <= 0) {
+                res = null;
+            } else {
+                res = res[0];
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return res;
+    },
 };
