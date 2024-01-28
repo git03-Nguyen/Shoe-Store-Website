@@ -57,4 +57,16 @@ module.exports = class Order {
 
         return data;
     }
+
+    static async getAllOrders() {
+        let data = await dbOrder.getAllOrders();
+
+        return data;
+    }
+
+    static async getOrdersByUser(userID) {
+        let data = await dbOrder.getOrdersByUser(userID);
+
+        return data;
+    }
 }

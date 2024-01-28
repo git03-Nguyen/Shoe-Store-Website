@@ -20,6 +20,8 @@ module.exports = function (app) {
 
   app.use('/transaction', require('./transaction.r'));
 
+  app.use('/order', require('./order.r'));
+
   // "/about"
   app.use("/about", require("./about.r"));
 

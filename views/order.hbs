@@ -1,0 +1,57 @@
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Order</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <span>Order</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<h1>Your orders</h1>
+
+<table class="table table-primary table-striped table-bordered">
+    <thead>
+        <td scope="rol">#</td>
+        {{#if user.isadmin}}
+        <td scope="col">User ID</td>
+        {{/if}}
+        <td scope="rol">Order ID</td>
+        <td scope="rol">Full name</td>
+        <td scope="rol">Date</td>
+        <td scope="rol">Email</td>
+        <td scope="rol">Contact Phone</td>
+        <td scope="rol">Shipping Address</td>
+        <td scope="rol">Total</td>
+        <td scope="rol">Status</td>
+    </thead>
+
+    <tbody>
+        {{#each orderList}}
+        <tr>
+            <td scope="row">{{@key}}</td>
+            {{#if ../user.isadmin}}
+            <td>{{this.userid}}</td>
+            {{/if}}
+            <td>{{this.id}}</td>
+            <td>{{this.fullname}}</td>
+            <td>{{this.orderdate}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.contactphone}}</td>
+            <td>{{this.shippingaddress}}</td>
+            <td>{{this.total}}</td>
+            <td>{{this.orderstatus}}</td>
+        </tr>
+        {{else}}
+        <h3>There are no order in database now.</h3>
+        {{/each}}
+    </tbody>
+</table>

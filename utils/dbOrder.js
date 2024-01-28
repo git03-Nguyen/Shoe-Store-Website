@@ -12,6 +12,20 @@ const { db, pgp } = require('./dbConfig');
     email varchar(200),
 */
 
+function formatDateTime(dataTime) {
+
+    const options = {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    };
+
+    return new Intl.DateTimeFormat('en-US', options).format(dataTime);
+}
+
 module.exports = {
 
     createOrder: async function (order) {
@@ -114,4 +128,58 @@ module.exports = {
         }
         return res;
     },
+
+    getAllOrders: async () => {
+        const query = `
+            SELECT *
+            FROM orders
+            ORDER BY orderdate ASC, id ASC, orderstatus ASC
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query);
+            if (data && data.length > 0) {
+                data = data;
+
+                for (let i = 0; i < data.length; i++) {
+                    data[i].orderdate = formatDateTime(data[i].orderdate);
+                }
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
+
+    getOrdersByUser: async (userID) => {
+        const query = `
+            SELECT *
+            FROM orders
+            WHERE userid = $1
+            ORDER BY orderdate ASC, id ASC, orderstatus ASC
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query, [userID]);
+            if (data && data.length > 0) {
+                data = data;
+
+                for (let i = 0; i < data.length; i++) {
+                    data[i].orderdate = formatDateTime(data[i].orderdate);
+                }
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
+
 };

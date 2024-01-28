@@ -47,4 +47,27 @@ module.exports = {
 
         return flag;
     },
+
+    getAllOrderDetailByOrder: async (orderID) => {
+        const query = `
+            SELECT *
+            FROM orderdetail
+            WHERE orderid = $1
+            ORDER BY id ASC
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query, [orderID]);
+            if (data && data.length > 0) {
+                data = data;
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
 }

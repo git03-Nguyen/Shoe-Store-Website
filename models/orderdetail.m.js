@@ -26,4 +26,10 @@ module.exports = class OrderDetail {
     static async removeOrderDetail(id) {
         return await dbDetailOrder.removeOrderDetail(id);
     }
+
+    static async getAllOrderDetailByOrder(orderID) {
+        let data = await dbDetailOrder.getAllOrderDetailByOrder(orderID);
+        return data;
+    }
+
 }
