@@ -56,7 +56,7 @@
                       <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"
                         data-bs-fullname="{{fullname}}" data-bs-username="{{username}}" data-bs-email="{{email}}"
                         data-bs-avatar="{{avatar}}" data-bs-phonenumber="{{phonenumber}}" data-bs-address="{{address}}"
-                        data-bs-role="{{isadmin}}" data-bs-id="{{id}}">
+                        data-bs-role="{{#if isadmin}}1{{else}}0{{/if}}" data-bs-id="{{id}}">
                         <i class="fas fa-edit"></i>
                       </button>
                       <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"

@@ -44,6 +44,7 @@ router.get('/users', controllers.getUserManagement);
 router.post('/users/delete', controllers.postDeleteUser);
 router.post('/users/edit', controllers.postEditUser);
 router.post('/users/upload', uploadAvatar.single('avatar'), controllers.postUploadAvatar);
+router.post('/users/create', controllers.postCreateUser);
 
 
 module.exports = router;

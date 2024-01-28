@@ -324,4 +324,34 @@ module.exports = {
             db_connection.done();
         }
     },
+
+    createNewUser: async (user) => {
+        let db_connection = null;
+
+        const password = await bcrypt.hash(user.password, SALT_ROUND);
+        user.password = password;
+
+        try {
+            db_connection = await db.connect();
+            let data = await db_connection.query(`
+                INSERT INTO "users" (username, password, email, fullname, avatar, phonenumber, address, isadmin)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                RETURNING *;
+            `,
+                [user.username, user.password, user.email, user.fullname, user.avatar, user.phonenumber, user.address, user.isadmin]
+            );
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    }
 }

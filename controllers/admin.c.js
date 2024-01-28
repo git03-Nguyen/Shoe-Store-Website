@@ -258,6 +258,25 @@ module.exports = {
       res.json({ success: false, message: 'Upload avatar failed!' });
     }
   },
+
+  // POST /users/create
+  postCreateUser: async (req, res, next) => {
+    try {
+      let result = await User.createNewUser(req.body);
+      if (result) {
+        res.json({ success: true, message: 'Create user successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Create user failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Create user failed!' });
+    }
+  },
+
+
+
 };
 
 

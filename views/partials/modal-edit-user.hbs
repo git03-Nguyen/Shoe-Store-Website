@@ -83,7 +83,13 @@
       editModal.querySelector('#avatarUrl').value = avatar;
       editModal.querySelector('#phonenumber').value = phonenumber;
       editModal.querySelector('#address').value = address;
-      editModal.querySelector('#role').value = role ? 1 : 0;
+      // select role
+      const roleSelect = editModal.querySelector('#role');
+      if (role === '1') {
+        roleSelect.value = 1;
+      } else {
+        roleSelect.value = 0;
+      }
     });
   }
   const saveChanges = document.getElementById('saveChanges');

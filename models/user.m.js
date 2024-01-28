@@ -146,6 +146,16 @@ class User {
 
         return data;
     }
+
+    static async createNewUser(user) {
+        let data = await DBProvider.createNewUser(user);
+        if (!data) {
+            return data;
+        }
+
+        data = User.clone(data);
+        return data;
+    }
 }
 
 module.exports = User;

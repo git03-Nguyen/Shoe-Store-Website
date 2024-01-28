@@ -9,40 +9,41 @@
         <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
           <!-- Your form fields go here. For example: -->
           <div class="mb-2">
-            <label for="username" class="form-label" style="color: #000">Username<span
+            <label for="usernameAdd" class="form-label" style="color: #000">Username<span
                 class="text-danger">(*)</span></label>
-            <input type="text" class="form-control" id="username" name="username" required>
+            <input type="text" class="form-control" id="usernameAdd" name="usernameAdd" required>
           </div>
           <div class="mb-2">
-            <label for="password" class="form-label" style="color: #000">Password<span
+            <label for="passwordAdd" class="form-label" style="color: #000">Password<span
                 class="text-danger">(*)</span></label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <input type="passwordAdd" class="form-control" id="passwordAdd" name="passwordAdd" required>
           </div>
           <div class="mb-2">
-            <label for="fullname" class="form-label" style="color: #000">Full Name<span
+            <label for="fullnameAdd" class="form-label" style="color: #000">Full Name<span
                 class="text-danger">(*)</span></label>
-            <input type="text" class="form-control" id="fullname" name="fullname" required>
+            <input type="text" class="form-control" id="fullnameAdd" name="fullnameAdd" required>
           </div>
           <div class="mb-2">
-            <label for="email" class="form-label" style="color: #000">Email<span class="text-danger">(*)</span></label>
-            <input type="email" class="form-control" id="email" name="email" required>
-          </div>
-          <div class="mb-2">
-            <label for="phonenumber" class="form-label" style="color: #000">Phone<span
+            <label for="emailAdd" class="form-label" style="color: #000">Email<span
                 class="text-danger">(*)</span></label>
-            <input type="text" class="form-control" id="phonenumber" name="phonenumber" required>
+            <input type="emailAdd" class="form-control" id="emailAdd" name="emailAdd" required>
           </div>
           <div class="mb-2">
-            <label for="address" class="form-label" style="color: #000">Address</label>
-            <input type="text" class="form-control" id="address" name="address">
+            <label for="phonenumberAdd" class="form-label" style="color: #000">Phone<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="phonenumberAdd" name="phonenumberAdd" required>
           </div>
           <div class="mb-2">
-            <label for="avatar" class="form-label" style="color: #000">Avatar</label>
-            <input type="text" class="form-control" id="avatar" name="avatar">
+            <label for="addressAdd" class="form-label" style="color: #000">Address</label>
+            <input type="text" class="form-control" id="addressAdd" name="addressAdd">
+          </div>
+          <div class="mb-2">
+            <label for="avatarAdd" class="form-label" style="color: #000">Avatar</label>
+            <input type="text" class="form-control" id="avatarAdd" name="avatarAdd">
           </div>
           <div class="mb-2">
             <label for="role" class="form-label" style="color: #000">Role<span class="text-danger">(*)</span></label>
-            <select class="form-select" aria-label="Default select example" id="role" name="role" required>
+            <select class="form-select" aria-label="Default select example" id="roleAdd" name="roleAdd" required>
               <option value="0" selected>User</option>
               <option value="1">Admin</option>
             </select>
@@ -65,25 +66,25 @@
 
     $('#addModal').modal('hide');
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const usernameAdd = document.getElementById('usernameAdd').value;
+    const passwordAdd = document.getElementById('passwordAdd').value;
 
-    const fullname = document.getElementById('fullname').value;
-    const email = document.getElementById('email').value;
-    const phonenumber = document.getElementById('phonenumber').value;
-    const avatar = document.getElementById('avatar').value;
-    const address = document.getElementById('address').value;
-    const isadmin = document.getElementById('role').value === '1';
+    const fullnameAdd = document.getElementById('fullnameAdd').value;
+    const emailAdd = document.getElementById('emailAdd').value;
+    const phonenumberAdd = document.getElementById('phonenumberAdd').value;
+    const avatarAdd = document.getElementById('avatarAdd').value;
+    const addressAdd = document.getElementById('addressAdd').value;
+    const isadminAdd = document.getElementById('roleAdd').value === '1';
 
     const data = {
-      username,
-      password,
-      fullname,
-      email,
-      phonenumber,
-      avatar,
-      address,
-      isadmin
+      username: usernameAdd,
+      password: passwordAdd,
+      fullname: fullnameAdd,
+      email: emailAdd,
+      phonenumber: phonenumberAdd,
+      avatar: avatarAdd,
+      address: addressAdd,
+      isadmin: isadminAdd
     }
     console.log(data);
 
@@ -101,5 +102,6 @@
         }
       }
     });
+
   });
 </script>
