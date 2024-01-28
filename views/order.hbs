@@ -56,6 +56,18 @@
                     data-bs-target="#detailOrderModal" data-order-id="{{this.id}}">
                     Detail
                 </button>
+                {{#ifEquals this.orderstatus ../statusType.received}}
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.waiting}}
+                <button type="button" class="btn btn-primary payment-btn" data-order-id="{{this.id}}">
+                    Pay
+                </button>
+                {{else}}
+                <button type="button" class="btn btn-primary receive-btn" data-order-id="{{this.id}}">
+                    Receive
+                </button>
+                {{/ifEquals}}
+                {{/ifEquals}}
             </td>
         </tr>
         {{else}}
@@ -150,5 +162,32 @@
         }
 
         $('#orderDetailContent').html(modalContent);
+    });
+
+    $('.receive-btn').on('click', async (e) => {
+        if (confirm(`Are you sure to receive all products in this order ? You cannot redo that change.`)) {
+            let data = {
+                orderID: e.currentTarget.getAttribute('data-order-id'),
+                status: "Received"
+            }
+            let updatedOrder = await $.ajax({
+                url: '/order/status',
+                method: 'POST',
+                dataType: 'json',
+                data: data
+            });
+
+            if (!updatedOrder) {
+                alert("Error handling updating order status");
+            } {
+                window.location.replace('https://localhost:3000/order');
+            }
+        }
+    });
+
+
+    $('.payment-btn').on('click', async (e) => {
+        let orderID = e.currentTarget.getAttribute('data-order-id');
+        window.location.replace(`https://localhost:3000/transaction/confirm?orderID=${orderID}`);
     });
 </script>

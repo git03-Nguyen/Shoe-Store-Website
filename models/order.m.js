@@ -69,4 +69,10 @@ module.exports = class Order {
 
         return data;
     }
+
+    static async getOrderByID(orderID) {
+        let data = await dbOrder.getOrderByID(orderID);
+
+        return data;
+    }
 }

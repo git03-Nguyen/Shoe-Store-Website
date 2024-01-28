@@ -17,9 +17,16 @@ module.exports = {
                 console.log("Error getting order list");
             }
 
+            let statusType = {
+                waiting: "Waiting For Payment",
+                paid: "Paid Successfully",
+                received: "Received"
+            }
+
             res.render('order', {
                 user: req.user,
                 orderList: orderList,
+                statusType: statusType
             });
 
         } catch (error) {
@@ -34,6 +41,18 @@ module.exports = {
             let orderDetailList = await OrderDetail.getAllOrderDetailByOrder(orderID);
 
             return res.json(orderDetailList);
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    handleUpdateStatusOrder: async (req, res, next) => {
+        try {
+            let { orderID, status } = req.body;
+
+            let updatedOrder = await Order.updateOrderStatus(orderID, status);
+
+            return res.json(updatedOrder);
         } catch (error) {
             next(error);
         }

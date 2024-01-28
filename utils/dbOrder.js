@@ -133,7 +133,7 @@ module.exports = {
         const query = `
             SELECT *
             FROM orders
-            ORDER BY orderdate ASC, id ASC, orderstatus ASC
+            ORDER BY orderdate DESC, id DESC, orderstatus ASC
         `;
 
         let data = null;
@@ -160,7 +160,7 @@ module.exports = {
             SELECT *
             FROM orders
             WHERE userid = $1
-            ORDER BY orderdate ASC, id ASC, orderstatus ASC
+            ORDER BY orderdate DESC, id DESC, orderstatus ASC
         `;
 
         let data = null;
@@ -182,4 +182,27 @@ module.exports = {
         return data;
     },
 
+    getOrderByID: async (orderID) => {
+        const query = `
+            SELECT *
+            FROM orders
+            WHERE id = $1
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query, [orderID]);
+            if (data && data.length > 0) {
+                data = data[0];
+
+                data.orderdate = formatDateTime(data.orderdate);
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
 };

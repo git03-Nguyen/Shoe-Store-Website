@@ -18,4 +18,6 @@ router.get('/', OrderController.renderOrderPage);
 //POST
 router.post('/detail', OrderController.handleGetDetailOrder);
 
+router.post('/status', OrderController.handleUpdateStatusOrder)
+
 module.exports = router;

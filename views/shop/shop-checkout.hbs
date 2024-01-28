@@ -140,7 +140,7 @@
                 if (response) {
                     let { orderID, amount } = response;
 
-                    window.location.replace(`https://localhost:3000/transaction/confirm?orderID=${orderID}&amount=${amount}`);
+                    window.location.replace(`https://localhost:3000/transaction/confirm?orderID=${orderID}`);
 
                 } else {
                     console.log("Error:", error);

@@ -15,7 +15,14 @@ const axiosInstance = axios.create({
 module.exports = {
     handleConfirmTransaction: async (req, res, next) => {
         try {
-            let { orderID, amount } = req.query;
+            let { orderID } = req.query;
+
+            let paidOrder = await Order.getOrderByID(orderID);
+            if (!paidOrder) {
+                return res.send("Invalid order");
+            }
+
+            amount = paidOrder.total;
 
             res.render('transaction-confirm', {
                 user: req.user,
@@ -30,11 +37,18 @@ module.exports = {
 
     handleCreateTransaction: async (req, res, next) => {
         try {
-            let { username, orderID, amount } = req.body;
+            let { username, orderID } = req.body;
 
             if (username != req.user.username) {
                 return res.send("Incorrect user");
             }
+
+            let paidOrder = await Order.getOrderByID(orderID);
+            if (!paidOrder) {
+                return res.send("Order has been paid already");
+            }
+
+            let amount = paidOrder.total;
 
             const token = jwt.sign({
                 accountID: req.user.id,
@@ -70,7 +84,7 @@ module.exports = {
                         return res.send("Error updating order status from waitting for payment to paid successfully");
                     }
 
-                    return res.redirect('https://localhost:3000/profile');
+                    return res.redirect('https://localhost:3000/order');
                 })
             } else {
                 next(new Error("Invalid response from Payment server"));
