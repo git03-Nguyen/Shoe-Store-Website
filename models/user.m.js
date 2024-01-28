@@ -106,7 +106,26 @@ class User {
 
     static async deleteUser(userID) {
         let data = await DBProvider.deleteUser(userID);
-        return true;
+        if (!data) {
+            return data;
+        }
+
+        if (data.rowCount > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    static async editUser(id, username, fullname, email, phonenumber, address, isadmin) {
+        let data = await DBProvider.editUser(id, username, fullname, email, phonenumber, address, isadmin);
+        if (!data) {
+            return data;
+        }
+
+        data = User.clone(data);
+        return data;
     }
 }
 

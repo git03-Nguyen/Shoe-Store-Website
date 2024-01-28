@@ -175,6 +175,22 @@ module.exports = {
     }
   },
 
+  // POST /users/edit
+  postEditUser: async (req, res, next) => {
+    const { id, username, fullname, email, phonenumber, address, isadmin } = req.body;
+    try {
+      let result = await User.editUser(id, username, fullname, email, phonenumber, address, isadmin);
+      if (result) {
+        res.json({ success: true, message: 'Edit user successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Edit user failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Edit user failed!' });
+    }
+  },
 };
 
 

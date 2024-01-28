@@ -1,0 +1,126 @@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+          <!-- Your form fields go here. For example: -->
+          <div class="mb-2">
+            <label for="username" class="form-label" style="color: #000">Username<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="mb-2">
+            <label for="fullname" class="form-label" style="color: #000">Full Name<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="fullname" name="fullname" required>
+          </div>
+          <div class="mb-2">
+            <label for="email" class="form-label" style="color: #000">Email<span class="text-danger">(*)</span></label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="mb-2">
+            <label for="avatar" class="form-label" style="color: #000">Avatar<span
+                class="text-danger">(*)</span></label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="avatarUrl" name="avatarUrl" required>
+              <button class="btn btn-primary" type="button" id="uploadImage">Upload</button>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="phonenumber" class="form-label" style="color: #000">Phone</label>
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber">
+          </div>
+          <div class="mb-2">
+            <label for="address" class="form-label" style="color: #000">Address</label>
+            <input type="text" class="form-control" id="address" name="address">
+          </div>
+          <div class="mb-2">
+            <label for="role" class="form-label" style="color: #000">Role<span class="text-danger">(*)</span></label>
+            <select class="form-select" aria-label="Default select example" id="role" name="role" required>
+              <option value="0">User</option>
+              <option value="1">Admin</option>
+            </select>
+          </div>
+
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveChanges">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  let id = null;
+
+  const editModal = document.getElementById('editModal');
+  if (editModal) {
+    editModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      const button = event.relatedTarget;
+      // Extract info from data-bs-* attributes
+      const username = button.getAttribute('data-bs-username');
+      const fullname = button.getAttribute('data-bs-fullname');
+      const email = button.getAttribute('data-bs-email');
+      const avatar = button.getAttribute('data-bs-avatar');
+      const phonenumber = button.getAttribute('data-bs-phonenumber');
+      const address = button.getAttribute('data-bs-address');
+      const role = button.getAttribute('data-bs-role');
+      // Update the modal's content.
+      id = button.getAttribute('data-bs-id');
+      editModal.querySelector('#username').value = username;
+      editModal.querySelector('#fullname').value = fullname;
+      editModal.querySelector('#email').value = email;
+      editModal.querySelector('#avatarUrl').value = avatar;
+      editModal.querySelector('#phonenumber').value = phonenumber;
+      editModal.querySelector('#address').value = address;
+      editModal.querySelector('#role').value = role ? 1 : 0;
+    });
+  }
+  const saveChanges = document.getElementById('saveChanges');
+
+  saveChanges.addEventListener('click', function () {
+    $('#editModal').modal('hide');
+    const username = editModal.querySelector('#username').value;
+    const fullname = editModal.querySelector('#fullname').value;
+    const email = editModal.querySelector('#email').value;
+    const avatar = editModal.querySelector('#avatarUrl').value;
+    const phonenumber = editModal.querySelector('#phonenumber').value;
+    const address = editModal.querySelector('#address').value;
+    const isadmin = editModal.querySelector('#role').value === '1';
+    const data = {
+      id,
+      username,
+      fullname,
+      email,
+      avatar,
+      phonenumber,
+      address,
+      isadmin
+    };
+    console.log(data);
+
+    $.ajax({
+      url: '/admin/users/edit',
+      method: 'POST',
+      data: data,
+      success: function (res) {
+        if (res.success === true) {
+          showToast('Edit Status', res.message);
+          reloadPageOnToastHiden();
+        }
+        else {
+          showToast('Edit Status', res.message);
+        }
+      }
+    });
+  });
+</script>

@@ -241,7 +241,34 @@ module.exports = {
 
             return null;
         } catch (error) {
-            console.log(error);
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    editUser: async (id, username, fullname, email, phonenumber, address, isadmin) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET username = $1, fullname = $2, email = $3, phonenumber = $4, address = $5, isadmin = $6
+                WHERE id = $7
+                RETURNING *;
+            `,
+                [username, fullname, email, phonenumber, address, isadmin, id]);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
         } finally {
             db_connection.done();
         }
