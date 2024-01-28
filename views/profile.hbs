@@ -20,9 +20,9 @@
                     <div class="tab-pane fade active show" id="account-general">
                         <div class="profile-card card-body media align-items-center">
                             {{#if user.avatar}}
-                            <img src="{{user.avatar}}" alt class="d-block ui-w-80">
+                            <img id="user-avatar-img" src="{{user.avatar}}" alt class="d-block ui-w-80">
                             {{else}}
-                            <img src="img/default_avatar.png" alt class="d-block ui-w-80">
+                            <img id="user-avatar-img" src="img/default_avatar.png" alt class="d-block ui-w-80">
                             {{/if}}
 
                             <div class="media-body ml-4">
@@ -35,10 +35,6 @@
                         </div>
                         <hr class="border-light m-0">
                         <div class="card-body">
-                            {{!-- <div class="form-group">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control mb-1" value="nmaxwell">
-                            </div> --}}
                             <label for="username" class="form-label">
                                 Username:
                             </label>
@@ -126,36 +122,38 @@
 
 
                     <div class="tab-pane fade" id="account-connections">
-                        {{#if userBalance}}
-                        <label for="balance" class="form-label">
-                            Balance:
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i class="fa-solid fa-dollar-sign"></i>
-                            </span>
-                            <input type="text" required class="form-control" name="balance" id="balance"
-                                value="{{userBalance}}" readonly>
+                        <div class="card-body pb-2">
+                            {{#if userBalance}}
+                            <label for="balance" class="form-label">
+                                Balance:
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </span>
+                                <input type="text" required class="form-control" name="balance" id="balance"
+                                    value="{{userBalance}}" readonly>
+                            </div>
+                            {{else}}
+                            <h3>🧧🧧🧧 Super gift !!! Ends on <strong> January 30th, 2024.</strong></h3>
+                            <h4>🎁🎁🎁 You don't have any account in our payment system.</h4>
+                            <h4>🎁🎁🎁 Make a new one to get 1000$ for free !</h4>
+                            <h4>🗝️🗝️🗝️ Ensure to remember your PIN Code</h4>
+
+                            <label for="pincode" class="form-label">PIN Code: </label>
+                            <div class="input-group" style="margin: 10px 0;">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-key"></i>
+                                </span>
+                                <input type="password" required class="form-control" name="pincode" id="pincode">
+                            </div>
+
+                            <button type="button" class="btn btn-primary" id="create-new-account-btn">Create
+                                now</button>
+                            {{/if}}
+
+                            <hr class="border-light m-0">
                         </div>
-                        {{else}}
-                        <h3>🧧🧧🧧 Super gift !!! Ends on <strong> January 30th, 2024.</strong></h3>
-                        <h4>🎁🎁🎁 You don't have any account in our payment system.</h4>
-                        <h4>🎁🎁🎁 Make a new one to get 1000$ for free !</h4>
-                        <h4>🗝️🗝️🗝️ Ensure to remember your PIN Code</h4>
-
-                        <label for="pincode" class="form-label">PIN Code: </label>
-                        <div class="input-group" style="margin: 10px 0;">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i class="fa-solid fa-key"></i>
-                            </span>
-                            <input type="password" required class="form-control" name="pincode" id="pincode">
-                        </div>
-
-                        <button type="button" class="btn btn-primary" id="create-new-account-btn">Create now</button>
-                        {{/if}}
-
-                        <hr class="border-light m-0">
-
 
                     </div>
                 </div>
@@ -273,4 +271,15 @@
 
         window.location.replace('https://localhost:3000/profile');
     });
+    $('#avatar').on('change', async (e) => {
+        const avatar = document.getElementById('avatar');
+        const avatarImg = document.getElementById('user-avatar-img');
+        const file = avatar.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            avatarImg.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+    });
+
 </script>

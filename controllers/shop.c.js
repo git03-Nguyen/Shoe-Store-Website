@@ -350,7 +350,7 @@ module.exports = {
             total: total,
             orderdate: new Date(),
             paymentmethod: 'Payment Account', // fix data
-            orderstatus: 'Waiting For Confirm', // default value
+            orderstatus: 'Waiting For Payment', // default value
         };
 
         try {

@@ -13,7 +13,6 @@ module.exports = {
             let data = await db_connection.query(`
                 SELECT *
                 FROM "users"
-                WHERE isadmin = false OR isadmin IS NULL
             `);
 
             if (data && data.length > 0) {

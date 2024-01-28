@@ -73,7 +73,7 @@ module.exports = {
             console.log("Data from general profile updating: ");
             console.log(data);
 
-            const avatar = req.user.avatar;
+            let avatar = req.user.avatar;
             if (req.file) {
                 const avatarExtension = req.file.originalname.split('.').pop();
                 avatar = `/img/avatars/avatar_${req.user.id}.${avatarExtension}`;
