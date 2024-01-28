@@ -42,6 +42,10 @@ module.exports = class Order {
         return await dbOrder.countOrdersByDate(date);
     }
 
+    static async countOrdersByMonth(date) {
+        return await dbOrder.countOrdersByMonth(date);
+    }
+
     static async countOrdersByCategories(from, to) {
         const result = await dbOrder.countOrdersByCategories(from, to);
         // change the format of the result to 2 columns: category, count

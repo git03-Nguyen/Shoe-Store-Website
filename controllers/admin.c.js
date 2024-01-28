@@ -137,7 +137,43 @@ module.exports = {
       }
 
       res.json({ dates: dateStrs, data });
+    } else if (mode == 'monthly') {
+      // response with 6 recent months: 
+      const today = new Date();
+      const dates = [
+        new Date(today.getFullYear(), today.getMonth() - 5, 1),
+        new Date(today.getFullYear(), today.getMonth() - 4, 1),
+        new Date(today.getFullYear(), today.getMonth() - 3, 1),
+        new Date(today.getFullYear(), today.getMonth() - 2, 1),
+        new Date(today.getFullYear(), today.getMonth() - 1, 1),
+        today,
+      ];
+
+      // dateStr = date with format "mm/yyyy"
+      const dateStrs = dates.map(date => {
+        return `${date.getMonth() + 1}/${date.getFullYear()}`;
+      });
+
+      const datesTest = dates.map(date => {
+        const monthstr = date.getMonth() + 1;
+        // 01
+        if (monthstr < 10) {
+          return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+        }
+        return `${date.getFullYear()}-${date.getMonth() + 1}`;
+      });
+
+      let data = [];
+      for (let i = 0; i < datesTest.length; i++) {
+        const date = datesTest[i];
+        const count = await Order.countOrdersByMonth(date);
+        data.push(count);
+      }
+
+      res.json({ dates: dateStrs, data });
+
     }
+
   },
 
   // GET /sales/categories?from=&to=
