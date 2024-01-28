@@ -50,13 +50,23 @@
             <td>{{this.email}}</td>
             <td>{{this.contactphone}}</td>
             <td>{{this.shippingaddress}}</td>
-            <td>{{this.total}}</td>
+            <td>{{this.total}} $</td>
             <td>{{this.orderstatus}}</td>
             <td>
                 <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
                     data-bs-target="#detailOrderModal" data-order-id="{{this.id}}">
                     Detail
                 </button>
+
+                {{#if ../user.isadmin}}
+                {{#ifEquals this.orderstatus ../statusType.waiting}}
+                {{else}}
+                <button type="button" class="btn btn-primary bill-btn" data-bs-toggle="modal"
+                    data-bs-target="#billOrderModal" data-order-id="{{this.id}}">
+                    Bill
+                </button>
+                {{/ifEquals}}
+                {{else}}
                 {{#ifEquals this.orderstatus ../statusType.received}}
                 {{else}}
                 {{#ifEquals this.orderstatus ../statusType.waiting}}
@@ -69,6 +79,7 @@
                 </button>
                 {{/ifEquals}}
                 {{/ifEquals}}
+                {{/if}}
             </td>
         </tr>
         {{else}}
@@ -99,6 +110,25 @@
             </div>
         </div>
     </div>
+    <!-- Bill Order Modal -->
+    <div class="modal fade" id="billOrderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Bill Order</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="orderBillContent">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </table>
 
 <div class="page-selector">
@@ -117,9 +147,9 @@
 
 
             {{else}}
-            <h1 style=" width: 100%; text-align: center;">
+            <h4 style=" width: 100%; text-align: center;">
                 There is currently no information about any page...
-            </h1>
+            </h4>
 
             {{/each}}
         </ul>
@@ -190,6 +220,48 @@
         $('#orderDetailContent').html(modalContent);
     });
 
+    $('.bill-btn').on('click', async (e) => {
+        let data = {
+            orderID: e.currentTarget.getAttribute('data-order-id'),
+        }
+
+        let returnedOrder = await $.ajax({
+            url: '/transaction/bill',
+            method: 'POST',
+            dataType: 'json',
+            data: data,
+        });
+
+        if (!returnedOrder) {
+            alert("Error loading order bill from Payment server");
+        } else if (!returnedOrder.object) {
+            alert(returnedOrder.message);
+        } else {
+            //TODO: open modal 
+            returnedOrder = returnedOrder.object;
+
+            let modalContent = `
+                <div>
+                    <h5 style="margin: 1px 0;">Order ID: ${returnedOrder.orderID}</h5>
+                </div>
+                <div>
+                    <h5>Transaction ID: ${returnedOrder.id}</h5>
+                </div>
+                <div>
+                    <h5>Account ID: ${returnedOrder.accountID}</h5>
+                </div>
+                <div>
+                    <h5>Create date: ${returnedOrder.createDate}</h5>
+                </div>
+                <div>
+                    <h5>Amount: ${returnedOrder.amount} $</h5>
+                </div>
+            `;
+
+            $('#orderBillContent').html(modalContent);
+        }
+    });
+
     $('.receive-btn').on('click', async (e) => {
         if (confirm(`Are you sure to receive all products in this order ? You cannot redo that change.`)) {
             let data = {
@@ -205,7 +277,7 @@
 
             if (!updatedOrder) {
                 alert("Error handling updating order status");
-            } {
+            } else {
                 window.location.replace('https://localhost:3000/order');
             }
         }

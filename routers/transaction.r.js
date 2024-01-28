@@ -20,4 +20,6 @@ router.post('/create', TransactionController.handleCreateTransaction);
 
 router.post('/validate', TransactionController.handleValidateTransaction);
 
+router.post('/bill', TransactionController.handleBillTransaction);
+
 module.exports = router;

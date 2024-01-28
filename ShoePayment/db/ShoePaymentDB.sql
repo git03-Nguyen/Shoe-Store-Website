@@ -5,7 +5,7 @@
 -- Dumped from database version 16.0
 -- Dumped by pg_dump version 16.0
 
--- Started on 2024-01-25 01:25:56
+-- Started on 2024-01-28 19:58:14
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -29,7 +29,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.accounts (
     id integer NOT NULL,
-    balance bigint
+    balance bigint,
+    pincode text
 );
 
 
@@ -107,7 +108,8 @@ CREATE TABLE public.transactions (
     id integer NOT NULL,
     "accountID" integer NOT NULL,
     "createDate" timestamp without time zone NOT NULL,
-    amount bigint NOT NULL
+    amount bigint NOT NULL,
+    "orderID" integer
 );
 
 
@@ -160,9 +162,6 @@ ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.accounts (id, balance) VALUES (2, 1000000);
-INSERT INTO public.accounts (id, balance) VALUES (3, 720000);
-INSERT INTO public.accounts (id, balance) VALUES (4, 540000);
 
 
 --
@@ -171,7 +170,7 @@ INSERT INTO public.accounts (id, balance) VALUES (4, 540000);
 -- Data for Name: admin; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.admin (id, balance) VALUES (1, 10000000);
+INSERT INTO public.admin (id, balance) VALUES (1, 10000);
 
 
 --
@@ -179,8 +178,6 @@ INSERT INTO public.admin (id, balance) VALUES (1, 10000000);
 -- Dependencies: 220
 -- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
-
-
 
 --
 -- TOC entry 4863 (class 0 OID 0)
@@ -206,7 +203,7 @@ SELECT pg_catalog.setval('public.admin_id_seq', 1, true);
 -- Name: transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.transactions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.transactions_id_seq', 19, true);
 
 
 --
@@ -236,7 +233,7 @@ ALTER TABLE ONLY public.transactions
     ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
 
 
--- Completed on 2024-01-25 01:25:56
+-- Completed on 2024-01-28 19:58:15
 
 --
 -- PostgreSQL database dump complete

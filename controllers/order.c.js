@@ -15,9 +15,6 @@ module.exports = {
             } else {
                 orderList = await Order.getOrdersByUser(userID);
             }
-            if (!orderList) {
-                console.log("Error getting order list");
-            }
 
             let statusType = {
                 waiting: "Waiting For Payment",
@@ -25,15 +22,26 @@ module.exports = {
                 received: "Received"
             }
 
-            let dLength = parseInt(orderList.length / perpage) + (orderList.length % perpage == 0 ? 0 : 1);
-            let pageList = Array.from({ length: dLength }, (v, i) => i + 1);
+            let dLength = 0;
+            let pageList = [];
+            let total = 0;
+            if (!orderList) {
+                console.log("Error getting order list");
+                return res.render('order', {
+                    user: req.user,
+                });
+            } else {
+                dLength = parseInt(orderList.length / perpage) + (orderList.length % perpage == 0 ? 0 : 1);
+                pageList = Array.from({ length: dLength }, (v, i) => i + 1);
+                total = orderList.length;
+            }
 
             res.render('order', {
                 user: req.user,
                 orderList: orderList.slice((queryPage - 1) * perpage, queryPage * perpage),
                 statusType: statusType,
                 currentPage: queryPage,
-                total: orderList.length,
+                total: total,
                 pageList: pageList,
             });
 

@@ -41,6 +41,7 @@ module.exports = {
                         let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
                         return res.json(returnedToken);
                     }
+                    returnedData.object = data;
                     returnedData.message = "Admin is returned successfully";
 
                     let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -174,6 +175,51 @@ module.exports = {
                 let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
                 return res.json(returnedToken);
             });
+
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    getTransactionByOrder: async (req, res, next) => {
+        try {
+            let { token } = req.body;
+            let returnedData = {
+                object: null,
+                message: "",
+            }
+
+            jwt.verify(token, process.env.JWT_SECRET, async (err, content) => {
+                if (err) {
+                    returnedData.message = "Error verifying token from Store server";
+
+                    let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
+                    return res.json(returnedToken);
+                }
+
+                if (!content || !content.orderID) {
+                    returnedData.message = "Invalid value from Store server";
+
+                    let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
+                    return res.json(returnedToken);
+                };
+
+                let { orderID } = content;
+
+                let data = await Transaction.getTransactionByOrder(orderID);
+
+                if (!data) {
+                    returnedData.message = "Error get order with id " + orderID;
+
+                    let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
+                    return res.json(returnedToken);
+                }
+                returnedData.object = data;
+                returnedData.message = "Order is returned successfully";
+
+                let returnedToken = jwt.sign(returnedData, process.env.JWT_SECRET, { expiresIn: '1h' });
+                return res.json(returnedToken);
+            })
 
         } catch (error) {
             next(error);

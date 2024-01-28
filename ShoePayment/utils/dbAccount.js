@@ -43,7 +43,7 @@ module.exports = {
                 VALUES ($1, $2, $3)
                 RETURNING *;
             `,
-                [accountID, 500, pincode]);
+                [accountID, 1000, pincode]);
 
             if (data && data.length > 0) {
                 return data[0];

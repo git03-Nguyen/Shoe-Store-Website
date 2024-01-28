@@ -13,7 +13,6 @@ const axiosInstance = axios.create({
 
 module.exports = {
     handleGetProfile: async (req, res, next) => {
-
         const token = jwt.sign({
             accountID: req.user.id,
             isAdmin: req.user.isadmin,
@@ -23,6 +22,7 @@ module.exports = {
             token: token
         });
         userBalance = userBalance?.data;
+
 
         if (userBalance) {
             jwt.verify(userBalance, process.env.JWT_SECRET, (err, content) => {
@@ -35,6 +35,8 @@ module.exports = {
                 } else {
                     userBalance = content.object.balance;
                 }
+
+                console.log("User Balance: " + userBalance);
 
                 res.render('profile', {
                     user: req.user,

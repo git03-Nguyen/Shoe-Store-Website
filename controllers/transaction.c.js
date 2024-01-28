@@ -144,4 +144,46 @@ module.exports = {
             next(error);
         }
     },
+
+    handleBillTransaction: async (req, res, next) => {
+        try {
+            let orderID = req.body.orderID;
+
+            const token = jwt.sign({
+                orderID: orderID
+            }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            let returnedTransaction = await axiosInstance.post("https://localhost:4000/api/order", {
+                token: token
+            });
+
+            returnedTransaction = returnedTransaction?.data;
+
+            if (returnedTransaction) {
+                jwt.verify(returnedTransaction, process.env.JWT_SECRET, async (err, content) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    if (!content || !content.object) {
+                        return res.json({
+                            object: null,
+                            message: "Error loading order information from Payment server"
+                        });
+                    }
+
+                    returnedTransaction = content.object;
+
+                    return res.json({
+                        object: returnedTransaction,
+                        message: "Order is returned successfully"
+                    });
+                })
+            } else {
+                next(new Error("Invalid response from Payment server"));
+            }
+        } catch (error) {
+            next(error);
+        }
+    },
 }
