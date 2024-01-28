@@ -3,22 +3,6 @@
 -- Use this version for Website
 
 
-create table admins(
-	id int GENERATED ALWAYS AS IDENTITY,
-	username varchar(200) unique not null,
-	password text not null,
-	email varchar(200),
-	fullName varchar(200),
-	avatar text,
-	address varchar(200),
-	codePhone varchar(5),
-	phoneNumber varchar(20),
-	dob date,
-	creationDate timestamp,
- 	updationDate timestamp,
-	
-	primary key(id)
-);
 
 create table users(
 	id int GENERATED ALWAYS AS IDENTITY,
@@ -190,3 +174,38 @@ alter table favoritelist add foreign key (userId) references users;
 alter table favoritelist add foreign key (productId) references products;
 alter table promotionandproduct add foreign key (promotionId) references promotions;
 alter table promotionandproduct add foreign key (productId) references products;
+
+-- Add trigger
+CREATE OR REPLACE FUNCTION public.delete_related_lists_before_user()
+RETURNS trigger AS $$
+BEGIN
+    DELETE FROM cartlist WHERE userid = OLD.id;
+    DELETE FROM favoritelist WHERE userid = OLD.id;
+		DELETE FROM productreviews WHERE userid = OLD.id;
+		UPDATE orders SET userId = null WHERE userId = OLD.id;
+    RETURN OLD;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER trigger_delete_related_lists
+BEFORE DELETE ON public.users
+FOR EACH ROW
+EXECUTE FUNCTION public.delete_related_lists_before_user();
+
+-- Add trigger
+CREATE OR REPLACE FUNCTION delete_related_lists_before_product()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM cartlist WHERE productid = OLD.id;
+    DELETE FROM favoritelist WHERE productid = OLD.id;
+		DELETE FROM productreviews WHERE productid = OLD.id;
+		DELETE FROM promotionandproduct WHERE productid = OLD.id;
+		UPDATE orderdetail SET productid = null WHERE productid = OLD.id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_delete_related_lists_product
+BEFORE DELETE ON products
+FOR EACH ROW
+EXECUTE FUNCTION delete_related_lists_before_product();
