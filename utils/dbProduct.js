@@ -36,7 +36,7 @@ module.exports = {
             product.categoryId,
             product.productName,
             product.productBrand,
-            product.productSizes,
+            product.productSizes.map(size => +size),
             product.productColors,
             product.productPrice,
             product.productPriceBeforeDiscount,
@@ -478,4 +478,5 @@ module.exports = {
             return 0;
         }
     },
+
 }

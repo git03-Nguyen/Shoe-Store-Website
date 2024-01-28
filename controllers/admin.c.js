@@ -335,6 +335,22 @@ module.exports = {
     }
   },
 
+  // POST /products/create
+  postAddNewProduct: async (req, res, next) => {
+    try {
+      let result = await Product.addProduct(req.body);
+      if (result) {
+        res.json({ success: true, message: 'Create product successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Create product failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Create product failed!' });
+    }
+  },
+
 
 };
 
