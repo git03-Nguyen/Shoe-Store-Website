@@ -1,0 +1,148 @@
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Product management</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="d-flex justify-content-between align-items-end mb-1">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+          <i class="fas fa-plus"></i>
+          <span class="ms-1">Add</span>
+        </button>
+        <div id="buttons_wrapper" class="btn-group">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <span><i class="bi bi-table me-2"></i></span> Products
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="users-table" class="table table-striped data-table" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Product Name</th>
+                    <th>Brand</th>
+                    <th>Colors</th>
+                    <th>Sizes</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Additional Info.</th>
+                    <th>Image</th>
+                    <th>Thumbnails</th>
+                    <th>Video Thumbnails</th>
+                    <th>Video Big Img.</th>
+                    <th>Video</th>
+                    <th>Gender</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each products}}
+                  <tr>
+                    <td>{{id}}</td>
+                    <td>{{categoryname}}</td>
+                    <td>{{productName}}</td>
+                    <td>{{productBrand}}</td>
+                    <td>
+                      {{#each productColors}}
+                      {{this}}&nbsp;
+                      {{/each}}
+                    </td>
+                    <td>
+                      {{#each productSizes}}
+                      {{this}}&nbsp;
+                      {{/each}}
+                    </td>
+                    <td>{{productPrice}}</td>
+                    <td>{{productDescription}}</td>
+                    <td>{{productAdditionalInformation}}</td>
+                    <td>{{productImage}}</td>
+                    <td>
+                      {{#each productThumbImages}}
+                      {{this}}&nbsp;
+                      {{/each}}
+                    </td>
+                    <td>{{productVideoThumbImage}}</td>
+                    <td>{{productVideoBigImage}}</td>
+                    <td>{{productVideo}}</td>
+                    <td>{{productGender}}</td>
+                    <td>{{productAvailability}}</td>
+                    <td>
+                      <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"
+                        data-bs-id="{{id}}">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-bs-id="{{id}}">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Product Name</th>
+                    <th>Brand</th>
+                    <th>Colors</th>
+                    <th>Sizes</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Additional Info.</th>
+                    <th>Image</th>
+                    <th>Thumbnails</th>
+                    <th>Video Thumbnails</th>
+                    <th>Video Big Img.</th>
+                    <th>Video</th>
+                    <th>Gender</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              {{>toast-bootstrap}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+{{#section 'script'}}
+<script>
+  $(document).ready(function () {
+    const table = $('#users-table').DataTable({
+      lengthChange: true,
+      buttons: ['copy', 'excel', 'csv', 'colvis'],
+      "columnDefs": [{
+        "targets": [7, 8, 9, 10, 11, 12, 13],
+        "visible": false,
+        "searchable": false,
+      }],
+    });
+
+    table.buttons().container()
+      .appendTo('#buttons_wrapper');
+
+
+  });
+</script>
+{{/section}}

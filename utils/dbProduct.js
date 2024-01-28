@@ -153,6 +153,21 @@ module.exports = {
         return flag;
     },
 
+    getAllProducts: async function () {
+        const query = `
+            SELECT * FROM products;
+        `;
+        let res = [];
+        try {
+            res = await db.any(query);
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+        return res;
+    },
+
     getAllProductsAtPage: async function (page, pageSize) {
         const query = `
             SELECT * FROM products

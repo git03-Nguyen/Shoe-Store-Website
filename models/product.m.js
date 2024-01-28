@@ -39,6 +39,17 @@ module.exports = class Product {
         return await dbProduct.deleteProduct(id);
     }
 
+    static async getAllProducts() {
+        let data = await dbProduct.getAllProducts();
+
+        let list = [];
+        for (let i = 0; i < data.length; i++) {
+            list.push(new Product(data[i]));
+        }
+
+        return list;
+    }
+
     static async getAllProductsAtPage(page, pageSize) {
         let data = await dbProduct.getAllProductsAtPage(page, pageSize);
 

@@ -6,6 +6,7 @@ const Order = require('../models/order.m');
 
 const User = require('../models/user.m');
 const dbProduct = require('../utils/dbProduct');
+const Product = require('../models/product.m');
 
 module.exports = {
 
@@ -273,6 +274,24 @@ module.exports = {
     catch (err) {
       res.json({ success: false, message: 'Create user failed!' });
     }
+  },
+
+  // GET /products
+  getProductManagement: async (req, res, next) => {
+    const categories = await Category.getAllCategories();
+    const products = await Product.getAllProducts();
+    products.forEach(product => {
+      product.categoryname = categories.find(category => category.id == product.categoryId).categoryName;
+    });
+    res.render('admin/product-management', {
+      layout: 'admin',
+      title: 'Product Management',
+      subnavigation: 4,
+      user: req.user,
+      categories: categories,
+      products: products,
+
+    });
   },
 
 

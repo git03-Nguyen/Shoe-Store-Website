@@ -25,6 +25,11 @@ router.post('/category-management/create', controllers.postAddNewCategory);
 router.post('/category-management/delete', controllers.postDeleteCategory);
 
 // For product management
+router.get('/products', controllers.getProductManagement);
+
+// ------------
+
+// For product management
 router.get('/management/products', require('../controllers/admin-products.c').manageProducts);
 
 
