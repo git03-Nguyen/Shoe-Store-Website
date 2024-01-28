@@ -30,6 +30,11 @@
                                 <span style="color: white; margin-left: 10px;">{{user.fullname}}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                {{#if user.isadmin}}
+                                <li>
+                                    <a class="dropdown-item" href="/admin">Admin page</a>
+                                </li>
+                                {{/if}}
                                 <li>
                                     <a class="dropdown-item" href="/profile">My profile</a>
                                 </li>
