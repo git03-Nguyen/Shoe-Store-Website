@@ -51,9 +51,10 @@ module.exports = {
     getAllOrderDetailByOrder: async (orderID) => {
         const query = `
             SELECT *
-            FROM orderdetail
-            WHERE orderid = $1
-            ORDER BY id ASC
+            FROM orderdetail O
+                JOIN products P ON O.productid = P.id 
+            WHERE O.orderid = $1
+            ORDER BY O.id ASC
         `;
 
         let data = null;

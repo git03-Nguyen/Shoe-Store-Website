@@ -32,6 +32,8 @@
         <td scope="rol">Shipping Address</td>
         <td scope="rol">Total</td>
         <td scope="rol">Status</td>
+        <td scope="rol">Actions</td>
+
     </thead>
 
     <tbody>
@@ -49,9 +51,104 @@
             <td>{{this.shippingaddress}}</td>
             <td>{{this.total}}</td>
             <td>{{this.orderstatus}}</td>
+            <td>
+                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                    data-bs-target="#detailOrderModal" data-order-id="{{this.id}}">
+                    Detail
+                </button>
+            </td>
         </tr>
         {{else}}
         <h3>There are no order in database now.</h3>
         {{/each}}
     </tbody>
+
+
+    <!-- Detail Order Modal -->
+    <div class="modal fade" id="detailOrderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Order</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="orderDetailContent">
+                    {{#each orderDetailList}}
+
+                    {{else}}
+                    <h4>Error occurrs when loading order details</h4>
+                    {{/each}}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </table>
+
+
+<script>
+
+    $('.detail-btn').on('click', async (e) => {
+        let data = {
+            orderID: e.currentTarget.getAttribute('data-order-id'),
+        }
+
+        let returnedDetails = await $.ajax({
+            url: '/order/detail',
+            method: 'POST',
+            dataType: 'json',
+            data: data,
+        });
+
+        let modalContent = "";
+        if (!returnedDetails) {
+            modalContent = `
+                <h4>Error occurrs when loading order details</h4>
+            `;
+        } else {
+            modalContent = `
+                <div>
+                    <h5 style="margin: 1px 0;">Order ID: ${data.orderID}</h5>
+                </div>
+                <div class="separator-div">--------------------</div>
+
+            `;
+
+            returnedDetails.forEach(detail => {
+                const productDetails = `
+
+
+                    <div>
+                        <h5>Product ID: ${detail.productid}</h5>
+                    </div>
+                    <div>
+                        <h5>Product Name: ${detail.productname}</h5>
+                    </div>
+                    <div>
+                        <img src="${detail.productimage}" style="width: 100px;"></img>
+                    </div>
+                    <div>
+                        <h5>Product Name: ${detail.productprice} $</h5>
+                    </div>
+                    <div>
+                        <h5>Quantity: ${detail.quantity}</h5>
+                    </div>
+                    <div>
+                        <h5>Color: ${detail.color}</h5>
+                    </div>
+                    <div>
+                        <h5>Size: ${detail.size}</h5>
+                    </div>
+                    <div class="separator-div">--------------------</div>
+                `;
+                modalContent += productDetails;
+            });
+
+        }
+
+        $('#orderDetailContent').html(modalContent);
+    });
+</script>

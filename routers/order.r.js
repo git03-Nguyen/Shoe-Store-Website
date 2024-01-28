@@ -16,6 +16,6 @@ router.get('/', OrderController.renderOrderPage);
 
 
 //POST
-
+router.post('/detail', OrderController.handleGetDetailOrder);
 
 module.exports = router;
