@@ -5,16 +5,21 @@ const dbCategory = require('../utils/dbCategory');
 const Order = require('../models/order.m');
 
 const User = require('../models/user.m');
+const dbProduct = require('../utils/dbProduct');
 
 module.exports = {
 
   // GET /admin
-  getDashboard: (req, res, next) => {
+  getDashboard: async (req, res, next) => {
     res.render('admin/dashboard', {
       layout: 'admin',
       title: 'Dashboard',
       subnavigation: 0,
       user: req.user,
+      revenue: 0,
+      nOfOrders: await Order.countOrders(),
+      nOfUsers: await User.countUsers(),
+      nOfProducts: await dbProduct.countProducts(),
     });
   },
 
@@ -139,6 +144,11 @@ module.exports = {
   getSalesByCategories: async (req, res, next) => {
     let from = req.query.from;
     let to = req.query.to;
+
+    // if from > to, return empty data
+    if (from > to) {
+      return res.json({ categories: [], counts: [] });
+    }
 
     if (from && to) {
       const data = await Order.countOrdersByCategories(from, to);

@@ -300,5 +300,28 @@ module.exports = {
         } finally {
             db_connection.done();
         }
-    }
+    },
+
+    countUsers: async () => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                SELECT COUNT(*) FROM "users"
+            `);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data.count;
+            }
+
+            return 0;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
 }

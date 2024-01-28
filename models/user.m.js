@@ -137,6 +137,15 @@ class User {
         data = User.clone(data);
         return data;
     }
+
+    static async countUsers() {
+        let data = await DBProvider.countUsers();
+        if (!data) {
+            return data;
+        }
+
+        return data;
+    }
 }
 
 module.exports = User;

@@ -54,6 +54,17 @@ module.exports = {
         return flag;
     },
 
+    countOrders: async function () {
+        const query = `SELECT COUNT(*) FROM orders`;
+        let res;
+        try {
+            res = await db.one(query);
+        } catch (error) {
+            console.error(error);
+        }
+        return res.count;
+    },
+
     countOrdersByDate: async function (date) {
         const query = `
             SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
