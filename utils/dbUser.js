@@ -9,11 +9,9 @@ module.exports = {
 
         try {
             db_connection = await db.connect();
-            //select all the users ignoring the admin
             let data = await db_connection.query(`
                 SELECT *
                 FROM "users"
-                WHERE isadmin = false OR isadmin IS NULL
             `);
 
             if (data && data.length > 0) {

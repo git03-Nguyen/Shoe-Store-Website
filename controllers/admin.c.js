@@ -4,6 +4,8 @@ const dbCategory = require('../utils/dbCategory');
 
 const Order = require('../models/order.m');
 
+const User = require('../models/user.m');
+
 module.exports = {
 
   // GET /admin
@@ -142,6 +144,17 @@ module.exports = {
       const data = await Order.countOrdersByCategories(from, to);
       res.json(data);
     }
+  },
+
+  // GET /users
+  getUserManagement: async (req, res, next) => {
+    res.render('admin/user-management', {
+      layout: 'admin',
+      title: 'User Management',
+      subnavigation: 1,
+      user: req.user,
+      users: await User.getAllUsers(),
+    });
   },
 
 };

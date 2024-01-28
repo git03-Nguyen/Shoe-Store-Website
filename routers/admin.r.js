@@ -38,5 +38,8 @@ router.get('/management/products/api/get/product', require('../controllers/admin
 // admin api delete product by id
 router.delete('/management/products/api/delete/product', require('../controllers/admin-products.c').adminAPIDeleteProductById);
 
+// For user management
+router.get('/users', controllers.getUserManagement);
+
 
 module.exports = router;
