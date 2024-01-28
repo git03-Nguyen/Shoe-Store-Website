@@ -1,11 +1,12 @@
 const DBProvider = require('../utils/dbTransaction');
 
 class Transaction {
-    constructor(id, accountID, createDate, amount) {
+    constructor(id, accountID, createDate, amount, orderID) {
         this.id = id;
         this.accountID = accountID;
         this.createDate = createDate;
         this.amount = amount;
+        this.orderID = orderID;
     }
 
     static clone(obj) {
@@ -13,7 +14,7 @@ class Transaction {
             return null;
         }
 
-        return new Transaction(obj.id, obj.accountID, obj.createDate, obj.amount);
+        return new Transaction(obj.id, obj.accountID, obj.createDate, obj.amount, obj.orderID);
     }
 
     static async getAllTransactions() {
@@ -46,6 +47,15 @@ class Transaction {
 
     static async addNewTransactionOrder(accountID, orderID, createDate, amount) {
         let data = await DBProvider.addNewTransactionOrder(accountID, orderID, createDate, amount);
+        if (data) {
+            return Transaction.clone(data);
+        }
+
+        return null;
+    }
+
+    static async getTransactionByOrder(orderID) {
+        let data = await DBProvider.getTransactionByOrder(orderID);
         if (data) {
             return Transaction.clone(data);
         }

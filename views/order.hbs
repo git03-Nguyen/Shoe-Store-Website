@@ -1,0 +1,321 @@
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Order</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <span>Order</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<h1 style="width: 100%; text-align: center; margin: 10px auto;">Your orders</h1>
+<h4 style="width: 100%; margin: 10px auto;">Total: {{total}}</h4>
+
+<table class="table table-primary table-striped table-bordered">
+    <thead>
+        <td scope="rol">#</td>
+        {{#if user.isadmin}}
+        <td scope="col">User ID</td>
+        {{/if}}
+        <td scope="rol">Order ID</td>
+        <td scope="rol">Full name</td>
+        <td scope="rol">Date</td>
+        <td scope="rol">Email</td>
+        <td scope="rol">Contact Phone</td>
+        <td scope="rol">Shipping Address</td>
+        <td scope="rol">Total</td>
+        <td scope="rol">Status</td>
+        <td scope="rol">Actions</td>
+
+    </thead>
+
+    <tbody>
+        {{#each orderList}}
+        <tr>
+            <td scope="row">{{@key}}</td>
+            {{#if ../user.isadmin}}
+            <td>{{this.userid}}</td>
+            {{/if}}
+            <td>{{this.id}}</td>
+            <td>{{this.fullname}}</td>
+            <td>{{this.orderdate}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.contactphone}}</td>
+            <td>{{this.shippingaddress}}</td>
+            <td>{{this.total}} $</td>
+            <td>{{this.orderstatus}}</td>
+            <td>
+                <button type="button" class="btn btn-primary detail-btn" data-bs-toggle="modal"
+                    data-bs-target="#detailOrderModal" data-order-id="{{this.id}}">
+                    Detail
+                </button>
+
+                {{#if ../user.isadmin}}
+                {{#ifEquals this.orderstatus ../statusType.waitingConfirm}}
+                <button id="confirm-btn" type="button" class="btn btn-primary" data-order-id="{{this.id}}">
+                    Confirm
+                </button>
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.waitingPayment}}
+                {{else}}
+                <button type="button" class="btn btn-primary bill-btn" data-bs-toggle="modal"
+                    data-bs-target="#billOrderModal" data-order-id="{{this.id}}">
+                    Bill
+                </button>
+                {{/ifEquals}}
+                {{/ifEquals}}
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.received}}
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.waitingConfirm}}
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.waitingPayment}}
+                <button type="button" class="btn btn-primary payment-btn" data-order-id="{{this.id}}">
+                    Pay
+                </button>
+                {{else}}
+                <button type="button" class="btn btn-primary receive-btn" data-order-id="{{this.id}}">
+                    Receive
+                </button>
+                {{/ifEquals}}
+                {{/ifEquals}}
+                {{/ifEquals}}
+                {{/if}}
+            </td>
+        </tr>
+        {{else}}
+        <h3>There are no order in database now.</h3>
+        {{/each}}
+    </tbody>
+
+
+    <!-- Detail Order Modal -->
+    <div class="modal fade" id="detailOrderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Order</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="orderDetailContent">
+                    {{#each orderDetailList}}
+
+                    {{else}}
+                    <h4>Error occurrs when loading order details</h4>
+                    {{/each}}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bill Order Modal -->
+    <div class="modal fade" id="billOrderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Bill Order</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="orderBillContent">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</table>
+
+<div class="page-selector">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {{#each pageList}}
+            {{#ifEquals ../currentPage this}}
+            <li class="my-item page-item active">
+                <a class="page-link" href="/order?page={{this}}"> {{this}}</a>
+            </li>
+            {{else}}
+            <li class="my-item page-item">
+                <a class="page-link" href="/order?page={{this}}"> {{this}}</a>
+            </li>
+            {{/ifEquals}}
+
+
+            {{else}}
+            <h4 style=" width: 100%; text-align: center;">
+                There is currently no information about any page...
+            </h4>
+
+            {{/each}}
+        </ul>
+    </nav>
+</div>
+
+
+<script>
+
+    $('.detail-btn').on('click', async (e) => {
+        let data = {
+            orderID: e.currentTarget.getAttribute('data-order-id'),
+        }
+
+        let returnedDetails = await $.ajax({
+            url: '/order/detail',
+            method: 'POST',
+            dataType: 'json',
+            data: data,
+        });
+
+        let modalContent = "";
+        if (!returnedDetails) {
+            modalContent = `
+                <h4>Error occurrs when loading order details</h4>
+            `;
+        } else {
+            modalContent = `
+                <div>
+                    <h5 style="margin: 1px 0;">Order ID: ${data.orderID}</h5>
+                </div>
+                <div class="separator-div">--------------------</div>
+
+            `;
+
+            returnedDetails.forEach(detail => {
+                const productDetails = `
+
+
+                    <div>
+                        <h5>Product ID: ${detail.productid}</h5>
+                    </div>
+                    <div>
+                        <h5>Product Name: ${detail.productname}</h5>
+                    </div>
+                    <div>
+                        <img src="${detail.productimage}" style="width: 100px;"></img>
+                    </div>
+                    <div>
+                        <h5>Product Name: ${detail.productprice} $</h5>
+                    </div>
+                    <div>
+                        <h5>Quantity: ${detail.quantity}</h5>
+                    </div>
+                    <div>
+                        <h5>Color: ${detail.color}</h5>
+                    </div>
+                    <div>
+                        <h5>Size: ${detail.size}</h5>
+                    </div>
+                    <div class="separator-div">--------------------</div>
+                `;
+                modalContent += productDetails;
+            });
+
+        }
+
+        $('#orderDetailContent').html(modalContent);
+    });
+
+    $('.bill-btn').on('click', async (e) => {
+        let data = {
+            orderID: e.currentTarget.getAttribute('data-order-id'),
+        }
+
+        let returnedOrder = await $.ajax({
+            url: '/transaction/bill',
+            method: 'POST',
+            dataType: 'json',
+            data: data,
+        });
+
+        if (!returnedOrder) {
+            alert("Error loading order bill from Payment server");
+        } else if (!returnedOrder.object) {
+            alert(returnedOrder.message);
+        } else {
+            //TODO: open modal 
+            returnedOrder = returnedOrder.object;
+
+            let modalContent = `
+                <div>
+                    <h5 style="margin: 1px 0;">Order ID: ${returnedOrder.orderID}</h5>
+                </div>
+                <div>
+                    <h5>Transaction ID: ${returnedOrder.id}</h5>
+                </div>
+                <div>
+                    <h5>Account ID: ${returnedOrder.accountID}</h5>
+                </div>
+                <div>
+                    <h5>Create date: ${returnedOrder.createDate}</h5>
+                </div>
+                <div>
+                    <h5>Amount: ${returnedOrder.amount} $</h5>
+                </div>
+            `;
+
+            $('#orderBillContent').html(modalContent);
+        }
+    });
+
+    $('.receive-btn').on('click', async (e) => {
+        if (confirm(`Are you sure to receive all products in this order ? You cannot redo that change.`)) {
+            let data = {
+                orderID: e.currentTarget.getAttribute('data-order-id'),
+                status: "Received"
+            }
+            let updatedOrder = await $.ajax({
+                url: '/order/status',
+                method: 'POST',
+                dataType: 'json',
+                data: data
+            });
+
+            if (!updatedOrder) {
+                alert("Error handling updating order status");
+            } else {
+                window.location.replace('https://localhost:3000/order');
+            }
+        }
+    });
+
+
+    $('.payment-btn').on('click', async (e) => {
+        let orderID = e.currentTarget.getAttribute('data-order-id');
+        window.location.replace(`https://localhost:3000/transaction/confirm?orderID=${orderID}`);
+    });
+
+    $('#confirm-btn').on('click', async (e) => {
+        if (confirm(`Are you sure to confirm this order ? You cannot redo that change.`)) {
+            let data = {
+                orderID: e.currentTarget.getAttribute('data-order-id'),
+                status: "Paid Successfully"
+            }
+            let updatedOrder = await $.ajax({
+                url: '/order/status',
+                method: 'POST',
+                dataType: 'json',
+                data: data
+            });
+
+            if (!updatedOrder) {
+                alert("Error handling updating order status");
+            } else {
+                window.location.replace('https://localhost:3000/order');
+            }
+        }
+    });
+</script>

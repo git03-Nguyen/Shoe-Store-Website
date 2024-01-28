@@ -3,6 +3,7 @@ const axios = require('axios');
 const https = require('https');
 const jwt = require('jsonwebtoken');
 
+const Order = require('../models/order.m');
 require('dotenv').config();
 
 const axiosInstance = axios.create({
@@ -13,13 +14,47 @@ const axiosInstance = axios.create({
 module.exports = {
     handleConfirmTransaction: async (req, res, next) => {
         try {
-            let { orderID, amount } = req.query;
+            let { orderID } = req.query;
 
-            res.render('transaction-confirm', {
-                user: req.user,
+            let paidOrder = await Order.getOrderByID(orderID);
+            if (!paidOrder) {
+                return res.send("Invalid order");
+            }
+
+            let amount = paidOrder.total;
+
+            let token = jwt.sign({
                 orderID: orderID,
-                amount: amount,
+            }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            let checkTransaction = await axiosInstance.post('https://localhost:4000/api/order', {
+                token: token
             });
+
+            checkTransaction = checkTransaction?.data;
+
+            if (checkTransaction) {
+                jwt.verify(checkTransaction, process.env.JWT_SECRET, async (err, content) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    if (content && content.object) {
+                        return res.send("Order has been confirmed already !");
+                    }
+
+                    res.render('transaction-confirm', {
+                        user: req.user,
+                        orderID: orderID,
+                        amount: amount,
+                    });
+
+                })
+            } else {
+                next(new Error("Invalid response from Payment server"));
+            }
+
+
 
         } catch (error) {
             next(error);
@@ -28,11 +63,18 @@ module.exports = {
 
     handleCreateTransaction: async (req, res, next) => {
         try {
-            let { username, orderID, amount } = req.body;
+            let { username, orderID } = req.body;
 
             if (username != req.user.username) {
                 return res.send("Incorrect user");
             }
+
+            let paidOrder = await Order.getOrderByID(orderID);
+            if (!paidOrder) {
+                return res.send("Order has been paid already");
+            }
+
+            let amount = paidOrder.total;
 
             const token = jwt.sign({
                 accountID: req.user.id,
@@ -47,7 +89,7 @@ module.exports = {
 
             updatedUser = updatedUser?.data;
             if (updatedUser) {
-                jwt.verify(updatedUser, process.env.JWT_SECRET, (err, content) => {
+                jwt.verify(updatedUser, process.env.JWT_SECRET, async (err, content) => {
                     if (err) {
                         throw err;
                     }
@@ -61,7 +103,14 @@ module.exports = {
                     }
 
                     updatedUser = content.object;
-                    return res.redirect('https://localhost:3000/profile');
+
+                    let updatedOrderStatus = "Waiting For Confirm";
+                    let updatedOrder = await Order.updateOrderStatus(orderID, updatedOrderStatus);
+                    if (!updatedOrder) {
+                        return res.send("Error updating order status from waitting for payment to waiting for comfirm");
+                    }
+
+                    return res.redirect('https://localhost:3000/order');
                 })
             } else {
                 next(new Error("Invalid response from Payment server"));
@@ -112,6 +161,48 @@ module.exports = {
                     return res.json({
                         object: returnedAccount,
                         message: "Account is returned successfully"
+                    });
+                })
+            } else {
+                next(new Error("Invalid response from Payment server"));
+            }
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    handleBillTransaction: async (req, res, next) => {
+        try {
+            let orderID = req.body.orderID;
+
+            const token = jwt.sign({
+                orderID: orderID
+            }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            let returnedTransaction = await axiosInstance.post("https://localhost:4000/api/order", {
+                token: token
+            });
+
+            returnedTransaction = returnedTransaction?.data;
+
+            if (returnedTransaction) {
+                jwt.verify(returnedTransaction, process.env.JWT_SECRET, async (err, content) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    if (!content || !content.object) {
+                        return res.json({
+                            object: null,
+                            message: "Error loading order information from Payment server"
+                        });
+                    }
+
+                    returnedTransaction = content.object;
+
+                    return res.json({
+                        object: returnedTransaction,
+                        message: "Order is returned successfully"
                     });
                 })
             } else {

@@ -60,6 +60,30 @@ module.exports = class Order {
         return data;
     }
 
+    static async updateOrderStatus(orderID, status) {
+        let data = await dbOrder.updateOrderStatus(orderID, status);
+
+        return data;
+    }
+
+    static async getAllOrders() {
+        let data = await dbOrder.getAllOrders();
+
+        return data;
+    }
+
+    static async getOrdersByUser(userID) {
+        let data = await dbOrder.getOrdersByUser(userID);
+
+        return data;
+    }
+
+    static async getOrderByID(orderID) {
+        let data = await dbOrder.getOrderByID(orderID);
+
+        return data;
+    }
+
     static async getRevenue() {
         return await dbOrder.getRevenue();
     }
