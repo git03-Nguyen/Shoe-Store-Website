@@ -450,5 +450,17 @@ module.exports = {
             }
             return [];
         }
-    }
+    },
+
+    countProducts: async () => {
+        try {
+            let sql = `SELECT COUNT(*) FROM products`;
+            let result = await db.one(sql);
+            return result.count;
+        }
+        catch (error) {
+            console.error(error);
+            return 0;
+        }
+    },
 }

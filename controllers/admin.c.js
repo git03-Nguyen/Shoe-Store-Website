@@ -4,15 +4,22 @@ const dbCategory = require('../utils/dbCategory');
 
 const Order = require('../models/order.m');
 
+const User = require('../models/user.m');
+const dbProduct = require('../utils/dbProduct');
+
 module.exports = {
 
   // GET /admin
-  getDashboard: (req, res, next) => {
+  getDashboard: async (req, res, next) => {
     res.render('admin/dashboard', {
       layout: 'admin',
       title: 'Dashboard',
       subnavigation: 0,
       user: req.user,
+      revenue: await Order.getRevenue(),
+      nOfOrders: await Order.countOrders(),
+      nOfUsers: await User.countUsers(),
+      nOfProducts: await dbProduct.countProducts(),
     });
   },
 
@@ -130,7 +137,43 @@ module.exports = {
       }
 
       res.json({ dates: dateStrs, data });
+    } else if (mode == 'monthly') {
+      // response with 6 recent months: 
+      const today = new Date();
+      const dates = [
+        new Date(today.getFullYear(), today.getMonth() - 5, 1),
+        new Date(today.getFullYear(), today.getMonth() - 4, 1),
+        new Date(today.getFullYear(), today.getMonth() - 3, 1),
+        new Date(today.getFullYear(), today.getMonth() - 2, 1),
+        new Date(today.getFullYear(), today.getMonth() - 1, 1),
+        today,
+      ];
+
+      // dateStr = date with format "mm/yyyy"
+      const dateStrs = dates.map(date => {
+        return `${date.getMonth() + 1}/${date.getFullYear()}`;
+      });
+
+      const datesTest = dates.map(date => {
+        const monthstr = date.getMonth() + 1;
+        // 01
+        if (monthstr < 10) {
+          return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+        }
+        return `${date.getFullYear()}-${date.getMonth() + 1}`;
+      });
+
+      let data = [];
+      for (let i = 0; i < datesTest.length; i++) {
+        const date = datesTest[i];
+        const count = await Order.countOrdersByMonth(date);
+        data.push(count);
+      }
+
+      res.json({ dates: dateStrs, data });
+
     }
+
   },
 
   // GET /sales/categories?from=&to=
@@ -138,11 +181,101 @@ module.exports = {
     let from = req.query.from;
     let to = req.query.to;
 
+    // if from > to, return empty data
+    if (from > to) {
+      return res.json({ categories: [], counts: [] });
+    }
+
     if (from && to) {
       const data = await Order.countOrdersByCategories(from, to);
       res.json(data);
     }
   },
+
+  // GET /users
+  getUserManagement: async (req, res, next) => {
+    res.render('admin/user-management', {
+      layout: 'admin',
+      title: 'User Management',
+      subnavigation: 1,
+      user: req.user,
+      users: await User.getAllUsers(),
+    });
+  },
+
+  // POST /users/delete
+  postDeleteUser: async (req, res, next) => {
+    const { id } = req.body;
+    console.log(id);
+    try {
+      let result = await User.deleteUser(id);
+      if (result) {
+        res.json({ success: true, message: 'Delete user successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Delete user failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Delete user failed!' });
+    }
+  },
+
+  // POST /users/edit
+  postEditUser: async (req, res, next) => {
+    const { id, username, fullname, email, phonenumber, avatar, address, isadmin } = req.body;
+    try {
+      let result = await User.editUser(id, username, fullname, email, phonenumber, avatar, address, isadmin);
+      if (result) {
+        res.json({ success: true, message: 'Edit user successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Edit user failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Edit user failed!' });
+    }
+  },
+
+  // POST /users/upload
+  postUploadAvatar: async (req, res, next) => {
+    const { id } = req.body;
+    // avatar = the path of the avatar image after multer upload
+    let avatar = req.file.path;
+    // delete the prefix public
+    avatar = avatar.replace('public', '');
+    try {
+      let result = await User.updateAvatar(id, avatar);
+      if (result) {
+        res.json({ success: true, message: 'Upload avatar successfully!', avatar: avatar });
+      }
+      else {
+        res.json({ success: false, message: 'Upload avatar failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Upload avatar failed!' });
+    }
+  },
+
+  // POST /users/create
+  postCreateUser: async (req, res, next) => {
+    try {
+      let result = await User.createNewUser(req.body);
+      if (result) {
+        res.json({ success: true, message: 'Create user successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Create user failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Create user failed!' });
+    }
+  },
+
+
 
 };
 

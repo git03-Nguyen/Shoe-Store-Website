@@ -34,8 +34,16 @@ module.exports = class Order {
         return await dbOrder.removeOrder(id);
     }
 
+    static async countOrders() {
+        return await dbOrder.countOrders();
+    }
+
     static async countOrdersByDate(date) {
         return await dbOrder.countOrdersByDate(date);
+    }
+
+    static async countOrdersByMonth(date) {
+        return await dbOrder.countOrdersByMonth(date);
     }
 
     static async countOrdersByCategories(from, to) {
@@ -74,5 +82,9 @@ module.exports = class Order {
         let data = await dbOrder.getOrderByID(orderID);
 
         return data;
+    }
+
+    static async getRevenue() {
+        return await dbOrder.getRevenue();
     }
 }

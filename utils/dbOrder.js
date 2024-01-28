@@ -68,6 +68,17 @@ module.exports = {
         return flag;
     },
 
+    countOrders: async function () {
+        const query = `SELECT COUNT(*) FROM orders`;
+        let res;
+        try {
+            res = await db.one(query);
+        } catch (error) {
+            console.error(error);
+        }
+        return res.count;
+    },
+
     countOrdersByDate: async function (date) {
         const query = `
             SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
@@ -78,9 +89,30 @@ module.exports = {
         let res;
         try {
             res = await db.one(query, [date]);
-            console.log(res);
         } catch (error) {
-            console.error(error);
+            res = null;
+            // console.error(error);
+        }
+        if (res) {
+            return res.counts;
+        } else {
+            return 0;
+        }
+    },
+
+    countOrdersByMonth: async function (date) {
+        const query = `
+            SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
+            FROM orders join orderdetail on orders.id = orderdetail.orderid
+            WHERE to_char(orders.orderdate, 'YYYY-MM') = $1
+            GROUP BY to_char(orders.orderdate, 'YYYY-MM')
+        `;
+        let res;
+        try {
+            res = await db.one(query, [date]);
+        } catch (error) {
+            res = null;
+            // console.error(error);
         }
         if (res) {
             return res.counts;
@@ -91,21 +123,32 @@ module.exports = {
 
     countOrdersByCategories: async function (from, to) {
         const query = `
-        SELECT categories.categoryname, COALESCE(SUM(orderdetail.quantity), 0) AS total_quantity
-        FROM categories
-        LEFT JOIN products ON categories.id = products.categoryid
-        LEFT JOIN orderdetail ON products.id = orderdetail.productid
-        LEFT JOIN orders ON orderdetail.orderid = orders.id AND DATE(orders.orderdate) >= $1 AND DATE(orders.orderdate) <= $2
-        GROUP BY categories.id, categories.categoryname;
+        SELECT 
+            categories.categoryname, 
+            COALESCE(SUM(orderdetail.quantity), 0) AS total_quantity
+        FROM 
+            categories
+        LEFT JOIN 
+            products ON categories.id = products.categoryid
+        LEFT JOIN 
+            orderdetail ON products.id = orderdetail.productid
+        LEFT JOIN 
+            orders ON orderdetail.orderid = orders.id
+        WHERE 
+            orders.id IS NULL OR (orders.orderdate >= $1 AND orders.orderdate <= $2)
+        GROUP BY 
+            categories.id, categories.categoryname;
         `;
         let res;
         try {
             res = await db.any(query, [from, to]);
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            res = null;
         }
         return res;
     },
+
 
     updateOrderStatus: async (orderID, status) => {
         const query = `
@@ -205,4 +248,25 @@ module.exports = {
         }
         return data;
     },
+
+    getRevenue: async function () {
+        // sum the total column
+        const query = `
+            SELECT COALESCE(SUM(total), 0) as total
+            FROM orders
+        `;
+        let res;
+        try {
+            res = await db.one(query);
+        } catch (error) {
+            res = null;
+            // console.error(error);
+        }
+        if (res) {
+            return res.total;
+        } else {
+            return 0;
+        }
+    },
+
 };

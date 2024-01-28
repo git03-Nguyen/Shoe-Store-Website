@@ -71,12 +71,12 @@
       type: 'POST',
       data: data,
       success: function (response) {
-        if (response) {
-          alert(response.message);
-          location.reload();
+        if (response.success === true) {
+          showToast('Edit Category Status', response.message);
+          reloadPageOnToastHiden();
         }
         else {
-          alert('Error while updating category!');
+          showToast('Edit Category Status', response.message);
         }
       }
     });

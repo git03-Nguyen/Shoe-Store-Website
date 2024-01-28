@@ -7,7 +7,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="">Are you sure you want to delete this category?</p>
+        <p class="">Are you sure you want to delete this user?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -23,30 +23,31 @@
     // Button that triggered the modal
     const button = event.relatedTarget;
     // Extract info from data-bs-* attributes
-    categoryId = button.getAttribute('data-bs-id');
+    userId = button.getAttribute('data-bs-id');
     // Update the modal's content.
     const modalTitle = deleteModal.querySelector('.modal-title');
     modalTitle.textContent = 'Confirm Delete';
 
   });
+
   const confirmBtn = document.getElementById('confirmBtn');
   confirmBtn.addEventListener('click', function () {
-    console.log('clicked');
     $('#deleteModal').modal('hide');
     const data = {
-      categoryId
+      id: userId
     };
+
     $.ajax({
-      url: '/admin/category-management/delete',
+      url: '/admin/users/delete',
       method: 'POST',
       data: data,
       success: function (res) {
-        if (res.success===true) {
-         showToast('Delete Catogry Status', res.message);
-         reloadPageOnToastHiden();
+        if (res.success === true) {
+          showToast('Delete Status', res.message);
+          reloadPageOnToastHiden();
         }
         else {
-          showToast('Delete Catogry Status', res.message);
+          showToast('Delete Status', res.message);
         }
       }
     });
