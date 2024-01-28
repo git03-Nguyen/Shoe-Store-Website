@@ -177,7 +177,9 @@ alter table promotionandproduct add foreign key (productId) references products;
 
 -- Add trigger
 CREATE OR REPLACE FUNCTION public.delete_related_lists_before_user()
-RETURNS trigger AS $$
+		RETURNS trigger 
+		LANGUAGE plpgsql
+AS $$
 BEGIN
     DELETE FROM cartlist WHERE userid = OLD.id;
     DELETE FROM favoritelist WHERE userid = OLD.id;
@@ -194,7 +196,9 @@ EXECUTE FUNCTION public.delete_related_lists_before_user();
 
 -- Add trigger
 CREATE OR REPLACE FUNCTION delete_related_lists_before_product()
-RETURNS TRIGGER AS $$
+		RETURNS TRIGGER 
+		LANGUAGE plpgsql
+AS $$
 BEGIN
     DELETE FROM cartlist WHERE productid = OLD.id;
     DELETE FROM favoritelist WHERE productid = OLD.id;
@@ -203,7 +207,7 @@ BEGIN
 		UPDATE orderdetail SET productid = null WHERE productid = OLD.id;
     RETURN OLD;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 CREATE TRIGGER trigger_delete_related_lists_product
 BEFORE DELETE ON products
