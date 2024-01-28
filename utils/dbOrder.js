@@ -64,9 +64,8 @@ module.exports = {
         let res;
         try {
             res = await db.one(query, [date]);
-            console.log(res);
         } catch (error) {
-            console.error(error);
+            // console.error(error);
         }
         if (res) {
             return res.counts;
