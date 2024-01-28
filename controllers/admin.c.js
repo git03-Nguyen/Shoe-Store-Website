@@ -318,6 +318,22 @@ module.exports = {
     }
   },
 
+  // POST /products/delete
+  postDeleteProduct: async (req, res, next) => {
+    const { id } = req.body;
+    try {
+      let result = await Product.deleteProduct(id);
+      if (result) {
+        res.json({ success: true, message: 'Delete product successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Delete product failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Delete product failed!' });
+    }
+  },
 
 
 };
