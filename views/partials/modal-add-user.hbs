@@ -1,0 +1,105 @@
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Add New User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+          <!-- Your form fields go here. For example: -->
+          <div class="mb-2">
+            <label for="username" class="form-label" style="color: #000">Username<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="mb-2">
+            <label for="password" class="form-label" style="color: #000">Password<span
+                class="text-danger">(*)</span></label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="mb-2">
+            <label for="fullname" class="form-label" style="color: #000">Full Name<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="fullname" name="fullname" required>
+          </div>
+          <div class="mb-2">
+            <label for="email" class="form-label" style="color: #000">Email<span class="text-danger">(*)</span></label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="mb-2">
+            <label for="phonenumber" class="form-label" style="color: #000">Phone<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber" required>
+          </div>
+          <div class="mb-2">
+            <label for="address" class="form-label" style="color: #000">Address</label>
+            <input type="text" class="form-control" id="address" name="address">
+          </div>
+          <div class="mb-2">
+            <label for="avatar" class="form-label" style="color: #000">Avatar</label>
+            <input type="text" class="form-control" id="avatar" name="avatar">
+          </div>
+          <div class="mb-2">
+            <label for="role" class="form-label" style="color: #000">Role<span class="text-danger">(*)</span></label>
+            <select class="form-select" aria-label="Default select example" id="role" name="role" required>
+              <option value="0" selected>User</option>
+              <option value="1">Admin</option>
+            </select>
+          </div>
+
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="createBtn">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const createBtn = document.getElementById('createBtn');
+  createBtn.addEventListener('click', function () {
+
+    $('#addModal').modal('hide');
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const fullname = document.getElementById('fullname').value;
+    const email = document.getElementById('email').value;
+    const phonenumber = document.getElementById('phonenumber').value;
+    const avatar = document.getElementById('avatar').value;
+    const address = document.getElementById('address').value;
+    const isadmin = document.getElementById('role').value === '1';
+
+    const data = {
+      username,
+      password,
+      fullname,
+      email,
+      phonenumber,
+      avatar,
+      address,
+      isadmin
+    }
+    console.log(data);
+
+    $.ajax({
+      url: '/admin/users/create',
+      method: 'POST',
+      data: data,
+      success: function (res) {
+        if (res.success === true) {
+          showToast('Create User Status', res.message);
+          reloadPageOnToastHiden();
+        }
+        else {
+          showToast('Create User Status', res.message);
+        }
+      }
+    });
+  });
+</script>
