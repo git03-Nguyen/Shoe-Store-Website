@@ -5,6 +5,8 @@ module.exports = {
     renderOrderPage: async (req, res, next) => {
         try {
             let userID = req.user.id;
+            let queryPage = req.query.page || 1;
+            const perpage = 5;
 
             let orderList = [];
 
@@ -23,10 +25,16 @@ module.exports = {
                 received: "Received"
             }
 
+            let dLength = parseInt(orderList.length / perpage) + (orderList.length % perpage == 0 ? 0 : 1);
+            let pageList = Array.from({ length: dLength }, (v, i) => i + 1);
+
             res.render('order', {
                 user: req.user,
-                orderList: orderList,
-                statusType: statusType
+                orderList: orderList.slice((queryPage - 1) * perpage, queryPage * perpage),
+                statusType: statusType,
+                currentPage: queryPage,
+                total: orderList.length,
+                pageList: pageList,
             });
 
         } catch (error) {

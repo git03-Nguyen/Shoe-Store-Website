@@ -16,7 +16,8 @@
 </section>
 <!-- Breadcrumb Section End -->
 
-<h1>Your orders</h1>
+<h1 style="width: 100%; text-align: center; margin: 10px auto;">Your orders</h1>
+<h4 style="width: 100%; margin: 10px auto;">Total: {{total}}</h4>
 
 <table class="table table-primary table-striped table-bordered">
     <thead>
@@ -99,6 +100,31 @@
         </div>
     </div>
 </table>
+
+<div class="page-selector">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {{#each pageList}}
+            {{#ifEquals ../currentPage this}}
+            <li class="my-item page-item active">
+                <a class="page-link" href="/order?page={{this}}"> {{this}}</a>
+            </li>
+            {{else}}
+            <li class="my-item page-item">
+                <a class="page-link" href="/order?page={{this}}"> {{this}}</a>
+            </li>
+            {{/ifEquals}}
+
+
+            {{else}}
+            <h1 style=" width: 100%; text-align: center;">
+                There is currently no information about any page...
+            </h1>
+
+            {{/each}}
+        </ul>
+    </nav>
+</div>
 
 
 <script>
