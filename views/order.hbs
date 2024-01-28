@@ -59,17 +59,25 @@
                 </button>
 
                 {{#if ../user.isadmin}}
-                {{#ifEquals this.orderstatus ../statusType.waiting}}
+                {{#ifEquals this.orderstatus ../statusType.waitingConfirm}}
+                <button id="confirm-btn" type="button" class="btn btn-primary" data-order-id="{{this.id}}">
+                    Confirm
+                </button>
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.waitingPayment}}
                 {{else}}
                 <button type="button" class="btn btn-primary bill-btn" data-bs-toggle="modal"
                     data-bs-target="#billOrderModal" data-order-id="{{this.id}}">
                     Bill
                 </button>
                 {{/ifEquals}}
+                {{/ifEquals}}
                 {{else}}
                 {{#ifEquals this.orderstatus ../statusType.received}}
                 {{else}}
-                {{#ifEquals this.orderstatus ../statusType.waiting}}
+                {{#ifEquals this.orderstatus ../statusType.waitingConfirm}}
+                {{else}}
+                {{#ifEquals this.orderstatus ../statusType.waitingPayment}}
                 <button type="button" class="btn btn-primary payment-btn" data-order-id="{{this.id}}">
                     Pay
                 </button>
@@ -77,6 +85,7 @@
                 <button type="button" class="btn btn-primary receive-btn" data-order-id="{{this.id}}">
                     Receive
                 </button>
+                {{/ifEquals}}
                 {{/ifEquals}}
                 {{/ifEquals}}
                 {{/if}}
@@ -287,5 +296,26 @@
     $('.payment-btn').on('click', async (e) => {
         let orderID = e.currentTarget.getAttribute('data-order-id');
         window.location.replace(`https://localhost:3000/transaction/confirm?orderID=${orderID}`);
+    });
+
+    $('#confirm-btn').on('click', async (e) => {
+        if (confirm(`Are you sure to confirm this order ? You cannot redo that change.`)) {
+            let data = {
+                orderID: e.currentTarget.getAttribute('data-order-id'),
+                status: "Paid Successfully"
+            }
+            let updatedOrder = await $.ajax({
+                url: '/order/status',
+                method: 'POST',
+                dataType: 'json',
+                data: data
+            });
+
+            if (!updatedOrder) {
+                alert("Error handling updating order status");
+            } else {
+                window.location.replace('https://localhost:3000/order');
+            }
+        }
     });
 </script>

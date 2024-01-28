@@ -4,7 +4,6 @@ const https = require('https');
 const jwt = require('jsonwebtoken');
 
 const Order = require('../models/order.m');
-
 require('dotenv').config();
 
 const axiosInstance = axios.create({
@@ -22,13 +21,40 @@ module.exports = {
                 return res.send("Invalid order");
             }
 
-            amount = paidOrder.total;
+            let amount = paidOrder.total;
 
-            res.render('transaction-confirm', {
-                user: req.user,
+            let token = jwt.sign({
                 orderID: orderID,
-                amount: amount,
+            }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            let checkTransaction = await axiosInstance.post('https://localhost:4000/api/order', {
+                token: token
             });
+
+            checkTransaction = checkTransaction?.data;
+
+            if (checkTransaction) {
+                jwt.verify(checkTransaction, process.env.JWT_SECRET, async (err, content) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    if (content && content.object) {
+                        return res.send("Order has been confirmed already !");
+                    }
+
+                    res.render('transaction-confirm', {
+                        user: req.user,
+                        orderID: orderID,
+                        amount: amount,
+                    });
+
+                })
+            } else {
+                next(new Error("Invalid response from Payment server"));
+            }
+
+
 
         } catch (error) {
             next(error);
@@ -78,10 +104,10 @@ module.exports = {
 
                     updatedUser = content.object;
 
-                    let updatedOrderStatus = "Paid Successfully";
+                    let updatedOrderStatus = "Waiting For Confirm";
                     let updatedOrder = await Order.updateOrderStatus(orderID, updatedOrderStatus);
                     if (!updatedOrder) {
-                        return res.send("Error updating order status from waitting for payment to paid successfully");
+                        return res.send("Error updating order status from waitting for payment to waiting for comfirm");
                     }
 
                     return res.redirect('https://localhost:3000/order');

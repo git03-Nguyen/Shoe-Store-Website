@@ -17,7 +17,8 @@ module.exports = {
             }
 
             let statusType = {
-                waiting: "Waiting For Payment",
+                waitingConfirm: "Waiting For Confirm",
+                waitingPayment: "Waiting For Payment",
                 paid: "Paid Successfully",
                 received: "Received"
             }
