@@ -72,6 +72,7 @@ module.exports = {
         res.render('shop/shop-detail', {
             user: req.user,
             status: 'Shop',
+            title: 'Shop Detail',
             thumbImageList: thumbImageList,
             bigImageList: bigImageList,
             video: video,

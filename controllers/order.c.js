@@ -39,6 +39,7 @@ module.exports = {
 
             res.render('order', {
                 user: req.user,
+                title: "Order",
                 orderList: orderList.slice((queryPage - 1) * perpage, queryPage * perpage),
                 statusType: statusType,
                 currentPage: queryPage,

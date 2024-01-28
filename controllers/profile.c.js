@@ -39,6 +39,7 @@ module.exports = {
                 console.log("User Balance: " + userBalance);
 
                 res.render('profile', {
+                    title: "Profile",
                     user: req.user,
                     userBalance: userBalance,
                 });

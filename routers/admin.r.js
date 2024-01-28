@@ -31,29 +31,29 @@ router.post('/products/edit', controllers.postEditProduct);
 router.post('/products/delete', controllers.postDeleteProduct);
 router.post('/products/create', /*uploadProduct.single('imagefile'),*/ controllers.postAddNewProduct);
 
-// ------------
-
-// For product management
-router.get('/management/products', require('../controllers/admin-products.c').manageProducts);
-
-
-router.get('/management/products/api/get', require('../controllers/admin-products.c').adminAPIGetProducts);
-
-// admin api post product
-router.post('/management/products/api/post/product', uploadProduct.single('imagefile'), require('../controllers/admin-products.c').adminAPIPostProduct);
-
-// admin api get product by id
-router.get('/management/products/api/get/product', require('../controllers/admin-products.c').adminAPIGetProductById);
-
-// admin api delete product by id
-router.delete('/management/products/api/delete/product', require('../controllers/admin-products.c').adminAPIDeleteProductById);
-
 // For user management
 router.get('/users', controllers.getUserManagement);
 router.post('/users/delete', controllers.postDeleteUser);
 router.post('/users/edit', controllers.postEditUser);
 router.post('/users/upload', uploadAvatar.single('avatar'), controllers.postUploadAvatar);
 router.post('/users/create', controllers.postCreateUser);
+
+// ------------
+
+// // For product management
+// router.get('/management/products', require('../controllers/admin-products.c').manageProducts);
+
+
+// router.get('/management/products/api/get', require('../controllers/admin-products.c').adminAPIGetProducts);
+
+// // admin api post product
+// router.post('/management/products/api/post/product', uploadProduct.single('imagefile'), require('../controllers/admin-products.c').adminAPIPostProduct);
+
+// // admin api get product by id
+// router.get('/management/products/api/get/product', require('../controllers/admin-products.c').adminAPIGetProductById);
+
+// // admin api delete product by id
+// router.delete('/management/products/api/delete/product', require('../controllers/admin-products.c').adminAPIDeleteProductById);
 
 
 module.exports = router;

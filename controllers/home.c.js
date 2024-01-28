@@ -12,6 +12,7 @@ exports.home = async (req, res, next) => {
             {
                 user: req.user,
                 status: "Home",
+                title: "Home",
                 bestsellers: bestsellers,
                 toparrivals: topArrival,
                 hotsales: hotsales,

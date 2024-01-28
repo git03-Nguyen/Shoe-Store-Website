@@ -104,6 +104,7 @@ module.exports = {
 
             res.render('shop/shop', {
                 user: req.user,
+                title: "Shop",
                 status: "Shop", startNumber: startNumber, endNumber: endNumber,
                 productsNumber: productsNumber, currentPage: page, pages: pages,
                 allProducts: products, categories: categories, brands: brands, genders: genders

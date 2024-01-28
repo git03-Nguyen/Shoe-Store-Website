@@ -45,6 +45,7 @@ module.exports = {
 
                     res.render('transaction-confirm', {
                         user: req.user,
+                        title: "Confirm Transaction",
                         orderID: orderID,
                         amount: amount,
                     });
