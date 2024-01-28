@@ -47,12 +47,12 @@
         method: 'POST',
           data: data,
             success: function(res) {
-              if (res) {
-                alert(res.message);
-                location.reload();
+              if (res.success===true) {
+                showToast('Create Category Status', res.message);
+                reloadPageOnToastHiden();
               }
               else {
-                alert('Error while updating category!');
+                showToast('Create Category Status', res.message);
               }
             }
     });

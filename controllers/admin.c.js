@@ -91,11 +91,11 @@ module.exports = {
       res.json({success: true, message: 'Delete category successfully!'});
     }
     else {
-      res.json({success: false, message: 'Delete category failed!1'});
+      res.json({success: false, message: 'Delete category failed!'});
     }
   }
   catch(err){
-    res.json({success: false, message: 'Delete category failed!2'});
+    res.json({success: false, message: 'Delete category failed!'});
   }
 }
 };
