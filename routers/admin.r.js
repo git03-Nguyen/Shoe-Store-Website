@@ -40,6 +40,7 @@ router.delete('/management/products/api/delete/product', require('../controllers
 
 // For user management
 router.get('/users', controllers.getUserManagement);
+router.post('/users/delete', controllers.postDeleteUser);
 
 
 module.exports = router;

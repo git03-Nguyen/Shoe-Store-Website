@@ -32,8 +32,8 @@
                   <tr>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>Email</th>
                     <th>Full Name</th>
+                    <th>Email</th>
                     <th>Avatar</th>
                     <th>Phone</th>
                     <th>Address</th>
@@ -46,17 +46,19 @@
                   <tr>
                     <td>{{id}}</td>
                     <td>{{username}}</td>
-                    <td>{{email}}</td>
                     <td>{{fullname}}</td>
+                    <td>{{email}}</td>
                     <td>{{avatar}}</td>
                     <td>{{phonenumber}}</td>
                     <td>{{address}}</td>
                     <td>{{#if isadmin}}Admin{{else}}-{{/if}}</td>
                     <td>
-                      <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                      <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"
+                        data-bs-fullname="{{fullname}}" data-bs-username="{{username}}">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-bs-id="{{id}}">
                         <i class="fas fa-trash"></i>
                       </button>
                     </td>
@@ -67,8 +69,8 @@
                   <tr>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>Email</th>
                     <th>Full Name</th>
+                    <th>Email</th>
                     <th>Avatar</th>
                     <th>Phone</th>
                     <th>Address</th>
@@ -77,6 +79,8 @@
                   </tr>
                 </tfoot>
               </table>
+              {{>toast-bootstrap}}
+              {{>modal-delete-user}}
             </div>
           </div>
         </div>
@@ -93,7 +97,7 @@
       lengthChange: true,
       buttons: ['copy', 'excel', 'csv', 'colvis'],
       "columnDefs": [{
-        "targets": [4],
+        "targets": [4, 6],
         "visible": false
         // "searchable": false
       }]

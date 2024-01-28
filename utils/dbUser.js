@@ -219,5 +219,31 @@ module.exports = {
         } finally {
             db_connection.done();
         }
+    },
+
+    deleteUser: async (userID) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                DELETE FROM "users"
+                WHERE id = $1
+                RETURNING *;
+            `,
+                [userID]);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            console.log(error);
+        } finally {
+            db_connection.done();
+        }
     }
 }

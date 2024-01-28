@@ -157,6 +157,24 @@ module.exports = {
     });
   },
 
+  // POST /users/delete
+  postDeleteUser: async (req, res, next) => {
+    const { id } = req.body;
+    console.log(id);
+    try {
+      let result = await User.deleteUser(id);
+      if (result) {
+        res.json({ success: true, message: 'Delete user successfully!' });
+      }
+      else {
+        res.json({ success: false, message: 'Delete user failed!' });
+      }
+    }
+    catch (err) {
+      res.json({ success: false, message: 'Delete user failed!' });
+    }
+  },
+
 };
 
 
