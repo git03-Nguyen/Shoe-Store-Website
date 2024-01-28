@@ -7,6 +7,6 @@ module.exports = {
       return next();
     }
 
-    res.status(401).send("Unauthorized");
+    res.redirect('/user/login');
   },
 };

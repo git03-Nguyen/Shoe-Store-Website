@@ -16,7 +16,7 @@
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-social-links">Social links</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-connections">Payment connections</a>
+                        href="#account-connections">Account connections</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-notifications">Notifications</a>
                 </div>
@@ -165,25 +165,13 @@
                     </div>
                     <div class="tab-pane fade" id="account-social-links">
                         <div class="card-body pb-2">
-                            <div class="form-group">
-                                <label class="form-label">Twitter</label>
-                                <input type="text" class="form-control" value="https://twitter.com/user">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Facebook</label>
-                                <input type="text" class="form-control" value="https://www.facebook.com/user">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Google+</label>
-                                <input type="text" class="form-control" value>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">LinkedIn</label>
-                                <input type="text" class="form-control" value>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Instagram</label>
-                                <input type="text" class="form-control" value="https://www.instagram.com/user">
+                            <label for="email" class="form-label">Email: </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+                                <input type="email" required class="form-control" name="email" id="email-info"
+                                    value="{{user.email}}">
                             </div>
                         </div>
                     </div>
@@ -191,7 +179,8 @@
 
                     <div class="tab-pane fade" id="account-connections">
                         <div class="card-body">
-                            <a type="button" class="btn btn-twitter" href="https://localhost:4000">Connect to
+                            <a type="button" class="btn btn-twitter" href="https://localhost:4000"
+                                target="_blank">Connect to
                                 <strong>Payment system</strong>
                             </a>
                         </div>
@@ -201,18 +190,26 @@
                         </label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">
-                                <i class="fa-solid fa-credit-card"></i>
+                                <i class="fa-solid fa-dollar-sign"></i>
                             </span>
                             <input type="text" required class="form-control" name="balance" id="balance"
                                 value="{{userBalance}}" readonly>
                         </div>
                         {{else}}
-                        <h3>🧧🧧🧧Super gift !!! Ends on January 30th, 2024.</h3>
-                        <h4>🎁🎁🎁You don't have any account in our payment system.
-                            Make a new one to get 1000$ for free !
-                        </h4>
-                        <a type="button" class="btn btn-primary"
-                            href="https://localhost:4000/create?accountID={{user.id}}">Click here</a>
+                        <h3>🧧🧧🧧 Super gift !!! Ends on <strong> January 30th, 2024.</strong></h3>
+                        <h4>🎁🎁🎁 You don't have any account in our payment system.</h4>
+                        <h4>🎁🎁🎁 Make a new one to get 500$ for free !</h4>
+                        <h4>🗝️🗝️🗝️ Ensure to remember your PIN Code</h4>
+
+                        <label for="pincode" class="form-label">PIN Code: </label>
+                        <div class="input-group" style="margin: 10px 0;">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input type="password" required class="form-control" name="pincode" id="pincode">
+                        </div>
+
+                        <button type="button" class="btn btn-primary" id="create-new-account-btn">Create now</button>
                         {{/if}}
 
                         <hr class="border-light m-0">
@@ -383,5 +380,25 @@
                 handlePostingPasswordChange();
             }
         }
+    });
+
+    $('#create-new-account-btn').on("click", async (e) => {
+        let data = {
+            pincode: $('#pincode').val(),
+        };
+
+        let createdAccount = await $.ajax({
+            url: "/profile/create",
+            method: "POST",
+            dataType: "json",
+            data: data,
+        });
+
+        if (!createdAccount) {
+            alert("Error creating new account !");
+            return;
+        }
+
+        window.location.replace('https://localhost:3000/profile');
     });
 </script>

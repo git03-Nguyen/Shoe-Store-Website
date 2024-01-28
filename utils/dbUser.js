@@ -87,7 +87,9 @@ module.exports = {
         } catch (error) {
             throw error;
         } finally {
-            db_connection.done();
+            if (db_connection) {
+                db_connection.done();
+            }
         }
     },
 

@@ -43,6 +43,15 @@ class Transaction {
 
         return null;
     }
+
+    static async addNewTransactionOrder(accountID, orderID, createDate, amount) {
+        let data = await DBProvider.addNewTransactionOrder(accountID, orderID, createDate, amount);
+        if (data) {
+            return Transaction.clone(data);
+        }
+
+        return null;
+    }
 }
 
 module.exports = Transaction;

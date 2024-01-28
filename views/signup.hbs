@@ -63,18 +63,24 @@
 
 
 <script>
-     $('#signup-submit-btn').on('click', async (e) => {
+    $('#signup-submit-btn').on('click', async (e) => {
         let userList = await $.ajax({
             url: '/user/list',
             method: "GET",
             dataType: 'json',
         });
 
+        if (!userList || userList.length <= 0) {
+            $('.hidden-error').removeClass('visible');
+            $('#signup-form').submit();
+            return;
+        }
+
         let inputUsername = $('#username').val();
 
         let hitFlag = false;
-        for(let i = 0; i < userList.length; i++) {
-            if(userList[i].username == inputUsername) {
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i].username == inputUsername) {
                 hitFlag = true;
             }
         }

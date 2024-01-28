@@ -9,15 +9,32 @@ function min(a, b) {
 }
 
 function handlePagination(page, pagesNumber) {
+    page = parseInt(page);
+    pagesNumber = parseInt(pagesNumber);
+    if (isNaN(page) || isNaN(pagesNumber)) {
+        return [1];
+    }
+
     let pages = [];
-    for (let i = page - 2; i <= min(page + 2, pagesNumber); i++) {
-        if (i >= 1) {
-            pages.push(i);
+    if (page - 3 > 1) {
+        pages.push(1);
+        pages.push('...');
+    }
+    else if (page - 3 == 1) {
+        pages.push(1);
+    }
+
+    for (let index = page - 2; index <= min(page + 2, pagesNumber); index++) {
+        if (index >= 1) {
+            pages.push(index);
         }
     }
 
-    if (pagesNumber > pages + 2) {
+    if (pagesNumber > page + 3) {
         pages.push('...');
+        pages.push(pagesNumber);
+    }
+    else if (pagesNumber == page + 3) {
         pages.push(pagesNumber);
     }
 
@@ -267,7 +284,7 @@ module.exports = {
 
         try {
 
-            for (let i = 0; i < cartLists.length; i++) {
+            for (let i = 0; i < cartLists?.length; i++) {
                 let cartList = new Object();
                 cartList.id = cartLists[i].id;
                 cartList.size = parseFloat(cartLists[i].size);
@@ -337,13 +354,22 @@ module.exports = {
         };
 
         try {
+            let cartLists = await CartList.getCartListsByUserId(userId);
+            if (cartLists === null || cartLists === undefined) {
+                throw new Error('Get cart list failed!');
+            }
+
+            if (cartLists.length === 0) {
+                throw new Error('Cart list is empty!');
+            }
+
             let orderId = await Order.createOrder(new Order(order));
             if (orderId.id < 0) {
                 throw new Error('Insert order failed');
             }
+
             order.id = parseInt(orderId.id);
 
-            let cartLists = await CartList.getCartListsByUserId(userId);
             for (let i = 0; i < cartLists.length; i++) {
                 let orderDetail = {
                     productid: parseInt(cartLists[i].productId),
@@ -371,6 +397,8 @@ module.exports = {
         let data = new Object();
         if (flag) {
             data.message = 'Checkout successfully';
+            data.orderID = order.id;
+            data.amount = req.body.total;
         }
         else {
             data.message = 'Checkout failed';

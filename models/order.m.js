@@ -33,4 +33,22 @@ module.exports = class Order {
     static async removeOrder(id) {
         return await dbOrder.removeOrder(id);
     }
+
+    static async countOrdersByDate(date) {
+        return await dbOrder.countOrdersByDate(date);
+    }
+
+    static async countOrdersByCategories(from, to) {
+        const result = await dbOrder.countOrdersByCategories(from, to);
+        // change the format of the result to 2 columns: category, count
+        const data = {
+            categories: [],
+            counts: [],
+        };
+        result.forEach(item => {
+            data.categories.push(item.categoryname);
+            data.counts.push(item.total_quantity);
+        });
+        return data;
+    }
 }
