@@ -81,10 +81,11 @@ module.exports = {
 
     countOrdersByDate: async function (date) {
         const query = `
-            SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
-            FROM orders join orderdetail on orders.id = orderdetail.orderid
-            WHERE orders.orderdate = $1
-            GROUP BY orders.orderdate
+        SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
+        FROM orders join orderdetail on orders.id = orderdetail.orderid 
+        WHERE to_char(orders.orderdate, 'YYYY-MM-DD') = $1
+        AND (orders.orderstatus = 'Paid Successfully' OR orders.orderstatus = 'Received')
+        GROUP BY to_char(orders.orderdate, 'YYYY-MM-DD')
         `;
         let res;
         try {
@@ -102,10 +103,11 @@ module.exports = {
 
     countOrdersByMonth: async function (date) {
         const query = `
-            SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
+        SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
             FROM orders join orderdetail on orders.id = orderdetail.orderid
             WHERE to_char(orders.orderdate, 'YYYY-MM') = $1
-            GROUP BY to_char(orders.orderdate, 'YYYY-MM')
+            AND (orders.orderstatus = 'Paid Successfully' OR orders.orderstatus = 'Received')
+            GROUP BY to_char(orders.orderdate, 'YYYY-MM')   
         `;
         let res;
         try {
@@ -135,7 +137,8 @@ module.exports = {
         LEFT JOIN 
             orders ON orderdetail.orderid = orders.id
         WHERE 
-            orders.id IS NULL OR (orders.orderdate >= $1 AND orders.orderdate <= $2)
+            orders.id IS NULL OR (orders.orderdate >= $1 AND orders.orderdate - interval '1 day' <= $2)
+            AND (orders.orderstatus = 'Paid Successfully' OR orders.orderstatus = 'Received')
         GROUP BY 
             categories.id, categories.categoryname;
         `;
