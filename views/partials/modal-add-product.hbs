@@ -230,11 +230,32 @@
       productAdditionalInformation
     };
     console.log(data);
+    let formData = new FormData();
+    formData.append('productName', productName);
+    formData.append('productPrice', productPrice);
+    formData.append('categoryId', categoryId);
+    formData.append('productBrand', productBrand);
+    formData.append('productGender', productGender);
+    formData.append('productSizes', productSizes);
+    formData.append('productColors', productColors);
+    formData.append('productAvailability', productAvailability);
+    formData.append('productImage', productImage);
+    formData.append('productThumbImages', productThumbImages);
+    formData.append('productBigImages', productBigImages);
+    formData.append('productVideoThumbImage', productVideoThumbImage);
+    formData.append('productVideoBigImage', productVideoBigImage);
+    formData.append('productVideo', productVideo);
+    formData.append('productDescription', productDescription);
+    formData.append('productAdditionalInformation', productAdditionalInformation);
+
+    formData.append('imagefile', document.getElementById('customFile1Add').files[0]);
 
     $.ajax({
       url: '/admin/products/create',
       method: 'POST',
-      data: data,
+      data: formData,
+      processData: false,
+      contentType: false,
       success: function (res) {
         if (res.success === true) {
           showToast('Create User Status', res.message);

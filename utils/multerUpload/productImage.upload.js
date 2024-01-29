@@ -2,6 +2,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
+        req.body.productImage = '/img/product/' + `product_${file.originalname}`;
         callback(null, './public/img/product');
     },
 

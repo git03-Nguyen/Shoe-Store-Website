@@ -222,12 +222,12 @@ module.exports = {
     console.log(id);
     try {
       let result = await User.deleteUser(id);
-      if (result) {
-        res.json({ success: true, message: 'Delete user successfully!' });
-      }
-      else {
-        res.json({ success: false, message: 'Delete user failed!' });
-      }
+      res.json({ success: true, message: 'Delete user successfully!' });
+      // if (result) {
+      // }
+      // else {
+      //   res.json({ success: false, message: 'Delete user failed!' });
+      // }
     }
     catch (err) {
       res.json({ success: false, message: 'Delete user failed!' });

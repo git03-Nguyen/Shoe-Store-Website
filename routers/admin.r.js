@@ -29,7 +29,7 @@ router.get('/products', controllers.getProductManagement);
 router.get('/products/get', controllers.getProducts);
 router.post('/products/edit', controllers.postEditProduct);
 router.post('/products/delete', controllers.postDeleteProduct);
-router.post('/products/create', /*uploadProduct.single('imagefile'),*/ controllers.postAddNewProduct);
+router.post('/products/create', /*uploadProduct.single('imagefile'), */controllers.postAddNewProduct);
 
 // For user management
 router.get('/users', controllers.getUserManagement);
