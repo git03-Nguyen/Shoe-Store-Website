@@ -15,7 +15,7 @@ module.exports = {
             let temp = parseInt(id);
             if (temp === null || temp === undefined || isNaN(temp)) res.end();
             product = await Product.getProductById(temp);
-
+            console.log(product);
             // get relative products
             let list = await Product.getRelativeProductsByCategoryId(product.categoryId);
             for (let i = 0; i < min(list.length, MAX_RELATVIE_PRODUCTS); i++) {
@@ -72,6 +72,7 @@ module.exports = {
         res.render('shop/shop-detail', {
             user: req.user,
             status: 'Shop',
+            title: 'Shop Detail',
             thumbImageList: thumbImageList,
             bigImageList: bigImageList,
             video: video,

@@ -46,24 +46,51 @@
 <script>
     $('#login-submit-btn').on('click', async (e) => {
         e.preventDefault();
-        let user = await $.ajax({
-            url: '/user/login',
-            method: "POST",
-            dataType: 'json',
-            data: {
-                username: $('#username').val(),
-                password: $('#password').val(),
+
+        try {
+            validateForm();
+
+            let user = await $.ajax({
+                url: '/user/login',
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                }
+            });
+
+            if (user) {
+                window.location.reload();
+            } else {
+                throw new Error("Invalid username or password");
+
             }
-        });
-
-        if (user) {
-            $('.hidden-error').removeClass('visible');
-            window.location.replace('https://localhost:3000/');
-        } else {
-            $('.hidden-error').addClass('visible');
-            alert("Incorrect username or password");
-            $('.hidden-error').text("Incorrect username or password");
-
+        } catch (err) {
+            Toastify({
+                text: err.message,
+                duration: 3000,
+                newWindow: true,
+                close: false,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    width: "300px",
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+                onClick: function () { } // Callback after click
+            }).showToast();
         }
+
     });
+
+    function validateForm() {
+        let username = $('#username').val();
+        let password = $('#password').val();
+
+        if (!username || !password) {
+            throw new Error("Please fill in all fields");
+        }
+    }
 </script>

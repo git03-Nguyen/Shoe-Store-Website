@@ -9,11 +9,9 @@ module.exports = {
 
         try {
             db_connection = await db.connect();
-            //select all the users ignoring the admin
             let data = await db_connection.query(`
                 SELECT *
                 FROM "users"
-                WHERE isadmin = false OR isadmin IS NULL
             `);
 
             if (data && data.length > 0) {
@@ -87,7 +85,9 @@ module.exports = {
         } catch (error) {
             throw error;
         } finally {
-            db_connection.done();
+            if (db_connection) {
+                db_connection.done();
+            }
         }
     },
 
@@ -215,6 +215,140 @@ module.exports = {
 
             return null;
         } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    deleteUser: async (userID) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                DELETE FROM "users"
+                WHERE id = $1
+                RETURNING *;
+            `,
+                [userID]);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    editUser: async (id, username, fullname, email, phonenumber, avatar, address, isadmin) => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET username = $1, fullname = $2, email = $3, phonenumber = $4, avatar = $5, address = $6, isadmin = $7
+                WHERE id = $8
+                RETURNING *;
+            `,
+                [username, fullname, email, phonenumber, avatar, address, isadmin, id]);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    updateAvatar: async (userID, avatar) => {
+        let db_connection = null;
+        console.log(userID);
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                UPDATE "users"
+                SET avatar = $1
+                WHERE id = $2
+                RETURNING *;
+            `,
+                [avatar, userID]);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    countUsers: async () => {
+        let db_connection = null;
+
+        try {
+            db_connection = await db.connect();
+
+            let data = await db_connection.query(`
+                SELECT COUNT(*) FROM "users"
+            `);
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data.count;
+            }
+
+            return 0;
+        } catch (error) {
+            throw error;
+        } finally {
+            db_connection.done();
+        }
+    },
+
+    createNewUser: async (user) => {
+        let db_connection = null;
+
+        const password = await bcrypt.hash(user.password, SALT_ROUND);
+        user.password = password;
+
+        try {
+            db_connection = await db.connect();
+            let data = await db_connection.query(`
+                INSERT INTO "users" (username, password, email, fullname, avatar, phonenumber, address, isadmin)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                RETURNING *;
+            `,
+                [user.username, user.password, user.email, user.fullname, user.avatar, user.phonenumber, user.address, user.isadmin]
+            );
+
+            if (data && data.length > 0) {
+                data = data[0];
+                return data;
+            }
+
+            return null;
+        } catch (error) {
+            console.log(error);
             throw error;
         } finally {
             db_connection.done();

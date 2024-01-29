@@ -1,0 +1,99 @@
+<main class="mt-5 pt-3">
+  <div class="container-fluid">
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <h4>Category management</h4>
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="d-flex justify-content-between align-items-end mb-1">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+          <i class="fas fa-plus"></i>
+          <span class="ms-1">Add</span>
+        </button>
+        <div id="buttons_wrapper" class="btn-group">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <div class="card">
+          <div class="card-header">
+            <span><i class="bi bi-table me-2"></i></span> Categories
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="categories-table" class="table table-striped data-table" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col" class="text-start">Category Name</th>
+                    <th scope="col">Category Description</th>
+                    <th scope="col">Creation Date</th>
+                    <th scope="col">Update Date</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each categories}}
+                  <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td>
+                      {{this.categoryName}}
+                    </td>
+                    <td class="text-start">
+                      {{this.categoryDescription}}
+                    </td>
+                    <td>{{this.creationDate}}</td>
+                    <td>{{this.updateDate}}</td>
+                    <td>
+
+                      <button class="btn btn-sm btn-primary btn-edit" data-bs-toggle="modal" data-bs-target="#editModal"
+                        data-bs-categoryName="{{this.categoryName}}"
+                        data-bs-categoryDescription="{{this.categoryDescription}}" data-bs-id="{{this.id}}">
+                        <i class="fas fa-edit"></i>
+                      </button>
+
+                      <button class="btn btn-sm btn-danger btn-delete" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" data-bs-id="{{this.id}}">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  {{/each}}
+
+                </tbody>
+              </table>
+              {{>modal-edit-category}}
+              {{>modal-add-new-category}}
+              {{>modal-delete-category}}
+              {{>toast-bootstrap}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{#section 'script'}}
+<script>
+  $(document).ready(function () {
+    const table = $('#categories-table').DataTable({
+      lengthChange: true,
+      buttons: ['copy', 'excel', 'csv', 'colvis'],
+      "columnDefs": [{
+        "targets": [4],
+        "visible": false
+        // "searchable": false
+      }]
+    });
+
+    table.buttons().container()
+      .appendTo('#buttons_wrapper');
+  });
+</script>
+{{/section}}

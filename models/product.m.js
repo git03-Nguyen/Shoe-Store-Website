@@ -26,6 +26,30 @@ module.exports = class Product {
         this.updateDate = product.updatedate;
     }
 
+    static async addProduct(product) {
+        let id = await dbProduct.addProduct(product);
+        return id;
+    }
+
+    static async updateProduct(product) {
+        return await dbProduct.updateProduct(product);
+    }
+
+    static async deleteProduct(id) {
+        return await dbProduct.deleteProduct(id);
+    }
+
+    static async getAllProducts() {
+        let data = await dbProduct.getAllProducts();
+
+        let list = [];
+        for (let i = 0; i < data.length; i++) {
+            list.push(new Product(data[i]));
+        }
+
+        return list;
+    }
+
     static async getAllProductsAtPage(page, pageSize) {
         let data = await dbProduct.getAllProductsAtPage(page, pageSize);
 
@@ -141,4 +165,6 @@ module.exports = class Product {
 
         return list;
     }
+
+
 }

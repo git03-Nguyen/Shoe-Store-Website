@@ -86,20 +86,73 @@ class User {
 
     static async updateGeneralProfile(username, fullname, email, phonenumber, address, avatar) {
         let data = await DBProvider.updateGeneralProfile(username, fullname, email, phonenumber, address, avatar);
-        if(!data) {
+        if (!data) {
             return data;
         }
-        
+
         data = User.clone(data);
         return data;
     }
 
     static async updatePasswordProfile(userID, curPassword, newPassword) {
         let data = await DBProvider.updatePasswordProfile(userID, curPassword, newPassword);
-        if(!data) {
+        if (!data) {
             return data;
         }
-        
+
+        data = User.clone(data);
+        return data;
+    }
+
+    static async deleteUser(userID) {
+        let data = await DBProvider.deleteUser(userID);
+        if (!data) {
+            return data;
+        }
+
+        if (data.rowCount > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    static async editUser(id, username, fullname, email, phonenumber, avatar, address, isadmin) {
+        let data = await DBProvider.editUser(id, username, fullname, email, phonenumber, avatar, address, isadmin);
+        if (!data) {
+            return data;
+        }
+
+        data = User.clone(data);
+        return data;
+    }
+
+    static async updateAvatar(id, avatar) {
+        let data = await DBProvider.updateAvatar(id, avatar);
+        if (!data) {
+            return data;
+        }
+
+        data = User.clone(data);
+        return data;
+    }
+
+    static async countUsers() {
+        let data = await DBProvider.countUsers();
+        if (!data) {
+            return data;
+        }
+
+        return data;
+    }
+
+    static async createNewUser(user) {
+        let data = await DBProvider.createNewUser(user);
+        if (!data) {
+            return data;
+        }
+
         data = User.clone(data);
         return data;
     }

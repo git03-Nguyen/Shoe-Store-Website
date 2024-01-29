@@ -69,6 +69,7 @@ module.exports = {
         return res.render('shop/shop-cart', {
             user: req.user,
             status: 'Shop',
+            title: 'Shop Cart',
             cartLists: cartLists,
             subtotal: total,
             total: total,

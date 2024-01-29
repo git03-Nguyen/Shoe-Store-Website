@@ -12,6 +12,20 @@ const { db, pgp } = require('./dbConfig');
     email varchar(200),
 */
 
+function formatDateTime(dataTime) {
+
+    const options = {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    };
+
+    return new Intl.DateTimeFormat('en-US', options).format(dataTime);
+}
+
 module.exports = {
 
     createOrder: async function (order) {
@@ -53,4 +67,210 @@ module.exports = {
         }
         return flag;
     },
-}
+
+    countOrders: async function () {
+        const query = `SELECT COUNT(*) FROM orders`;
+        let res;
+        try {
+            res = await db.one(query);
+        } catch (error) {
+            console.error(error);
+        }
+        return res.count;
+    },
+
+    countOrdersByDate: async function (date) {
+        const query = `
+        SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
+        FROM orders join orderdetail on orders.id = orderdetail.orderid 
+        WHERE to_char(orders.orderdate, 'YYYY-MM-DD') = $1
+        AND (orders.orderstatus = 'Paid Successfully' OR orders.orderstatus = 'Received')
+        GROUP BY to_char(orders.orderdate, 'YYYY-MM-DD')
+        `;
+        let res;
+        try {
+            res = await db.one(query, [date]);
+        } catch (error) {
+            res = null;
+            // console.error(error);
+        }
+        if (res) {
+            return res.counts;
+        } else {
+            return 0;
+        }
+    },
+
+    countOrdersByMonth: async function (date) {
+        const query = `
+        SELECT COALESCE(SUM(orderdetail.quantity), 0) as counts 
+            FROM orders join orderdetail on orders.id = orderdetail.orderid
+            WHERE to_char(orders.orderdate, 'YYYY-MM') = $1
+            AND (orders.orderstatus = 'Paid Successfully' OR orders.orderstatus = 'Received')
+            GROUP BY to_char(orders.orderdate, 'YYYY-MM')   
+        `;
+        let res;
+        try {
+            res = await db.one(query, [date]);
+        } catch (error) {
+            res = null;
+            // console.error(error);
+        }
+        if (res) {
+            return res.counts;
+        } else {
+            return 0;
+        }
+    },
+
+    countOrdersByCategories: async function (from, to) {
+        const query = `
+        SELECT 
+            categories.categoryname, 
+            COALESCE(SUM(orderdetail.quantity), 0) AS total_quantity
+        FROM 
+            categories
+        LEFT JOIN 
+            products ON categories.id = products.categoryid
+        LEFT JOIN 
+            orderdetail ON products.id = orderdetail.productid
+        LEFT JOIN 
+            orders ON orderdetail.orderid = orders.id
+        WHERE 
+            orders.id IS NULL OR (orders.orderdate >= $1 AND orders.orderdate - interval '1 day' <= $2)
+            AND (orders.orderstatus = 'Paid Successfully' OR orders.orderstatus = 'Received')
+        GROUP BY 
+            categories.id, categories.categoryname;
+        `;
+        let res;
+        try {
+            res = await db.any(query, [from, to]);
+        } catch (error) {
+            // console.error(error);
+            res = null;
+        }
+        return res;
+    },
+
+
+    updateOrderStatus: async (orderID, status) => {
+        const query = `
+            UPDATE orders
+            SET orderstatus = $1
+            WHERE id = $2
+            RETURNING *;
+        `;
+        let res;
+        try {
+            res = await db.query(query, [status, orderID]);
+
+            if (!res || res.length <= 0) {
+                res = null;
+            } else {
+                res = res[0];
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return res;
+    },
+
+    getAllOrders: async () => {
+        const query = `
+            SELECT *
+            FROM orders
+            ORDER BY orderdate DESC, id DESC, orderstatus ASC
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query);
+            if (data && data.length > 0) {
+                data = data;
+
+                for (let i = 0; i < data.length; i++) {
+                    data[i].orderdate = formatDateTime(data[i].orderdate);
+                }
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
+
+    getOrdersByUser: async (userID) => {
+        const query = `
+            SELECT *
+            FROM orders
+            WHERE userid = $1
+            ORDER BY orderdate DESC, id DESC, orderstatus ASC
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query, [userID]);
+            if (data && data.length > 0) {
+                data = data;
+
+                for (let i = 0; i < data.length; i++) {
+                    data[i].orderdate = formatDateTime(data[i].orderdate);
+                }
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
+
+    getOrderByID: async (orderID) => {
+        const query = `
+            SELECT *
+            FROM orders
+            WHERE id = $1
+        `;
+
+        let data = null;
+
+        try {
+            data = await db.query(query, [orderID]);
+            if (data && data.length > 0) {
+                data = data[0];
+
+                data.orderdate = formatDateTime(data.orderdate);
+            } else {
+                data = null;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return data;
+    },
+
+    getRevenue: async function () {
+        // sum the total column
+        const query = `
+            SELECT COALESCE(SUM(total), 0) as total
+            FROM orders
+            WHERE orderstatus = 'Paid Successfully' OR orderstatus = 'Received'
+        `;
+        let res;
+        try {
+            res = await db.one(query);
+        } catch (error) {
+            res = null;
+            // console.error(error);
+        }
+        if (res) {
+            return res.total;
+        } else {
+            return 0;
+        }
+    },
+
+};

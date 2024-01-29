@@ -12,13 +12,7 @@
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
                         href="#account-change-password">Change password</a>
                     <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-info">Info</a>
-                    <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-social-links">Social links</a>
-                    <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-connections">Payment connections</a>
-                    <a class="profile-list-group-item list-group-item list-group-item-action" data-toggle="list"
-                        href="#account-notifications">Notifications</a>
+                        href="#account-connections">Account connections</a>
                 </div>
             </div>
             <div class="col-md-9">
@@ -26,9 +20,9 @@
                     <div class="tab-pane fade active show" id="account-general">
                         <div class="profile-card card-body media align-items-center">
                             {{#if user.avatar}}
-                            <img src="{{user.avatar}}" alt class="d-block ui-w-80">
+                            <img id="user-avatar-img" src="{{user.avatar}}" alt class="d-block ui-w-80">
                             {{else}}
-                            <img src="img/default_avatar.png" alt class="d-block ui-w-80">
+                            <img id="user-avatar-img" src="img/default_avatar.png" alt class="d-block ui-w-80">
                             {{/if}}
 
                             <div class="media-body ml-4">
@@ -41,10 +35,6 @@
                         </div>
                         <hr class="border-light m-0">
                         <div class="card-body">
-                            {{!-- <div class="form-group">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control mb-1" value="nmaxwell">
-                            </div> --}}
                             <label for="username" class="form-label">
                                 Username:
                             </label>
@@ -129,165 +119,42 @@
 
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="account-info">
-                        <div class="card-body pb-2">
-                            <div class="form-group">
-                                <label class="form-label">Bio</label>
-                                <textarea class="form-control" rows="5">Enter your story here.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Birthday</label>
-                                <input type="text" class="form-control" value="May 3, 1995">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Country</label>
-                                <select class="custom-select">
-                                    <option>USA</option>
-                                    <option selected>Canada</option>
-                                    <option>UK</option>
-                                    <option>Germany</option>
-                                    <option>France</option>
-                                </select>
-                            </div>
-                        </div>
-                        <hr class="border-light m-0">
-                        <div class="card-body pb-2">
-                            <h6 class="mb-4">Contacts</h6>
-                            <div class="form-group">
-                                <label class="form-label">Phone</label>
-                                <input type="text" class="form-control" value="+0 (123) 456 7891">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Website</label>
-                                <input type="text" class="form-control" value>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="account-social-links">
-                        <div class="card-body pb-2">
-                            <div class="form-group">
-                                <label class="form-label">Twitter</label>
-                                <input type="text" class="form-control" value="https://twitter.com/user">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Facebook</label>
-                                <input type="text" class="form-control" value="https://www.facebook.com/user">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Google+</label>
-                                <input type="text" class="form-control" value>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">LinkedIn</label>
-                                <input type="text" class="form-control" value>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Instagram</label>
-                                <input type="text" class="form-control" value="https://www.instagram.com/user">
-                            </div>
-                        </div>
-                    </div>
 
 
                     <div class="tab-pane fade" id="account-connections">
-                        <div class="card-body">
-                            <a type="button" class="btn btn-twitter" href="https://localhost:4000">Connect to
-                                <strong>Payment system</strong>
-                            </a>
-                        </div>
-                        {{#if userBalance}}
-                        <label for="balance" class="form-label">
-                            Balance:
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i class="fa-solid fa-credit-card"></i>
-                            </span>
-                            <input type="text" required class="form-control" name="balance" id="balance"
-                                value="{{userBalance}}" readonly>
-                        </div>
-                        {{else}}
-                        <h3>🧧🧧🧧Super gift !!! Ends on January 30th, 2024.</h3>
-                        <h4>🎁🎁🎁You don't have any account in our payment system.
-                            Make a new one to get 1000$ for free !
-                        </h4>
-                        <a type="button" class="btn btn-primary"
-                            href="https://localhost:4000/create?accountID={{user.id}}">Click here</a>
-                        {{/if}}
-
-                        <hr class="border-light m-0">
-
-
-                    </div>
-                    <div class="tab-pane fade" id="account-notifications">
                         <div class="card-body pb-2">
-                            <h6 class="mb-4">Activity</h6>
-                            <div class="form-group">
-                                <label class="switcher">
-                                    <input type="checkbox" class="switcher-input" checked>
-                                    <span class="switcher-indicator">
-                                        <span class="switcher-yes"></span>
-                                        <span class="switcher-no"></span>
-                                    </span>
-                                    <span class="switcher-label">Email me when someone comments on my article</span>
-                                </label>
+                            {{#if userBalance}}
+                            <label for="balance" class="form-label">
+                                Balance:
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </span>
+                                <input type="text" required class="form-control" name="balance" id="balance"
+                                    value="{{userBalance}}" readonly>
                             </div>
-                            <div class="form-group">
-                                <label class="switcher">
-                                    <input type="checkbox" class="switcher-input" checked>
-                                    <span class="switcher-indicator">
-                                        <span class="switcher-yes"></span>
-                                        <span class="switcher-no"></span>
-                                    </span>
-                                    <span class="switcher-label">Email me when someone answers on my forum
-                                        thread</span>
-                                </label>
+                            {{else}}
+                            <h3>🧧🧧🧧 Super gift !!! Ends on <strong> January 30th, 2024.</strong></h3>
+                            <h4>🎁🎁🎁 You don't have any account in our payment system.</h4>
+                            <h4>🎁🎁🎁 Make a new one to get 1000$ for free !</h4>
+                            <h4>🗝️🗝️🗝️ Ensure to remember your PIN Code</h4>
+
+                            <label for="pincode" class="form-label">PIN Code: </label>
+                            <div class="input-group" style="margin: 10px 0;">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-key"></i>
+                                </span>
+                                <input type="password" required class="form-control" name="pincode" id="pincode">
                             </div>
-                            <div class="form-group">
-                                <label class="switcher">
-                                    <input type="checkbox" class="switcher-input">
-                                    <span class="switcher-indicator">
-                                        <span class="switcher-yes"></span>
-                                        <span class="switcher-no"></span>
-                                    </span>
-                                    <span class="switcher-label">Email me when someone follows me</span>
-                                </label>
-                            </div>
+
+                            <button type="button" class="btn btn-primary" id="create-new-account-btn">Create
+                                now</button>
+                            {{/if}}
+
+                            <hr class="border-light m-0">
                         </div>
-                        <hr class="border-light m-0">
-                        <div class="card-body pb-2">
-                            <h6 class="mb-4">Application</h6>
-                            <div class="form-group">
-                                <label class="switcher">
-                                    <input type="checkbox" class="switcher-input" checked>
-                                    <span class="switcher-indicator">
-                                        <span class="switcher-yes"></span>
-                                        <span class="switcher-no"></span>
-                                    </span>
-                                    <span class="switcher-label">News and announcements</span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="switcher">
-                                    <input type="checkbox" class="switcher-input">
-                                    <span class="switcher-indicator">
-                                        <span class="switcher-yes"></span>
-                                        <span class="switcher-no"></span>
-                                    </span>
-                                    <span class="switcher-label">Weekly product updates</span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="switcher">
-                                    <input type="checkbox" class="switcher-input" checked>
-                                    <span class="switcher-indicator">
-                                        <span class="switcher-yes"></span>
-                                        <span class="switcher-no"></span>
-                                    </span>
-                                    <span class="switcher-label">Weekly blog digest</span>
-                                </label>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -384,4 +251,35 @@
             }
         }
     });
+
+    $('#create-new-account-btn').on("click", async (e) => {
+        let data = {
+            pincode: $('#pincode').val(),
+        };
+
+        let createdAccount = await $.ajax({
+            url: "/profile/create",
+            method: "POST",
+            dataType: "json",
+            data: data,
+        });
+
+        if (!createdAccount) {
+            alert("Error creating new account !");
+            return;
+        }
+
+        window.location.replace('https://localhost:3000/profile');
+    });
+    $('#avatar').on('change', async (e) => {
+        const avatar = document.getElementById('avatar');
+        const avatarImg = document.getElementById('user-avatar-img');
+        const file = avatar.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            avatarImg.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+    });
+
 </script>

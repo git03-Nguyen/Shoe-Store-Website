@@ -33,4 +33,58 @@ module.exports = class Order {
     static async removeOrder(id) {
         return await dbOrder.removeOrder(id);
     }
+
+    static async countOrders() {
+        return await dbOrder.countOrders();
+    }
+
+    static async countOrdersByDate(date) {
+        return await dbOrder.countOrdersByDate(date);
+    }
+
+    static async countOrdersByMonth(date) {
+        return await dbOrder.countOrdersByMonth(date);
+    }
+
+    static async countOrdersByCategories(from, to) {
+        const result = await dbOrder.countOrdersByCategories(from, to);
+        // change the format of the result to 2 columns: category, count
+        const data = {
+            categories: [],
+            counts: [],
+        };
+        result.forEach(item => {
+            data.categories.push(item.categoryname);
+            data.counts.push(item.total_quantity);
+        });
+        return data;
+    }
+
+    static async updateOrderStatus(orderID, status) {
+        let data = await dbOrder.updateOrderStatus(orderID, status);
+
+        return data;
+    }
+
+    static async getAllOrders() {
+        let data = await dbOrder.getAllOrders();
+
+        return data;
+    }
+
+    static async getOrdersByUser(userID) {
+        let data = await dbOrder.getOrdersByUser(userID);
+
+        return data;
+    }
+
+    static async getOrderByID(orderID) {
+        let data = await dbOrder.getOrderByID(orderID);
+
+        return data;
+    }
+
+    static async getRevenue() {
+        return await dbOrder.getRevenue();
+    }
 }

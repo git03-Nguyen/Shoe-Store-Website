@@ -1,0 +1,104 @@
+<form id="transaction-confirm-form" action="/transaction/create" method="POST">
+    <h2 class="form-title">Transaction Confirm</h2>
+
+
+    <span style="margin: 0 auto; text-align: center">Please checkout your order information again <br></span>
+    <span style="margin: 0 auto; text-align: center">Enter your PIN code to confirm transaction</span>
+
+    <div class="separator">
+        <h4 class="hidden-error"></h4>
+    </div>
+
+    <label for="username" class="form-label">
+        Username:
+    </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-circle-user"></i>
+        </span>
+        <input type="text" required class="form-control" name="username" id="username" value="{{user.username}}"
+            readonly>
+    </div>
+
+    <label for="fullname" class="form-label">
+        Fullname:
+    </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-circle-user"></i>
+        </span>
+        <input type="text" required class="form-control" name="fullname" id="fullname" value="{{user.fullname}}"
+            readonly>
+    </div>
+
+    <label for="order-id" class="form-label">
+        Order ID:
+    </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-dollar-sign"></i>
+        </span>
+        <input type="number" required class="form-control" name="orderID" id="order-id" value="{{orderID}}" readonly>
+    </div>
+
+    <label for="amount" class="form-label">
+        Transaction amount:
+    </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-dollar-sign"></i>
+        </span>
+        <input type="number" required class="form-control" name="amount" id="amount" value="{{amount}}" readonly>
+    </div>
+
+    <label for="pincode" class="form-label">Pincode: </label>
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-key"></i>
+        </span>
+        <input type="password" required class="form-control" name="pincode" id="pincode">
+    </div>
+
+    <div class="button-row">
+        <button id="transaction-confirm-btn" type="button" class="btn btn-primary">Confirm</button>
+        <button type="button" class="btn btn-primary">
+            <a href="/order" style="color: white;">
+                Cancel
+            </a>
+        </button>
+    </div>
+</form>
+
+
+<script>
+    $('#transaction-confirm-btn').on('click', async () => {
+        let data = {
+            pincode: $('#pincode').val(),
+        };
+
+        let returnedAccount = await $.ajax({
+            url: '/transaction/validate',
+            method: "POST",
+            dataType: 'json',
+            data: data
+        });
+
+        if (!returnedAccount) {
+            alert("Error requesting transaction validtation to the server");
+            return;
+        }
+
+        if (!returnedAccount.object) {
+            alert(returnedAccount.message);
+            return;
+        }
+        returnedAccount = returnedAccount.object;
+        let transactionAmount = parseInt($('#amount').val());
+        if (returnedAccount.balance < transactionAmount) {
+            alert("The account's balance is LESS than the transaction's amount !");
+            return;
+        }
+
+        $('#transaction-confirm-form').submit();
+    });
+</script>

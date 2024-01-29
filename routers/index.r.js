@@ -18,10 +18,19 @@ module.exports = function (app) {
   // "/shop" "/shop-cart" "/shop-favorite" "shop-detail" "shop-checkout"
   app.use('/shop', require('./shop.r'));
 
+  app.use('/transaction', require('./transaction.r'));
+
+  app.use('/order', require('./order.r'));
+
   // "/about"
   app.use("/about", require("./about.r"));
 
   // "/contact"
   app.use("/contact", require("./contact.r"));
+
+
+  // "/admin"
+  app.use("/admin", checkAdmin, require("./admin.r"));
+
 
 }

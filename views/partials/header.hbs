@@ -24,12 +24,17 @@
                                 {{#if user.avatar}}
                                 <img src="{{user.avatar}}" class="rounded-circle" height="25">
                                 {{else}}
-                                <img src="img/default_avatar.png" class="rounded-circle" height="25">
+                                <img src="/img/default_avatar.png" class="rounded-circle" height="25">
                                 {{/if}}
 
                                 <span style="color: white; margin-left: 10px;">{{user.fullname}}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                {{#if user.isadmin}}
+                                <li>
+                                    <a class="dropdown-item" href="/admin">Admin page</a>
+                                </li>
+                                {{/if}}
                                 <li>
                                     <a class="dropdown-item" href="/profile">My profile</a>
                                 </li>
@@ -93,6 +98,7 @@
                 <div class="header__nav__option">
                     <a href="#"><img src="/img/icon/heart.png" alt=""></a>
                     <a href="/shop/cart"><img src="/img/icon/shopping-cart.png" alt=""></a>
+                    <a href="/order"><img src="/img/icon/order.png" alt="" style="width: 22px !important;"></a>
                 </div>
             </div>
         </div>

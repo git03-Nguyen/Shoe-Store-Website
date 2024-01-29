@@ -80,7 +80,7 @@
 {{!-- Start script --}}
 <script>
     $(document).ready(function () {
-        $('#btn-place-order').click(function () {
+        $('#btn-place-order').click(async function () {
             try {
                 let fullName = $('#input-full-name').val();
                 let address = $('#input-address').val();
@@ -131,31 +131,20 @@
                     total: total,
                 };
 
-                $.ajax({
+                let response = await $.ajax({
                     url: api,
                     method: "POST",
                     data: formData,
-                    // Display data
-                    success: function (response) {
-                        Toastify({
-                            text: response.message,
-                            duration: 3000,
-                            newWindow: true,
-                            close: false,
-                            gravity: "top", // `top` or `bottom`
-                            position: "right", // `left`, `center` or `right`
-                            stopOnFocus: true, // Prevents dismissing of toast on hover
-                            style: {
-                                width: "250px",
-                                background: "linear-gradient(to right, #00b09b, #96c93d)",
-                            },
-                            onClick: function () { } // Callback after click
-                        }).showToast();
-                    },
-                    error: function (error) {
-                        console.log("Error:", error);
-                    }
                 });
+
+                if (response) {
+                    let { orderID, amount } = response;
+
+                    window.location.replace(`https://localhost:3000/transaction/confirm?orderID=${orderID}`);
+
+                } else {
+                    console.log("Error:", error);
+                }
             }
             catch (error) {
                 alert(error);

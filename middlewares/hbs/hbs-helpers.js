@@ -42,7 +42,15 @@ module.exports = {
 
   isNull: function (arg1, options) {
     return !arg1 ? options.fn(this) : options.inverse(this);
-  }
+  },
 
+  short: function (arg1) {
+    return arg1.substring(0, 10) + '...';
+  },
+
+  // input ['a', 'b', 'c'], output: "a,b,c"
+  join: function (arr) {
+    return arr.join(',');
+  },
   // other helpers...
 };

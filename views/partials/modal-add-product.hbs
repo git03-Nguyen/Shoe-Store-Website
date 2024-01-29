@@ -1,0 +1,288 @@
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Add New Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" enctype="multipart/form-data" method="post" name="editForm">
+          <!-- Your form fields go here. For example: -->
+          <div class="mb-2">
+            <label for="inputNameAdd" class="form-label" style="color: #000">Product Name<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputNameAdd" name="inputNameAdd" required>
+          </div>
+          <div class="mb-2">
+            <label for="inputPriceAdd" class="form-label" style="color: #000">Price<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputPriceAdd" name="inputPriceAdd" required>
+          </div>
+          <div class="mb-2">
+            <label for="selectCategoryAdd" class="form-label" style="color: #000">Category<span
+                class="text-danger">(*)</span></label>
+            <select class="form-select" aria-label="Default select example" id="selectCategoryAdd"
+              name="selectCategoryAdd" required>
+              {{#each categories}}
+              <option value="{{id}}">{{categoryName}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="mb-2">
+            <label for="inputBrandAdd" class="form-label" style="color: #000">Brand<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputBrandAdd" name="inputBrandAdd" required>
+          </div>
+          <div class="mb-2">
+            <label for="inputGenderAdd" class="form-label" style="color: #000">Gender<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputGenderAdd" name="inputGenderAdd" required>
+          </div>
+          <div class="mb-2">
+            <label for="inputSizesAdd" class="form-label" style="color: #000">Sizes<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputSizesAdd" name="inputSizesAdd" placeholder="Ex: 39, 40, 41"
+              required>
+            <small id="sizesHelperAdd" class="form-text text-muted">The sizes is splitted by comma</small>
+          </div>
+          <div class="mb-2">
+            <label for="inputColorsAdd" class="form-label" style="color: #000">Colors<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputColorsAdd" name="inputColorsAdd"
+              placeholder="Ex: c-1, c-3, c-4 " required>
+            <small id="colorsHelperAdd" class="form-text text-muted">The colors is splitted by comma. (c-1:
+              Black, c-2: Blue, c-3; Orange, c-4: Red, c-5: White)</small>
+          </div>
+          <div class="mb-2">
+            <label for="inputAvailabilityAdd" class="form-label" style="color: #000">Availability<span
+                class="text-danger">(*)</span></label>
+            <input type="text" class="form-control" id="inputAvailabilityAdd" name="inputAvailabilityAdd" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" style="color: #000">Product Image<span class="text-danger">(*)</span></label>
+            <div class="mb-3 ms-3">
+              <input type="radio" id="linkImageAdd" name="image" value="Link Image" checked>
+              <label style="color: black !important;" class="form-table" for="linkImageAdd">Link
+                Image</label>
+              <input type="text" class="form-control" id="inputLinkImageAdd" placeholder="Link Image">
+            </div>
+            <div class="mb-3 ms-3">
+              <input type="radio" id="uploadImageAdd" name="image" value="Upload Image">
+              <label style="color: black !important;" class="form-table" for="uploadImageAdd">Upload
+                Image</label>
+              <div>
+                <div class="mb-4 d-flex justify-content-center">
+                  <img id="selectedImageAdd" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                    alt="example placeholder" style="width: 300px;" />
+                </div>
+                <div class="d-flex justify-content-center">
+                  <div class="btn btn-primary btn-rounded">
+                    <label class="form-label text-white m-1" for="customFile1Add">Choose file</label>
+                    <input type="file" class="form-control d-none" id="customFile1Add"
+                      accept="image/png, image/jpeg, image/jpg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label style="color: black !important" class="form-lable">Link Thumbnail Images</label>
+            <div class="mb-3 ms-3">
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThumbnailImage1Add">Thumbnail Image
+                  1</label>
+                <input type="text" class="form-control" id="inputThumbnailImage1Add" placeholder="Thumbnail Image 1">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThumbnailImage2Add">Thumbnail Image
+                  2</label>
+                <input type="text" class="form-control" id="inputThumbnailImage2Add" placeholder="Thumbnail Image 2">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThumbnailImage3Add">Thumbnail Image
+                  3</label>
+                <input type="text" class="form-control" id="inputThumbnailImage3Add" placeholder="Thumbnail Image 3">
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label style="color: black !important" class="form-lable">Link Big Images</label>
+            <div class="mb-3 ms-3">
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThreeBigImage1Add">Three Big Image
+                  1</label>
+                <input type="text" class="form-control" id="inputThreeBigImage1Add" placeholder="Three Big Image 1">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThreeBigImage2Add">Three Big Image
+                  2</label>
+                <input type="text" class="form-control" id="inputThreeBigImage2Add" placeholder="Three Big Image 2">
+              </div>
+
+              <div class="mb-3">
+                <label style="color: black !important;" class="form-table" for="inputThreeBigImage3Add">Three Big Image
+                  3</label>
+                <input type="text" class="form-control" id="inputThreeBigImage3Add" placeholder="Three Big Image 3">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important;" class="form-table" for="inputVideoThumbImageAdd">Link
+                Video Thumbnail Image</label>
+              <input type="text" class="form-control" id="inputVideoThumbImageAdd" placeholder="Video Thumbnail Image">
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important;" class="form-table" for="inputVideoBigImageAdd">Link
+                Video Big Image</label>
+              <input type="text" class="form-control" id="inputVideoBigImageAdd" placeholder="Video Big Image">
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important;" class="form-table" for="inputVideoAdd">Link
+                Video</label>
+              <input type="text" class="form-control" id="inputVideoAdd" placeholder="Video">
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important" for="inputDescriptionAdd" class="form-lable">Description</label>
+              <textarea class="form-control" id="inputDescriptionAdd" placeholder="Description" rows="6"></textarea>
+              <small id="descriptionHelperAdd" class="form-text text-muted">You can use HTML language to
+                write
+                Product Description.</small>
+            </div>
+
+            <div class="mb-3">
+              <label style="color: black !important" for="inputAdditionalInformationAdd" class="form-lable">Additional
+                Information</label>
+              <textarea class="form-control" id="inputAdditionalInformationAdd" placeholder="Additional Information"
+                rows="6"></textarea>
+              <small id="additionalInformationHelperAdd" class="form-text text-muted">You can use HTML
+                language
+                to write Additional Information.</small>
+            </div>
+
+
+          </div>
+
+
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="createBtn">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const createBtn = document.getElementById('createBtn');
+  createBtn.addEventListener('click', function () {
+
+    $('#addModal').modal('hide');
+
+    const productName = document.getElementById('inputNameAdd').value;
+    const productPrice = document.getElementById('inputPriceAdd').value;
+    const categoryId = document.getElementById('selectCategoryAdd').value;
+    const productBrand = document.getElementById('inputBrandAdd').value;
+    const productGender = document.getElementById('inputGenderAdd').value;
+    const productSizes = document.getElementById('inputSizesAdd').value.split(', ').map(item => +item);
+    const productColors = document.getElementById('inputColorsAdd').value.split(', ');
+    const productAvailability = document.getElementById('inputAvailabilityAdd').value;
+    const productImage = document.getElementById('inputLinkImageAdd').value;
+    const productThumbImages = [
+      document.getElementById('inputThumbnailImage1Add').value,
+      document.getElementById('inputThumbnailImage2Add').value,
+      document.getElementById('inputThumbnailImage3Add').value
+    ];
+    const productBigImages = [
+      document.getElementById('inputThreeBigImage1Add').value,
+      document.getElementById('inputThreeBigImage2Add').value,
+      document.getElementById('inputThreeBigImage3Add').value
+    ];
+    const productVideoThumbImage = document.getElementById('inputVideoThumbImageAdd').value;
+    const productVideoBigImage = document.getElementById('inputVideoBigImageAdd').value;
+    const productVideo = document.getElementById('inputVideoAdd').value;
+    const productDescription = document.getElementById('inputDescriptionAdd').value;
+    const productAdditionalInformation = document.getElementById('inputAdditionalInformationAdd').value;
+
+    const data = {
+      productName,
+      productPrice,
+      categoryId,
+      productBrand,
+      productGender,
+      productSizes,
+      productColors,
+      productAvailability,
+      productImage,
+      productThumbImages,
+      productBigImages,
+      productVideoThumbImage,
+      productVideoBigImage,
+      productVideo,
+      productDescription,
+      productAdditionalInformation
+    };
+    console.log(data);
+    let formData = new FormData();
+    formData.append('productName', productName);
+    formData.append('productPrice', productPrice);
+    formData.append('categoryId', categoryId);
+    formData.append('productBrand', productBrand);
+    formData.append('productGender', productGender);
+    formData.append('productSizes', productSizes);
+    formData.append('productColors', productColors);
+    formData.append('productAvailability', productAvailability);
+    formData.append('productImage', productImage);
+    formData.append('productThumbImages', productThumbImages);
+    formData.append('productBigImages', productBigImages);
+    formData.append('productVideoThumbImage', productVideoThumbImage);
+    formData.append('productVideoBigImage', productVideoBigImage);
+    formData.append('productVideo', productVideo);
+    formData.append('productDescription', productDescription);
+    formData.append('productAdditionalInformation', productAdditionalInformation);
+
+    formData.append('imagefile', document.getElementById('customFile1Add').files[0]);
+
+    $.ajax({
+      url: '/admin/products/create',
+      method: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (res) {
+        if (res.success === true) {
+          showToast('Create User Status', res.message);
+          reloadPageOnToastHiden();
+        }
+        else {
+          showToast('Create User Status', res.message);
+        }
+      }
+    });
+
+  });
+</script>
+
+<script>
+  $('#customFile1Add').change(function () {
+    const selectedImage = document.getElementById('selectedImageAdd');
+    const fileInput = document.getElementById('customFile1Add');
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        selectedImage.src = e.target.result;
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  });
+</script>
