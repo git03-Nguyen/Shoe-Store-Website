@@ -251,7 +251,7 @@ module.exports = {
         let query = '';
         if (order === null || order === undefined) {
             query = `
-                SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
+                SELECT p.* FROM products AS p join categories AS c ON p.categoryId = c.id
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
                 AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
                 AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
@@ -262,7 +262,7 @@ module.exports = {
         }
         else if (order.toLowerCase() === 'asc') {
             query = `
-                SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id
+                SELECT p.* FROM products AS p join categories AS c ON p.categoryId = c.id
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
                 AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
                 AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)
@@ -274,7 +274,7 @@ module.exports = {
         }
         else if (order.toLowerCase() === 'desc') {
             query = `
-                SELECT * FROM products AS p join categories AS c ON p.categoryId = c.id 
+                SELECT p.* FROM products AS p join categories AS c ON p.categoryId = c.id 
                 WHERE ($1 IS NULL OR $1 = '' OR $1 = 'ALL' OR productName ILIKE $2) 
                 AND ($3 IS NULL OR $3 = '' OR $3 = 'ALL' OR c.categoryName = $3)
                 AND ($4 IS NULL OR $4 = '' OR $4 = 'ALL' OR p.productBrand = $4)

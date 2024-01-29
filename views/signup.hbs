@@ -3,13 +3,12 @@
 
     <label for="username" class="form-label">
         Username:
-        <span class="hidden-error">Error: The username is already existed</span>
     </label>
     <div class="input-group">
         <span class="input-group-text" id="basic-addon1">
             <i class="fa-solid fa-circle-user"></i>
         </span>
-        <input type="text" required class="form-control" name="username" id="username">
+        <input type="text" required class="form-control" name="username" id="username" required>
     </div>
 
     <label for="password" class="form-label">Password: </label>
@@ -17,7 +16,7 @@
         <span class="input-group-text" id="basic-addon1">
             <i class="fa-solid fa-key"></i>
         </span>
-        <input type="password" required class="form-control" name="password" id="password">
+        <input type="password" required class="form-control" name="password" id="password" required>
     </div>
 
     <label for="fullname" class="form-label">Full name: </label>
@@ -25,7 +24,7 @@
         <span class="input-group-text" id="basic-addon1">
             <i class="fa-solid fa-circle-user"></i>
         </span>
-        <input type="text" required class="form-control" name="fullname" id="fullname">
+        <input type="text" required class="form-control" name="fullname" id="fullname" required>
     </div>
 
     <label for="email" class="form-label">Email: </label>
@@ -33,7 +32,7 @@
         <span class="input-group-text" id="basic-addon1">
             <i class="fa-solid fa-envelope"></i>
         </span>
-        <input type="email" required class="form-control" name="email" id="email">
+        <input type="email" required class="form-control" name="email" id="email" required>
     </div>
 
     <label for="phonenumber" class="form-label">Phone: </label>
@@ -41,7 +40,7 @@
         <span class="input-group-text" id="basic-addon1">
             <i class="fa-solid fa-square-phone-flip"></i>
         </span>
-        <input type="text" required class="form-control" name="phonenumber" id="phonenumber">
+        <input type="text" required class="form-control" name="phonenumber" id="phonenumber" required>
     </div>
 
     <label for="address" class="form-label">Address: </label>
@@ -64,31 +63,79 @@
 
 <script>
     $('#signup-submit-btn').on('click', async (e) => {
-        let userList = await $.ajax({
-            url: '/user/list',
-            method: "GET",
-            dataType: 'json',
-        });
+        try {
+            validateForm();
 
-        if (!userList || userList.length <= 0) {
-            $('.hidden-error').removeClass('visible');
-            $('#signup-form').submit();
-            return;
-        }
+            let userList = await $.ajax({
+                url: '/user/list',
+                method: "GET",
+                dataType: 'json',
+            });
 
-        let inputUsername = $('#username').val();
-
-        let hitFlag = false;
-        for (let i = 0; i < userList.length; i++) {
-            if (userList[i].username == inputUsername) {
-                hitFlag = true;
+            if (!userList || userList.length <= 0) {
+                $('.hidden-error').removeClass('visible');
+                $('#signup-form').submit();
+                return;
             }
-        }
-        if (hitFlag) {
-            $('.hidden-error').addClass('visible');
-        } else {
+
+            let inputUsername = $('#username').val();
+
+            for (let i = 0; i < userList.length; i++) {
+                if (!userList[i]) {
+                    continue;
+                }
+                if (userList[i].username == inputUsername) {
+                    throw new Error('The username is already existed');
+                }
+            }
+
             $('.hidden-error').removeClass('visible');
             $('#signup-form').submit();
+
+        } catch (error) {
+            Toastify({
+                text: error.message,
+                duration: 3000,
+                newWindow: true,
+                close: false,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    width: "250px",
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+                onClick: function () { } // Callback after click
+            }).showToast();
         }
+
     });
+
+    function validateForm() {
+        let username = $('#username').val();
+        let password = $('#password').val();
+        let fullname = $('#fullname').val();
+        let email = $('#email').val();
+        let phonenumber = $('#phonenumber').val();
+        let address = $('#address').val();
+
+        if (!username || !password || !fullname || !email || !phonenumber || !address) {
+            throw new Error('Please fill all the fields');
+        }
+
+        const emailRegex = /\S+@\S+\.\S+/;
+        const phoneRegex = /^\d{10}$/;
+
+        if (!emailRegex.test(email)) {
+            throw new Error('Invalid email');
+        }
+
+        if (!phoneRegex.test(phonenumber)) {
+            throw new Error('Invalid phone number');
+        }
+
+        if (password.length < 6) {
+            throw new Error('Password must be at least 6 characters');
+        }
+    }
 </script>
