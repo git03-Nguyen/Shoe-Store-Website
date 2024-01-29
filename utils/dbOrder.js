@@ -257,6 +257,7 @@ module.exports = {
         const query = `
             SELECT COALESCE(SUM(total), 0) as total
             FROM orders
+            WHERE orderstatus = 'Paid Successfully' OR orderstatus = 'Received'
         `;
         let res;
         try {
